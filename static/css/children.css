@@ -10,7 +10,7 @@ body{ font-family:"SimSun",宋体,华文细黑,STHeiti,MingLiu !important; font-
 .top_box .logo{
     padding-left: 4px;
     height: 64px;
-    background: url(/static/imgs/logo01.png) no-repeat;
+    background: url(../images/logo01.png) no-repeat;
     background-size: 174px;
     float: left;
 }
@@ -24,7 +24,7 @@ body{ font-family:"SimSun",宋体,华文细黑,STHeiti,MingLiu !important; font-
     width: 96px; 
     display: inline-block;
     vertical-align: bottom;
-    background: url(/static/imgs/logotxt.png) no-repeat center left;
+    background: url(../images/logotxt.png) no-repeat center left;
     background-size: 100% 100%;
     margin-left: 5px;
 }
@@ -82,7 +82,7 @@ border-width:20px 0 20px 20px; height:40px;width:0; cursor: pointer;
     border-color: transparent transparent transparent #fff; border-style:solid none solid solid ;
     border-width:4px 0 4px 6px; height:0;width:0; opacity: .7;
 }
-.open_shrink.open span{ transform: rotate(-180deg);}
+.open_shrink.open span{ transform: rotate(-360deg);}
 .open_shrink:hover span{opacity: 1;}
 
 /*iframe内容框*/

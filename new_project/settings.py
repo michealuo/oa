@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
     'game',
-    'user',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +79,7 @@ WSGI_APPLICATION = 'new_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'NBAnews',
+        'NAME': 'mysite3',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',

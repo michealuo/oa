@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'new_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'user',
+        'NAME': 'nba',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
@@ -130,5 +130,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 #用户上传文件，图片，视频等存储路径
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/files')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/files')

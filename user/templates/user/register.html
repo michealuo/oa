@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <title>注册</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background: black;
+        }
+        .p{
+            color:red;
+            margin-left:20px;
+            display:inline-block;
+        }
+        .c{
+            color:red;
+            margin-left:4px;
+            display:inline-block;
+        }
+        .l{
+            font-size:18px;
+        }
+        .d{
+            height:35px;
+            width:300px;
+            display:inline;
+        }
+        .i{
+            height:30px;
+            width:300px;
+        }
+        body{
+            background: black;
+        }
+        input{
+            border-radius: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../static/css/index.css">
+    <script src="../../static/js/jquery-1.11.3.min.js"></script>
+</head>
+<body >
+
+<div>
+    <div style="position: relative;" >
+        <iframe frameborder="0" src="/user/index2" width="100%" height="600px" scrolling="no"></iframe>
+    </div>
+
+    <div style="background-color:black;color:pink;width: 450px;position: absolute;right: 250px;top: 150px " >
+
+    <form enctype="multipart/form-data" method="post" >
+        {% csrf_token %}
+            <div style="font-size:28px; text-align: center ">注册新用户</div>
+            <br/>
+            <span class="p">*</span>
+            <label for="username" class="l">用户名:</label>
+            <div style="height:35px;width:300px;position:relative;display:inline;">
+                <input id="username" type="text" name="username" style="height:30px;width:250px;padding-right:50px;" onblur="ckname()" >
+                <span class="nameinfo"  ></span>
+            </div>
+            <br/><br/>
+            <span class="p">*</span>
+            <label for="phonenumber" class="l">手机号:</label>
+            <div  class="d">
+                <input id="phonenumber" name="phone" type="text" class="i" onblur="ckphone();">
+            </div>
+            <span class="phoneinfo"  ></span>
+            <br/><br/>
+            <span class="c">*</span>
+            <label for="login_password" class="l">登录密码:</label>
+            <div  class="d">
+                <input id="login_password" name="password_1" type="text" class="i" onblur="ckpwd();">
+            </div>
+            <span class="pwdinfo"></span>
+            <br/><br/>
+            <span class="c">*</span>
+            <label for="confirm_password" class="l">确认密码:</label>
+            <div  class="d">
+                <input id="confirm_password" name="password_2" type="text" class="i" onblur="ckpwd2();">
+            </div>
+            <span class="cpwdinfo"> </span>
+            <br/><br/>
+             <span class="c">*</span>
+            <label for="email" class="l">邮箱地址:</label>
+            <div class="d">
+				<input type="text" name="email" id="email" class="i" onblur="ckemail();"/>
+            </div>
+            <span class="emailinfo"></span>
+            <br/><br/>
+          <input id="btn" type="submit" value="注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册" style="color: white; font-size:15px;margin-left:100px;height:40px;width:300px;background-color:#0E7FF9;display:inline-block;cursor: pointer"/>
+    </form></div>
+	<script>
+			function ckname(){
+				var name = $("#username");
+				var nameinfo = $(".nameinfo");
+				if(name.val() === ''){
+				    nameinfo.html("用户名不能为空");
+					nameinfo.css("color","red");
+                } else if(name.val().length<=3 || name.val().length>=10){
+					nameinfo.html("用户名不能小于3个字符或大于18个字符");
+					nameinfo.css("color","red");
+				} else{
+					nameinfo.html("ok");
+					nameinfo.css("color","yellow");
+
+				}
+			}
+			function ckphone(){
+				var num = $("#phonenumber");
+				var numinfo = $(".phoneinfo");
+				if(num.val() === ''){
+				    numinfo.html("手机号不能为空");
+					numinfo.css("color","red");
+                }
+				else if(!(/^1[3456789]\d{9}$/.test(document.getElementById('phonenumber').value))){
+					    numinfo.html("手机号不正确");
+					    numinfo.css("color","red");
+				}else {
+					numinfo.html("ok");
+					numinfo.css("color","yellow");
+
+				}
+
+            }
+			function ckpwd(){
+				var name = $("#login_password");
+				var nameinfo = $(".pwdinfo");
+				if (name.val() === ''){
+				    nameinfo.html("密码不能为空");
+					nameinfo.css("color","red");
+                }
+				else if(name.val().length<=3 || name.val().length>=10){
+					nameinfo.html("密码长度不能小于6");
+					nameinfo.css("color","red");
+				}else{
+					nameinfo.html("ok");
+					nameinfo.css("color","yellow");
+
+				}
+			}
+			function ckpwd2(){
+			    var name1 = $('#login_password');
+				var name2 = $("#confirm_password");
+				var nameinfo = $(".cpwdinfo");
+				if (name2.val() === ''){
+				    nameinfo.html("密码不能为空");
+				    nameinfo.css("color","red");
+                }
+				else if(name1.val() !== name2.val()){
+					nameinfo.html("两次密码不一致");
+					nameinfo.css("color","red");
+				}else{
+					nameinfo.html("ok");
+					nameinfo.css("color","yellow");
+
+				}
+			}
+			function ckemail(){
+				var email = $("#email");
+				var emailinfo = $(".emailinfo");
+                if(email.val().indexOf("@")===-1){
+					emailinfo.html("邮箱格式不规范");
+					emailinfo.css("color","red");
+				}else{
+					emailinfo.html("ok");
+					emailinfo.css("color","yellow");
+
+				}
+			}
+			</script>
+
+ </div>
+</body>
+</html>

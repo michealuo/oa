@@ -44,7 +44,7 @@ def reg_view(request):
             return HttpResponse('--Serve is Busy')
 
         #注册成功
-        resp =  HttpResponseRedirect('/index/first')
+        resp =  HttpResponseRedirect('/user/login')
         resp.set_cookie('username', username, 3600*24)
         resp.set_cookie('uid', user.id, 3600*24)
         return resp

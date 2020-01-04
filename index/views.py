@@ -49,9 +49,9 @@ def daily_mykh_view(request):
     return render(request,'index/daily_mykh.html')
 
 @logging_check
-def index_my_view(request):
+def index_my_info(request):
 
-    return render(request,'index/index_my.html')
+    return render(request,'index/My_info.html')
 
 @logging_check
 def index_my_ip(request):
@@ -67,3 +67,8 @@ def index_my_bj(request):
 def index_my_mim(request):
 
     return render(request,'index/My_mim.html')
+
+@logging_check
+def myfirst_view(request):
+
+    return render(request,'index/Myfirst.html')

@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index',
     'game',
+    'user',
+    'address_book',
 ]
 
 MIDDLEWARE = [
@@ -79,13 +81,13 @@ WSGI_APPLICATION = 'new_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysite3',
+        'NAME': 'oa',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
+        'HOST': '176.215.133.88',
         'PORT': '3306',
-        'CHARSET':'utf8',
-        'COLLACTION':'utf8_general_ci'
+        'CHARSET': 'utf8',
+        'COLLACTION': 'utf8_general_ci'
     }
 }
 

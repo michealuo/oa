@@ -11,4 +11,4 @@ def index_view(request):
 
 
 def notice_view(request):
-    return render(request, "notice/notice.html")
+    return render(request, "notice/notice_add.html")

@@ -54,7 +54,6 @@ def login_view(request):
     # 登录处理
     if request.method == 'GET':
         # 1,优先检查session
-        print(request.session.get('uid'),request.session.get('username'))
         if request.session.get('uid') and request.session.get('username'):
             # 登陆过
             return HttpResponseRedirect('/index/index')
@@ -66,7 +65,7 @@ def login_view(request):
             # 回写session
             request.session['uid'] = uid
             request.session['username'] = username
-            return HttpResponse('--Hi~ You have already logined ~~')
+            return HttpResponseRedirect('/index/index')
         return render(request, 'user/login.html')
 
     elif request.method == 'POST':
@@ -86,7 +85,6 @@ def login_view(request):
         if user.password != m.hexdigest():
             # 密码错误
             return HttpResponse('Username or password is wrong~')
-
         # 保存登录状态
         # 1， 存session
         request.session['uid'] = user.id

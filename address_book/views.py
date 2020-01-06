@@ -21,8 +21,13 @@ def address_book_list(request):
         page = paginator.page(c_page)
         return render(request, "address_book/YuanGonglist.html", locals())
     elif request.method == "POST":
-        service = request.POST.get("department")
-        print(service)
+        # service = request.POST.get("department")
+        # print(service)
         query = request.POST.get("query")
         users = User.objects.filter(username=query)
+        paginator = Paginator(users, 12)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
         return render(request, "address_book/YuanGonglist.html", locals())

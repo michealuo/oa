@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'address_book',
     'management',
     'notice',
+    'report',
 ]
 
 MIDDLEWARE = [

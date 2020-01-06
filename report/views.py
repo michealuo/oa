@@ -22,20 +22,14 @@ def add(request):
     elif request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
-        if not content:
-            return HttpResponse("----请输入内容----")
-        if not title:
-            return HttpResponse("----请输入标题----")
+        if not title or not content:
+            return render(request, "/report/content.html")
 
 
         Report_list.objects.create(title=title,content=content,user_id=request.session["uid"])
 
         return HttpResponseRedirect("/report/list")
 
-
-
-
-
-
-
-
+#
+# def content(request):
+#     return render(request,"/report/content.html")

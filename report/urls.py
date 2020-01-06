@@ -6,4 +6,5 @@ urlpatterns = [
     url(r"^$",views.first_index),
     url(r"^list$",views.list),
     url(r"^add$",views.add),
+    # url(r"^content$",views.content),
 ]

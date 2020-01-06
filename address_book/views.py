@@ -34,3 +34,4 @@ def address_book_list(request):
         # 初始化当前页的page对象
         page = paginator.page(c_page)
         return render(request, "address_book/YuanGonglist.html", locals())
+

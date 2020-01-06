@@ -5,7 +5,7 @@ from index.views import logging_check
 
 
 # Create your views here.
-@logging_check
+# @logging_check
 def address_book_view(request):
     return render(request, "address_book/index_first.html")
 

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^my_mim$', views.index_my_mim),
     url(r'^first$',views.index_first_view),
     url(r'^myfirst$',views.myfirst_view),
+    url(r'^childapp=(\w*)&info=(\w*)',views.child_view),
 ]

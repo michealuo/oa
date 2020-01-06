@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -72,3 +72,7 @@ def index_my_mim(request):
 def myfirst_view(request):
 
     return render(request,'index/Myfirst.html')
+
+def child_view(request,app,info):
+
+    return render(request,'index/child.html',locals())

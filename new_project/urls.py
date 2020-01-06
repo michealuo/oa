@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^index/', include('index.urls')),
     url(r'^game/', include('game.urls')),
     url(r'^user/',include('user.urls')),
+    url(r'^management/',include('management.urls')),
     url(r'^address_book/',include('address_book.urls')),
     url(r'^report/',include('report.urls')),
     url(r'^notice/',include('notice.urls')),

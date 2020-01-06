@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^game/', include('game.urls')),
     url(r'^user/',include('user.urls')),
     url(r'^address_book/',include('address_book.urls')),
+    url(r'^report/',include('report.urls')),
 ]

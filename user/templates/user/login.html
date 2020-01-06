@@ -115,7 +115,6 @@ update();
          <div class="form-item">
              <input id="username" type="text" autocomplete="off" name="username" placeholder="账号" onblur="ckname();">
          </div>
-        <span class="nameinfo"></span>
          <div class="form-item">
              <input id="password" type="password" name="password" autocomplete="off" placeholder="密码">
          </div>
@@ -126,19 +125,19 @@ update();
          </div>
      </div>
 </form>
-<script>
-    function ckname(){
-				var name = $("#username");
-				var nameinfo = $(".nameinfo");
-				if (name.val() === ''){
-				    nameinfo.html("用户名不能为空");
-					nameinfo.css("color","red");
-                }
-				else{
-					nameinfo.html("ok");
-					nameinfo.css("color","yellow");
-				}
-			}
-</script>
+<!--<script>-->
+<!--    function ckname(){-->
+<!--				var name = $("#username");-->
+<!--				var nameinfo = $(".nameinfo");-->
+<!--				if (name.val() === ''){-->
+<!--				    nameinfo.html("用户名不能为空");-->
+<!--					nameinfo.css("color","red");-->
+<!--                }-->
+<!--				else{-->
+<!--					nameinfo.html("ok");-->
+<!--					nameinfo.css("color","yellow");-->
+<!--				}-->
+<!--			}-->
+<!-- </script> -->
 </body>
 </html>

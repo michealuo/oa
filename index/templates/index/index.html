@@ -49,8 +49,8 @@
 	        	<b><img src="/static/imgs/word.png" /></b>
 	        </div>
 	        <div class="top_icon">
-	        	<a href="#"><img src="/static/imgs/top_home.png"></a>
-	        	<a href="#"><img src="/static/imgs/top_person.png"></a>
+	        	<a href="/index/first"><img src="/static/imgs/top_home.png"></a>
+	        	<a href="/index/my_info"><img src="/static/imgs/top_person.png"></a>
 	        	<a href="/user/logout"><img src="/static/imgs/top_exit.png"></a>
 	        </div>
 	    </div>
@@ -116,8 +116,8 @@
 		    					<em><img src="/static/imgs/jt_left.png"></em>
 		    				</h2>
 	    					<dl>
-	    						<dd><a href="/index/my_ip">IP锁定</a></dd>
-	    						<dd><a href="/index/index_my">个人信息</a></dd>
+	    						<dd><a href="/index/my_ip" target="main_self_frame">IP锁定</a></dd>
+	    						<dd><a href="/index/my_info" target="main_self_frame">个人信息</a></dd>
 	    						<dd><a href="/index/my_mim">密码修改</a></dd>
 	    						<dd><a href="/index/my_bj">背景设置</a></dd>
 	    					</dl>
@@ -442,8 +442,8 @@
     							$(".right_box .info_box .honor .tit a").mouseover(
     								function(){
     									n=$(this).index();
-    									$(this).addClass("on")
-    									$(this).siblings().removeClass("on")
+    									$(this).addClass("on");
+    									$(this).siblings().removeClass("on");
     									$(".right_box .info_box .honor .con").hide().eq(n).fadeIn()
     								}
     							)
@@ -454,7 +454,6 @@
 	    	</div>
 	    </div>
     </div>
-
 </body>
 
 </html>

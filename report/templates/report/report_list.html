@@ -34,7 +34,7 @@
 	<!-- 筛选 -->
 	<div class="shuaix">
 		<div class="right">
-			<a href="#">添加</a>
+			<a href="/report/add">添加</a>
 		</div>
 	</div>
 	<!-- 下面写内容 -->
@@ -50,15 +50,17 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% for item in lis %}
 			<tr>
-				<td></td>
-                <td>张经理</td>
-				<td>贵州九树子美容服务有限公司</td>
-                <td>2019-05-30 16:18:20</td>
-				<td>2019-05-30 16:18:20</td>
+				<td>{{ item.id }}</td>
+                <td>{{ item.title }}</td>
+				<td>{{ item.content }}</td>
+                <td>{{ item.created_time }}</td>
+				<td>{{ item.updated_time }}</td>
 				<td>修改</td>
 				<td>删除</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 	<script type="text/html" id="barDemo">

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'game',
     'user',
     'address_book',
+    'notice',
 ]
 
 MIDDLEWARE = [

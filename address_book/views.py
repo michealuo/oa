@@ -11,7 +11,6 @@ def address_book_view(request):
     uid = request.session.get("uid")
     username = request.session.get("username")
     user = User.objects.get(id=uid, username=username)
-    print(user)
     return render(request, "address_book/index_first.html", locals())
 
 

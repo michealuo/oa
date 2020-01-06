@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'index',
     'game',
     'user',
+    'address_book',
 ]
 
 MIDDLEWARE = [

@@ -69,7 +69,7 @@
 			</tr> 
 		</thead>
 		<tbody>
-        {% for user in users %}
+        {% for user in page %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>{{ user.username }}</td>
@@ -79,11 +79,27 @@
 				<td>{{ user.sex }}</td>
 				<td>{{ user.phone }}</td>
 				<td>{{ user.email }}</td>
-{#                <td>管理员</td>#}
-{#				<td><a href="#" class="jianl_list_img" onclick=" YuanG_IMG()"><img src="/static/images/jl.jpg"></a></td>                #}
 			</tr>
         {% endfor %}
-		</tbody>  
+		{% if page.has_previous %}
+			<a href="/address_book/YuanGonglist?page={{ page.previous_page_number }}">上一页</a>
+		{% else %}
+			上一页
+		{% endif %}
+
+		{% for p in paginator.page_range %}
+			{% if p == page.number %}
+				{{ p }}
+			{% else %}
+				<a href="/address_book/YuanGonglist?page={{ p }}">{{ p }}</a>
+			{% endif %}
+		{% endfor %}
+		{% if page.has_next %}
+			<a href="/address_book/YuanGonglist?page={{ page.next_page_number }}">下一页</a>
+		{% else %}
+			下一页
+		{% endif %}
+		</tbody>
 	</table>
 	<script type="text/html" id="barDemo">
 		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
@@ -158,6 +174,7 @@
         
     }
 </script>
+
 
 </body>
 

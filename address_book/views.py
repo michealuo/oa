@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from user.models import User
@@ -12,7 +13,12 @@ def address_book_view(request):
 
 def address_book_list(request):
     if request.method == "GET":
-        users = User.objects.all()
+        all_user = User.objects.all()
+        paginator = Paginator(all_user, 12)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
         return render(request, "address_book/YuanGonglist.html", locals())
     elif request.method == "POST":
         service = request.POST.get("department")

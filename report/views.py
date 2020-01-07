@@ -7,7 +7,7 @@ from report.models import Report_list
 
 
 def first_index(request):
-    return render(request, "report/index_first.html")
+    return render(request, "index/child.html")
 
 
 def list(request):

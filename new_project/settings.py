@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'oa',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '176.215.133.88',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
         'CHARSET': 'utf8',
         'COLLACTION': 'utf8_general_ci'

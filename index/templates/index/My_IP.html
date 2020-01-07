@@ -58,21 +58,44 @@
 <!--                    <td>解锁此IP</td>-->
 <!--                    <td>解锁此IP</td>-->
 <!--                </tr>-->
-        {% for item in user_ip_info %}
+        {% for item in page %}
 			<tr>
 				<td>{{ item.id }}</td>
 				<td>{{ item.uname }}</td>
 				<td>{{ item.ip_adress }}</td>
                 <td>{{ item.login_time }}</td>
 				<td>{{ item.clock_time }}</td>
+                <td><button type="button" class="layui-btn">解锁</button></td>
 				<td></td>
 
 			</tr>
         {% endfor %}
 
             </tbody>
-        </table> 
+        </table>
+        <div style="text-align: center">
+	{% if page.has_previous %}
+			<a href="/index/my_ip?page={{ page.previous_page_number }}">上一页</a>
+		{% else %}
+			上一页
+		{% endif %}
+
+		{% for p in paginator.page_range %}
+			{% if p == page.number %}
+				{{ p }}
+			{% else %}
+				<a href="/index/my_ip?page={{ p }}">{{ p }}</a>
+			{% endif %}
+		{% endfor %}
+		{% if page.has_next %}
+			<a href="/index/my_ip?page={{ page.next_page_number }}">下一页</a>
+		{% else %}
+			下一页
+		{% endif %}
+	</div>
+
     </div>
+
    <!-- 自定义头部工具栏 --> 
 	<!-- houl七月初七己亥年 --> 
 	<!-- 结束 -->

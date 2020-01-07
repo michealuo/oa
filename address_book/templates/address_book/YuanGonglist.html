@@ -32,7 +32,7 @@
 		<span>通讯录</span>
 	</div>
 	<!-- 筛选 -->
-<form action="/address_book/YuanGonglist" method="post">
+<form action="/address_book/list" method="post">
 	<div class="shuaix">
 		<div class="left" style="margin-right:10px;">
                 <select name="department">
@@ -57,10 +57,10 @@
 			<tr>
 				<th lay-data="{type:'checkbox',fixed:'left'}">序号</th>
 				<th lay-data="{field:'yx', align:'center',width:160}">姓名</th>
+				<th lay-data="{field:'user',align:'center',width:130}">性别</th>
 				<th lay-data="{field:'time',align:'center', minWidth:170}">部门</th>
 				<th lay-data="{field:'www',align:'center',minWidth:260}">部门职位</th>
 				<th lay-data="{field:'company',align:'center',minWidth:130}">入职时间</th>
-				<th lay-data="{field:'user',align:'center',width:130}">性别</th>
 				<th lay-data="{field:'tel',align:'center',width:130}">电话</th>
 				<th lay-data="{field:'result',align:'center',minWidth:130}">邮箱</th>
 {#                <th lay-data="{field:'addr',align:'center',minWidth:130}">权限</th>#}
@@ -74,10 +74,10 @@
 <!--				<td>{{ forloop.counter }}</td>-->
 				<td>{{ user.id }}</td>
 				<td>{{ user.username }}</td>
+				<td>{{ user.sex }}</td>
 				<td>{{ user.department }}</td>
 				<td>{{ user.position }}</td>
 				<td>{{ user.create_time }}</td>
-				<td>{{ user.sex }}</td>
 				<td>{{ user.phone }}</td>
 				<td>{{ user.email }}</td>
 			</tr>

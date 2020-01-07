@@ -12,8 +12,14 @@ class User(models.Model):
     update_time = models.DateTimeField('更新时间',auto_now=True)
     email = models.EmailField('邮箱',max_length=32,default=None)
     #是否入职（默认0 未入职，1 入职）
-    # is_induction = models.IntegerField('是否入职',default=0)
+    is_induction = models.IntegerField('是否入职',default=0)
 
     def __str__(self):
 
         return '用户名:%s'%self.username
+
+class IpInfo(models.Model):
+    uname = models.CharField('用户',max_length=30)
+    ip_adress = models.CharField('ip地址',max_length=50)
+    login_time = models.DateTimeField('登录时间',auto_now_add=True)
+    clock_time = models.DateTimeField('被锁时间',auto_now=True)

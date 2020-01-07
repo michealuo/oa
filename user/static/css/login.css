@@ -12,8 +12,7 @@
  .reg-bar { width: 360px; margin: 20px auto 0; font-size: 14px; overflow: hidden;}
  .reg-bar a { color: #fff; text-decoration: none; }
  .reg-bar a:hover { text-decoration: underline; }
- .reg-bar .reg { float: left; }
- .reg-bar .forget { float: right; }
+ .reg-bar .reg { float: right; }
  .dowebok ::-webkit-input-placeholder { font-size: 18px; line-height: 1.4; color: #fff;}
  .dowebok :-moz-placeholder { font-size: 18px; line-height: 1.4; color: #fff;}
  .dowebok ::-moz-placeholder { font-size: 18px; line-height: 1.4; color: #fff;}

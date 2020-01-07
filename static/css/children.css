@@ -355,12 +355,12 @@ float: left;
     text-align: right;
     width: 100px;
     /* display: flex;
-    align-items: center;  
+    align-items: center;
     justify-content: flex-end; */
     line-height: 38px;
 }
 
-.kehubh_tj_k ul li .right{ 
+.kehubh_tj_k ul li .right{
     float: left;
 }
 .kehubh_tj_k .layui-form-pane .layui-form-radio, .layui-form-pane .layui-form-switch{

@@ -5,15 +5,7 @@ from user.models import User
 from index.views import logging_check
 
 
-# Create your views here.
-# @logging_check
-def address_book_view(request):
-    uid = request.session.get("uid")
-    username = request.session.get("username")
-    user = User.objects.get(id=uid, username=username)
-    return render(request, "address_book/index_first.html", locals())
-
-
+@logging_check
 def address_book_list(request):
     if request.method == "GET":
         all_user = User.objects.all()
@@ -28,6 +20,8 @@ def address_book_list(request):
         # print(service)
         query = request.POST.get("query")
         users = User.objects.filter(username=query)
+        if not users:
+            users = User.objects.filter(phone=query)
         paginator = Paginator(users, 15)
         # 获取当前页码
         c_page = request.GET.get("page", 1)

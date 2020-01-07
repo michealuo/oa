@@ -10,15 +10,15 @@
     <title>个人信息</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/children.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/children.css">
 
     <!-- 在线图标库 地址：http://fontawesome.dashgame.com/-->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- layui css -->
-    <link rel="stylesheet" href="../../static/css/layui.css">
-    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 
 </head>
 
@@ -31,51 +31,38 @@
             <a href="/index/index_my">我的信息</a>
             <span>个人信息</span>
         </div>
-        <!-- 筛选 -->
-	<div class="shuaix">
-        <div class="right">
-            <input type="text" placeholder="请输入关键词查询">
-            <a href="#">查询</a>
-        </div>
-    </div>
         <!-- 下面写内容 -->
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
             <thead>
                 <tr>
-                    <!-- <th lay-data="{field:'time',align:'center', Width:110}">序号</th>
-                    <th lay-data="{field:'www',align:'center',Width:260}">被锁IP</th>
-                    <th lay-data="{field:'company',align:'center',Width:260}">被锁时间</th>
-                    <th lay-data="{field:'user',align:'center',Width:260}">操作</th>  -->
-                    <th lay-data="{field:'www',align:'center',Width:170}">序号</th>
-                    <th lay-data="{field:'company',align:'center',minWidth:130}">姓名</th>
-                    <th lay-data="{field:'user',align:'center',minWidth:130}">部门</th>
-                    <th lay-data="{field:'tel',align:'center',minWidth:130}">手机号</th>
+                    <th>序号</th>
+                    <td>{{ user.id }}</td>
+
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>张无忌</td>
-                    <td>武当派</td>
-                    <td>13838383838</td>
+                    <th>姓名</th>
+                    <td>{{ user.username }}</td>
+
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>赵敏</td>
-                    <td>盘丝洞</td>
-                    <td>13838383838</td>
+                    <th>部门</th>
+                    <td>XXX</td>
+
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>周芷若</td>
-                    <td>峨眉派</td>
-                    <td>13838383838</td>
+                    <th>手机号</th>
+                    <td>{{ user.phone }}</td>
+
                 </tr>
                <tr>
-                    <td>4</td>
-                    <td>小昭</td>
-                    <td>波斯</td>
-                    <td>13838383838</td>
+                    <th>邮箱</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>入职时间</th>
+                    <td>{{ user.create_time }}</td>
                 </tr>
             </tbody>
         </table>
@@ -84,7 +71,7 @@
 	<!-- houl七月初七己亥年 -->
 	<!-- 结束 -->
     <!-- layui js -->
-    <script src="../../static/js/layui.js"></script>
+    <script src="/static/js/layui.js"></script>
 
 </body>
 

@@ -28,42 +28,38 @@
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a>首页</a>
-            <a>回访记录</a>
-            <span>公司部门添加</span>
+            <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
+            <a href="/notice/list">公司公告</a>
+            <span>公司公告添加</span>
         </div>
         <!-- 内容 -->    
         <div class="wenxts_ke">
-            <p><i>温馨提示：</i>按需添加公司部门，注意数字值越小，部门就越靠前排</p>
+            <p><i>温馨提示：</i>按需添加公司公告，时间越新就越靠前</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="">
-            <ul>  
-                <li>
-                    <div class="left">部门名称：</div>
-                    <div class="right"> 
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入部门名称" autocomplete="off" class="layui-input">
-                    </div>
-                </li> 
-                <li>
-                    <div class="left">排序：</div>
-                    <div class="right"> 
-                        <input type="text" name="title" required lay-verify="required" placeholder="数字越小越靠前" autocomplete="off" class="layui-input">
-                    </div>
-                </li> 
-                <li>
-                    <div class="left">职位简介：</div>
-                    <div class="right"> 
-                        <textarea name="" required lay-verify="required" placeholder="请输入部门简介" class="layui-textarea"></textarea>
-                    </div>
-                </li> 
-                <li>
-                    <div class="left"> &nbsp;</div>
-                    <div class="right"> 
-                        <button class="button_qr">确定添加</button>
-                    </div>
-                </li>
-            </ul> 
+            <form class="layui-form layui-form-pane" action="/notice/notice_add" method="post">
+                <ul>
+                    <li>
+                        <div class="left">主题：</div>
+                        <div class="right">
+                            <input type="text" name="title" placeholder="请输入公告主题" autocomplete="off" class="layui-input">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left">内容：</div>
+                        <div class="right">
+                            <textarea name="content" required lay-verify="required" placeholder="请输入公告内容" class="layui-textarea"></textarea>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"> &nbsp;</div>
+                        <div class="right">
+                            <button class="button_qr">
+                                <input type="submit" value="确定添加">
+                            </button>
+                        </div>
+                    </li>
+                </ul>
             </form>
         </div>
     </div>   
@@ -72,7 +68,7 @@
 	<!-- 结束 -->
     <!-- layui js -->
     <script src="/static/js/layui.js"></script>
-    
+
 </body>
 
 </html>

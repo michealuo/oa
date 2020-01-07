@@ -25,11 +25,13 @@ def reg_view(request):
         users = User.objects.filter(username=username)
         if users:
             #用户名已注册
-            return HttpResponse('用户名已经被注册!')
+            msg = '用户名已注册'
+            return render(request,'user/register.html',locals())
 
         if password_1 != password_2:
             #两次密码不一致
-            return HttpResponse('两次密码不一致')
+            msg = '两次密码不一致'
+            return render(request,'user/register.html',locals())
 
         #hash md5 加密明文密码
         import hashlib
@@ -42,7 +44,8 @@ def reg_view(request):
 
             print('---注册错误---')
             print(e)
-            return HttpResponse('--Serve is Busy')
+            msg = '注册错误'
+            return render(request,'user/register.html',locals())
 
         #注册成功
         resp =  HttpResponseRedirect('/user/login')
@@ -75,16 +78,17 @@ def login_view(request):
         password = request.POST.get('password')
         old_users = User.objects.filter(username=username)
         if not old_users:
-            return HttpResponse('---Username or password is wrong')
+            msg = '用户名或者密码错误'
+            return render(request,'user/login.html',locals())
         # 校验密码
         import hashlib
         m = hashlib.md5()
         m.update(password.encode())
-
         user = old_users[0]
         if user.password != m.hexdigest():
             # 密码错误
-            return HttpResponse('Username or password is wrong~')
+            msg = '密码错误'
+            return render(request,'user/login.html',locals())
         # 保存登录状态
         # 1， 存session
         request.session['uid'] = user.id
@@ -116,6 +120,4 @@ def logout(request):
     return resp
 
 
-def forget(request):
-    return render(request,'/user/forget.html')
 

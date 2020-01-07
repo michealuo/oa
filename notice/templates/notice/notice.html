@@ -36,15 +36,13 @@
         <!-- 内容 -->    
         <div class="wenxts_ke">
             <div style="text-align: center">
-                <h1>标题</h1>
+                <h1>{{ notice.title }}</h1>
             </div>
             <div>
-                <h3 style="text-indent:2em;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam commodi cumque, error libero quae quis. A, aspernatur, deleniti dolorum error explicabo illo iusto molestiae obcaecati perspiciatis qui quos tempora.</h3>
-                <h3 style="text-indent:2em;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam commodi cumque, error libero quae quis. A, aspernatur, deleniti dolorum error explicabo illo iusto molestiae obcaecati perspiciatis qui quos tempora.</h3>
-                <h3 style="text-indent:2em;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam commodi cumque, error libero quae quis. A, aspernatur, deleniti dolorum error explicabo illo iusto molestiae obcaecati perspiciatis qui quos tempora.</h3>
+                <h3 style="text-indent:2em;">{{ notice.content }}</h3>
             </div>
         </div>
-        <h3 style="float: right">2020年1月7日</h3>
+        <h3 style="float: right">{{ notice.updated_time }}</h3>
     </div>   
     
 	<!-- houl --> 

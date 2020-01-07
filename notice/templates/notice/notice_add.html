@@ -37,29 +37,29 @@
             <p><i>温馨提示：</i>按需添加公司公告，时间越新就越靠前</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/notice" method="post">
-            <ul>  
-                <li>
-                    <div class="left">主题：</div>
-                    <div class="right"> 
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入公告主题" autocomplete="off" class="layui-input">
-                    </div>
-                </li>
-                <li>
-                    <div class="left">内容：</div>
-                    <div class="right"> 
-                        <textarea name="content" required lay-verify="required" placeholder="请输入公告内容" class="layui-textarea"></textarea>
-                    </div>
-                </li> 
-                <li>
-                    <div class="left"> &nbsp;</div>
-                    <div class="right">
-                        <button class="button_qr">
-                            <input type="submit" value="确定添加">
-                        </button>
-                    </div>
-                </li>
-            </ul> 
+            <form class="layui-form layui-form-pane" action="/notice/list" method="post">
+                <ul>
+                    <li>
+                        <div class="left">主题：</div>
+                        <div class="right">
+                            <input type="text" name="title" placeholder="请输入公告主题" autocomplete="off" class="layui-input">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left">内容：</div>
+                        <div class="right">
+                            <textarea name="content" required lay-verify="required" placeholder="请输入公告内容" class="layui-textarea"></textarea>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="left"> &nbsp;</div>
+                        <div class="right">
+                            <button class="button_qr">
+                                <input type="submit" value="确定添加">
+                            </button>
+                        </div>
+                    </li>
+                </ul>
             </form>
         </div>
     </div>   

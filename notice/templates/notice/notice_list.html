@@ -32,20 +32,33 @@
             <span>公司公告</span>
             <a href="/notice/notice_add" style="float:right;font-size: 20px;color: #205b9e">添加</a>
         </div>
-        <!-- 内容 -->    
+        <!-- 内容 -->
+        {% for notice in page %}
         <div class="wenxts_ke">
 <!--            forloop.counter-->
-            1. <a href="/notice/notice">公告一...</a>
+            {{ notice.id }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
         </div>
-        <div class="wenxts_ke">
-<!--            forloop.counter-->
-            2. <a href="/notice/notice">公告二...</a>
-        </div>
-        <div class="wenxts_ke">
-<!--            forloop.counter-->
-            3. <a href="/notice/notice">公告三...</a>
-        </div>
+        {% endfor %}
+        <div style="float: right">
+            {% if page.has_previous %}
+                <a href="/notice/list?page={{ page.previous_page_number }}">上一页</a>
+            {% else %}
+                上一页
+            {% endif %}
 
+            {% for p in paginator.page_range %}
+                {% if p == page.number %}
+                    {{ p }}
+                {% else %}
+                    <a href="/address_book/list?page={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page.has_next %}
+                <a href="/address_book/list?page={{ page.next_page_number }}">下一页</a>
+            {% else %}
+                下一页
+            {% endif %}
+        </div>
     </div>   
     
 	<!-- houl --> 
@@ -56,25 +69,25 @@
 </body>
 
 </html>
-<script>
-layui.use(['form', 'layedit', 'laydate'], function(){
-    var form = layui.form
-    ,layer = layui.layer
-    ,layedit = layui.layedit
-    ,laydate = layui.laydate;
-});
-layui.use('laydate', function(){
-  var laydate = layui.laydate; 
-  //年选择器 
-  laydate.render({
-    elem: '#test2'
-  });
-   //时间选择器
-   laydate.render({
-    elem: '#test2_r'
-    ,type: 'time'
-  });
-});
+<!--<script>-->
+<!--layui.use(['form', 'layedit', 'laydate'], function(){-->
+<!--    var form = layui.form-->
+<!--    ,layer = layui.layer-->
+<!--    ,layedit = layui.layedit-->
+<!--    ,laydate = layui.laydate;-->
+<!--});-->
+<!--layui.use('laydate', function(){-->
+<!--  var laydate = layui.laydate; -->
+<!--  //年选择器 -->
+<!--  laydate.render({-->
+<!--    elem: '#test2'-->
+<!--  });-->
+<!--   //时间选择器-->
+<!--   laydate.render({-->
+<!--    elem: '#test2_r'-->
+<!--    ,type: 'time'-->
+<!--  });-->
+<!--});-->
 
 
-</script>
+<!--</script>-->

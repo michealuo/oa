@@ -99,6 +99,7 @@ input{
     }
     .l{
         font-size:18px;
+        color: lightyellow;
     }
     .d{
         height:35px;
@@ -111,6 +112,12 @@ input{
     }
     input{
         border-radius: 5px;
+    }
+    a{
+        text-decoration:none;
+        outline:none;
+        color:white;
+        float: right;
     }
     </style>
     <script src="../../static/js/jquery-1.11.3.min.js"></script>
@@ -161,6 +168,7 @@ input{
             <br/><br/>
           <input id="btn" type="submit" value="注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册" style="color: white; font-size:15px;margin-left:95px;height:40px;width:272px;background-color:#0E7FF9;display:inline-block;cursor: pointer"/>
     </form>
+        <a href="/user/login" style=""><span>已有账号?请登录</span></a>
     </div>
 <script>
 			function ckname(){
@@ -169,7 +177,7 @@ input{
 				if(name.val() === ''){
 				    nameinfo.html("用户名不能为空");
 					nameinfo.css("color","red");
-                } else if(name.val().length<=3 || name.val().length>=10){
+                } else if(name.val().length<=3 || name.val().length>=30){
 					nameinfo.html("用户名不能小于3个字符或大于18个字符");
 					nameinfo.css("color","red");
 				} else{

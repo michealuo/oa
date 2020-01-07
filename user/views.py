@@ -61,7 +61,6 @@ def login_view(request):
         uid = request.COOKIES.get('uid')
         username = request.COOKIES.get('username')
         if uid and username:
-            # 证明用户之前点击过 checkbox
             # 回写session
             request.session['uid'] = uid
             request.session['username'] = username
@@ -99,12 +98,6 @@ def login_view(request):
 
 
 
-
-
-def index2_view(request):
-
-    return render(request,'user/index2.html')
-
 def logout(request):
     # 登出
     # 删除 session
@@ -120,3 +113,8 @@ def logout(request):
     if 'username' in request.COOKIES:
         resp.delete_cookie('username')
     return resp
+
+
+def forget(request):
+    return render(request,'/user/forget.html')
+

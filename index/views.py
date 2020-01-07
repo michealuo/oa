@@ -1,9 +1,11 @@
+import socket
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
-from user.models import User
+from user.models import User, IpInfo
 
 
 def logging_check(fn):
@@ -60,28 +62,51 @@ def index_my_info(request):
 
 @logging_check
 def index_my_ip(request):
-
-    return render(request,'index/My_IP.html')
+        user_ip_info = IpInfo.objects.all()
+        print(user_ip_info)
+        return render(request,'index/My_IP.html',locals())
 
 @logging_check
 def index_my_bj(request):
-
     return render(request,'index/My_BJ.html')
 
 @logging_check
 def index_my_mim(request):
+    if request.method == 'GET':
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        user = User.objects.get(id=uid, username=username)
+        return render(request,'index/My_mim.html',locals())
+    elif request.method == 'POST':
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        old_pwd = request.POST.get('old_pwd')
+        # hash 加密
+        import hashlib
+        m = hashlib.md5()
+        m.update(old_pwd.encode())
+        user = User.objects.get(id=uid, username=username)
+        if user.password != m.hexdigest():
+            msg = '原密码不正确'
+        else:
+            msg = '密码修改成功'
+            new_pwd_1 = request.POST.get('new_pwd_1')
+            new_pwd_2 = request.POST.get('new_pwd_2')
+            if new_pwd_1 != new_pwd_2:
+                msg = '两次密码不一样'
+                return render(request,'index/My_mim.html',locals())
+            if old_pwd == new_pwd_1:
+                msg = '原密码和新密码一致'
+                return render(request,'index/My_mim.html',locals())
+            m = hashlib.md5()
+            m.update(new_pwd_1.encode())
+            user.password = m.hexdigest()
+            user.save()
 
-    uid = request.session.get("uid")
-    username = request.session.get("username")
-    user = User.objects.get(id=uid, username=username)
 
-    return render(request,'index/My_mim.html',locals())
-
-@logging_check
-def myfirst_view(request):
-
-    return render(request,'index/Myfirst.html')
 
 def child_view(request,app,info):
 
     return render(request,'index/child.html',locals())
+
+

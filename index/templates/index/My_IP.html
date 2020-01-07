@@ -7,18 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="名榜,wangid">
-    <title>WangID办公管理系统</title>
+    <title>我的IP</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../../static/css/style.css">
-    <link rel="stylesheet" href="../../static/css/children.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/children.css">
 
     <!-- 在线图标库 地址：http://fontawesome.dashgame.com/-->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- layui css -->
-    <link rel="stylesheet" href="../../static/css/layui.css">
-    <script type="text/javascript" src="../../static/js/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
     
 </head>
 
@@ -28,7 +28,7 @@
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
             <a href="/index/">首页</a>
-            <a>个人设置</a>
+            <a href="#">个人设置</a>
             <span>IP锁定</span>
         </div>
         <!-- 筛选 -->
@@ -41,25 +41,34 @@
         <!-- 下面写内容 -->
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
             <thead>
-                <tr> 
-                    <!-- <th lay-data="{field:'time',align:'center', Width:110}">序号</th>
-                    <th lay-data="{field:'www',align:'center',Width:260}">被锁IP</th>
-                    <th lay-data="{field:'company',align:'center',Width:260}">被锁时间</th>
-                    <th lay-data="{field:'user',align:'center',Width:260}">操作</th>  -->
-                    <th lay-data="{field:'www',align:'center',Width:170}">序号</th>
-                    <th lay-data="{field:'company',align:'center',minWidth:130}">被锁IP</th>
-                    <th lay-data="{field:'user',align:'center',minWidth:130}">被锁时间</th>
+                <tr>
+                    <th lay-data="{field:'www',align:'center',Width:170}">ID</th>
+                    <th lay-data="{field:'company',align:'center',minWidth:130}">用户</th>
+                    <th lay-data="{field:'company',align:'center',minWidth:130}">用户IP</th>
+                    <th lay-data="{field:'user',align:'center',minWidth:130}">登录时间</th>
+                    <th lay-data="{field:'user',align:'center',minWidth:130}">创建时间</th>
                     <th lay-data="{field:'tel',align:'center',minWidth:130}">操作</th>
-                </tr> 
+                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>
-                        </td>
-                    <td>2014-05-14 17:45:21</td>
-                    <td>解锁此IP</td>
-                </tr>
+<!--                <tr>-->
+<!--                    <td>{{ user_ip_info.id }}</td>-->
+<!--                    <td >{{ user_ip_info.username }}</td>-->
+<!--                    <td>{{ user_ip_info.id_adress }}</td>-->
+<!--                    <td>解锁此IP</td>-->
+<!--                    <td>解锁此IP</td>-->
+<!--                </tr>-->
+        {% for item in user_ip_info %}
+			<tr>
+				<td>{{ item.id }}</td>
+				<td>{{ item.uname }}</td>
+				<td>{{ item.ip_adress }}</td>
+                <td>{{ item.login_time }}</td>
+				<td>{{ item.clock_time }}</td>
+				<td></td>
+
+			</tr>
+        {% endfor %}
 
             </tbody>
         </table> 
@@ -68,12 +77,13 @@
 	<!-- houl七月初七己亥年 --> 
 	<!-- 结束 -->
     <!-- layui js -->
-    <script src="../../static/js/layui.js"></script>
+    <script src="/static/js/layui.js"></script>
     
 </body>
 
 </html> 
 <script type="text/javascript">
+
     //静态表格
     layui.use('table',function(){
         var table = layui.table;

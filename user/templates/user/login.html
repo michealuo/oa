@@ -8,6 +8,14 @@
     <script src="../../static/js/jquery-1.11.3.min.js"></script>
 </head>
 <body>
+    <script>
+        $(function() {
+            var msg = '{{ msg }}';
+            if(msg){
+                alert(msg);
+                    }
+        })
+    </script>
 <script>
 'use strict';
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -113,10 +121,10 @@ update();
          <div class="form-item">
             </div>
          <div class="form-item">
-             <input id="username" type="text" autocomplete="off" name="username" placeholder="账号" onblur="ckname();">
+             <input id="username" required lay-verify="required" type="text" autocomplete="off" name="username" placeholder="账号" onblur="ckname();">
          </div>
          <div class="form-item">
-             <input id="password" type="password" name="password" autocomplete="off" placeholder="密码">
+             <input id="password" required lay-verify="required" type="password" name="password" autocomplete="off" placeholder="密码">
          </div>
 
          <div class="form-item"><button id="submit">登 录</button></div>

@@ -17,3 +17,9 @@ class User(models.Model):
     def __str__(self):
 
         return '用户名:%s'%self.username
+
+class IpInfo(models.Model):
+    uname = models.CharField('用户',max_length=30)
+    ip_adress = models.CharField('ip地址',max_length=50)
+    login_time = models.DateTimeField('登录时间',auto_now_add=True)
+    clock_time = models.DateTimeField('被锁时间',auto_now=True)

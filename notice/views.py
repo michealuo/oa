@@ -3,11 +3,7 @@ from user.models import User
 
 
 # Create your views here.
-def index_view(request):
-    return render(request, "notice/index_first.html")
-
-
-def notice(request):
+def notice_list(request):
     return render(request, "notice/GongGao.html")
 
 

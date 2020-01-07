@@ -1,5 +1,6 @@
 import socket
 
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
@@ -62,9 +63,25 @@ def index_my_info(request):
 
 @logging_check
 def index_my_ip(request):
-        user_ip_info = IpInfo.objects.all()
-        print(user_ip_info)
-        return render(request,'index/My_IP.html',locals())
+    if request.method == "GET":
+        all_user = IpInfo.objects.all()
+        paginator = Paginator(all_user, 5)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
+        return render(request, "index/My_IP.html", locals())
+    elif request.method == "POST":
+        # service = request.POST.get("department")
+        # print(service)
+        query = request.POST.get("query")
+        users = IpInfo.objects.filter(username=query)
+        paginator = Paginator(users, 5)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
+        return render(request, "index/My_IP.html", locals())
 
 @logging_check
 def index_my_bj(request):

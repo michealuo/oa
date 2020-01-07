@@ -36,6 +36,12 @@
         {% for notice in page %}
         <div class="wenxts_ke">
             {{ forloop.counter }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
+            <div style="float: right;padding: 2px">
+                <a href="#">删除</a>
+            </div>
+            <div style="float: right;padding: 2px">
+                <a href="/notice/notice_update?id={{ notice.id }}">修改</a>
+            </div>
         </div>
         {% endfor %}
         <div style="float: right">

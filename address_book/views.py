@@ -5,16 +5,6 @@ from user.models import User
 from index.views import logging_check
 
 
-# Create your views here.
-@logging_check
-def address_book_view(request):
-    # uid = request.session.get("uid")
-    # username = request.session.get("username")
-    uid = request.my_uid
-    user = User.objects.get(id=uid)
-    return render(request, "address_book/index_first.html", locals())
-
-
 @logging_check
 def address_book_list(request):
     if request.method == "GET":

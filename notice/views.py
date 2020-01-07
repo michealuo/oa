@@ -4,7 +4,7 @@ from user.models import User
 
 # Create your views here.
 def notice_list(request):
-    return render(request, "notice/GongGao.html")
+    return render(request, "notice/notice_list.html")
 
 
 def notice_add_view(request):
@@ -12,4 +12,4 @@ def notice_add_view(request):
 
 
 def notice_view(request):
-    return render(request, "notice/GongGao1.html")
+    return render(request, "notice/notice.html")

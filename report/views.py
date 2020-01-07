@@ -12,7 +12,7 @@ def first_index(request):
 
 def list(request):
     uid = request.session.get("uid")
-    lis = Report_list.objects.filter(user_id=uid)
+    lis = Report_list.objects.filter(user_id=uid).order_by("updated_time")
     return render(request, "report/report_list.html",locals())
 
 
@@ -23,13 +23,14 @@ def add(request):
         title = request.POST.get("title")
         content = request.POST.get("content")
         if not title or not content:
-            return render(request, "/report/content.html")
+            return HttpResponseRedirect("/report/content")
 
 
         Report_list.objects.create(title=title,content=content,user_id=request.session["uid"])
 
         return HttpResponseRedirect("/report/list")
 
-#
-# def content(request):
-#     return render(request,"/report/content.html")
+
+def content(request):
+    return render(request,"report/content.html")
+

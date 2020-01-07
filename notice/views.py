@@ -25,10 +25,8 @@ def notice_add_view(request):
     if request.method == "GET":
         return render(request, "notice/notice_add.html")
     elif request.method == "POST":
-        print(111111)
         title = request.POST.get("title")
         content = request.POST.get("content")
-        print(title)
         try:
             Notice_list.objects.create(title=title, content=content)
         except Exception as e:
@@ -43,7 +41,34 @@ def notice_view(request):
     id = request.GET.get("id")
     try:
         notice = Notice_list.objects.get(id=id)
-        print(notice)
     except Exception as e:
         print(e)
     return render(request, "notice/notice.html", locals())
+
+
+@logging_check
+def notice_update_view(request):
+    # 修改公告
+    if request.method == "GET":
+        id = request.GET.get("id")
+        try:
+            notice = Notice_list.objects.get(id=id)
+        except Exception as e:
+            print(e)
+        return render(request, "notice/notice_update.html", locals())
+    elif request.method == "POST":
+        id = request.GET.get("id")
+        try:
+            notice = Notice_list.objects.get(id=id)
+        except Exception as e:
+            print(e)
+        title = request.POST.get("title")
+        content = request.POST.get("content")
+        try:
+            notice.title = title
+            notice.content = content
+        except Exception as e:
+            print("---修改失败---")
+            print(e)
+        notice.save()
+        return HttpResponseRedirect("/notice/list")

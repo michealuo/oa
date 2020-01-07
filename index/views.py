@@ -3,6 +3,9 @@ from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
+from user.models import User
+
+
 def logging_check(fn):
     def wrap(request, *args, **kwargs):
         #检查登录状态
@@ -50,8 +53,10 @@ def daily_mykh_view(request):
 
 @logging_check
 def index_my_info(request):
-
-    return render(request,'index/My_info.html')
+    uid = request.session.get("uid")
+    username = request.session.get("username")
+    user = User.objects.get(id=uid, username=username)
+    return render(request,'index/My_info.html',locals())
 
 @logging_check
 def index_my_ip(request):
@@ -66,7 +71,11 @@ def index_my_bj(request):
 @logging_check
 def index_my_mim(request):
 
-    return render(request,'index/My_mim.html')
+    uid = request.session.get("uid")
+    username = request.session.get("username")
+    user = User.objects.get(id=uid, username=username)
+
+    return render(request,'index/My_mim.html',locals())
 
 @logging_check
 def myfirst_view(request):

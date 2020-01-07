@@ -53,25 +53,3 @@
 </body>
 
 </html>
-<script>
-layui.use(['form', 'layedit', 'laydate'], function(){
-    var form = layui.form
-    ,layer = layui.layer
-    ,layedit = layui.layedit
-    ,laydate = layui.laydate;
-});
-layui.use('laydate', function(){
-  var laydate = layui.laydate; 
-  //年选择器 
-  laydate.render({
-    elem: '#test2'
-  });
-   //时间选择器
-   laydate.render({
-    elem: '#test2_r'
-    ,type: 'time'
-  });
-});
-
-
-</script>

@@ -35,8 +35,7 @@
         <!-- 内容 -->
         {% for notice in page %}
         <div class="wenxts_ke">
-<!--            forloop.counter-->
-            {{ notice.id }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
+            {{ forloop.counter }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
         </div>
         {% endfor %}
         <div style="float: right">
@@ -50,11 +49,11 @@
                 {% if p == page.number %}
                     {{ p }}
                 {% else %}
-                    <a href="/address_book/list?page={{ p }}">{{ p }}</a>
+                    <a href="/notice/list?page={{ p }}">{{ p }}</a>
                 {% endif %}
             {% endfor %}
             {% if page.has_next %}
-                <a href="/address_book/list?page={{ page.next_page_number }}">下一页</a>
+                <a href="/notice/list?page={{ page.next_page_number }}">下一页</a>
             {% else %}
                 下一页
             {% endif %}
@@ -69,25 +68,3 @@
 </body>
 
 </html>
-<!--<script>-->
-<!--layui.use(['form', 'layedit', 'laydate'], function(){-->
-<!--    var form = layui.form-->
-<!--    ,layer = layui.layer-->
-<!--    ,layedit = layui.layedit-->
-<!--    ,laydate = layui.laydate;-->
-<!--});-->
-<!--layui.use('laydate', function(){-->
-<!--  var laydate = layui.laydate; -->
-<!--  //年选择器 -->
-<!--  laydate.render({-->
-<!--    elem: '#test2'-->
-<!--  });-->
-<!--   //时间选择器-->
-<!--   laydate.render({-->
-<!--    elem: '#test2_r'-->
-<!--    ,type: 'time'-->
-<!--  });-->
-<!--});-->
-
-
-<!--</script>-->

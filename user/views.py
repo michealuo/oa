@@ -1,3 +1,5 @@
+import socket
+
 from django.shortcuts import render
 
 
@@ -6,7 +8,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from user.models import User
+from user.models import User, IpInfo
+
 
 def reg_view(request):
 
@@ -68,7 +71,10 @@ def login_view(request):
             # 回写session
             request.session['uid'] = uid
             request.session['username'] = username
+            # 存ip
+            save_host_ip(username)
             return HttpResponseRedirect('/index/index')
+
         return render(request, 'user/login.html')
 
     elif request.method == 'POST':
@@ -94,11 +100,27 @@ def login_view(request):
         request.session['uid'] = user.id
         request.session['username'] = username
         resp = HttpResponseRedirect('/index/index')
-        # if 'isSaved' in request.POST.keys():
-        #     # 用户勾选了 下次免登陆
-        #     resp.set_cookie('uid', user.id, 3600 * 24 * 30)
-        #     resp.set_cookie('username', username, 3600 * 24 * 30)
+        # 存ip
+        save_host_ip(username)
         return resp
+
+def save_host_ip(uname):
+    """
+    查询本机ip地址
+    :return: ip
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
+    user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
+    IpInfo.save(user_ip_info)
+
+
+
+
 
 
 
@@ -106,7 +128,6 @@ def login_view(request):
 def logout(request):
     # 登出
     # 删除 session
-
     if 'uid' in request.session:
         del request.session['uid']
     if 'username' in request.session:
@@ -118,6 +139,7 @@ def logout(request):
     if 'username' in request.COOKIES:
         resp.delete_cookie('username')
     return resp
+
 
 
 

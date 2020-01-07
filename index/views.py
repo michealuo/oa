@@ -1,9 +1,11 @@
+import socket
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
-from user.models import User
+from user.models import User, IpInfo
 
 
 def logging_check(fn):
@@ -60,12 +62,12 @@ def index_my_info(request):
 
 @logging_check
 def index_my_ip(request):
-
-    return render(request,'index/My_IP.html')
+        user_ip_info = IpInfo.objects.all()
+        print(user_ip_info)
+        return render(request,'index/My_IP.html',locals())
 
 @logging_check
 def index_my_bj(request):
-
     return render(request,'index/My_BJ.html')
 
 @logging_check
@@ -100,9 +102,11 @@ def index_my_mim(request):
             m.update(new_pwd_1.encode())
             user.password = m.hexdigest()
             user.save()
-        return render(request,'index/My_mim.html',locals())
+
 
 
 def child_view(request,app,info):
 
     return render(request,'index/child.html',locals())
+
+

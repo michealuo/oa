@@ -177,7 +177,7 @@ input{
 				if(name.val() === ''){
 				    nameinfo.html("用户名不能为空");
 					nameinfo.css("color","red");
-                } else if(name.val().length<=3 || name.val().length>=30){
+                } else if(name.val().length<2 || name.val().length>=30){
 					nameinfo.html("用户名不能小于3个字符或大于18个字符");
 					nameinfo.css("color","red");
 				} else{

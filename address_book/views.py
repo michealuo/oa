@@ -21,7 +21,7 @@ def address_book_list(request):
         query = request.POST.get("query")
         users = User.objects.filter(username=query)
         if not users:
-            return render(request, "address_book/YuanGonglist.html", locals())
+            users = User.objects.filter(phone=query)
         paginator = Paginator(users, 15)
         # 获取当前页码
         c_page = request.GET.get("page", 1)

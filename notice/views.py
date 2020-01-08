@@ -62,6 +62,7 @@ def notice_update_view(request):
             notice = Notice_list.objects.get(id=id)
         except Exception as e:
             print(e)
+            return HttpResponseRedirect("/notice/list")
         title = request.POST.get("title")
         content = request.POST.get("content")
         try:
@@ -76,5 +77,9 @@ def notice_update_view(request):
 
 def notice_delete_view(request):
     id = request.GET.get("id")
-    print(id)
-    return render(request, "notice/notice_list.html")
+    try:
+        notice = Notice_list.objects.filter(id=id)
+        notice.delete()
+    except Exception as e:
+        print(e)
+    return HttpResponseRedirect("/notice/list")

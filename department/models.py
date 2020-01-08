@@ -5,6 +5,7 @@ from django.db import models
 class Department(models.Model):
 
     name = models.CharField('部门名称',max_length=16)
+    description = models.CharField('部门描述', max_length=64,default=None)
 
 #职位表
 class Position(models.Model):

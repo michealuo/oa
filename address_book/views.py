@@ -9,7 +9,7 @@ from index.views import logging_check
 def address_book_list(request):
     if request.method == "GET":
         all_user = User.objects.all()
-        paginator = Paginator(all_user, 15)
+        paginator = Paginator(all_user, 10)
         # 获取当前页码
         c_page = request.GET.get("page", 1)
         # 初始化当前页的page对象
@@ -21,7 +21,7 @@ def address_book_list(request):
         query = request.POST.get("query")
         if not query:
             all_user = User.objects.all()
-            paginator = Paginator(all_user, 15)
+            paginator = Paginator(all_user, 10)
             # 获取当前页码
             c_page = request.GET.get("page", 1)
             # 初始化当前页的page对象
@@ -30,7 +30,7 @@ def address_book_list(request):
         users = User.objects.filter(username=query)
         if not users:
             users = User.objects.filter(phone=query)
-        paginator = Paginator(users, 15)
+        paginator = Paginator(users, 10)
         # 获取当前页码
         c_page = request.GET.get("page", 1)
         # 初始化当前页的page对象

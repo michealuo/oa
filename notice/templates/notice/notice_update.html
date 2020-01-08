@@ -30,32 +30,32 @@
             <i class="fa fa-home fa-3x"></i>
             <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
             <a href="/notice/list">公司公告</a>
-            <span>公司公告添加</span>
+            <span>公司公告修改</span>
         </div>
         <!-- 内容 -->    
         <div class="wenxts_ke">
             <p><i>温馨提示：</i>按需添加公司公告，时间越新就越靠前</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/notice/notice_add" method="post">
+            <form class="layui-form layui-form-pane" action="/notice/notice_update?id={{ notice.id }}" method="post">
                 <ul>
                     <li>
                         <div class="left">主题：</div>
                         <div class="right">
-                            <input type="text" name="title" placeholder="请输入公告主题" autocomplete="off" class="layui-input">
+                            <input type="text" name="title" value="{{ notice.title }}" autocomplete="off" class="layui-input">
                         </div>
                     </li>
                     <li>
                         <div class="left">内容：</div>
                         <div class="right">
-                            <textarea name="content" required lay-verify="required" placeholder="请输入公告内容" class="layui-textarea"></textarea>
+                            <textarea name="content" required lay-verify="required" placeholder="请输入公告内容" class="layui-textarea">{{ notice.content }}</textarea>
                         </div>
                     </li>
                     <li>
                         <div class="left"> &nbsp;</div>
                         <div class="right">
                             <button class="button_qr">
-                                <input type="submit" value="确定添加">
+                                <input type="submit" value="确定修改">
                             </button>
                         </div>
                     </li>

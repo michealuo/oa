@@ -28,26 +28,23 @@
 	<!-- 当前位置 -->
 	<div class="zy_weizhi bord_b">
 		<i class="fa fa-home fa-3x"></i>
-		<a>首页</a>
+		<a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
 		<span>通讯录</span>
 	</div>
 	<!-- 筛选 -->
-<form action="/address_book/YuanGonglist" method="post">
+<form action="/address_book/list" method="post">
 	<div class="shuaix">
-		<div class="left" style="margin-right:10px;">
-                <select name="department">
-                    <option value="技术部">技术部</option>
-                    <option value="客服部">客服部</option>
-                    <option value="人事部">人事部</option>
-                    <option value="销售部">销售部</option>
-                </select>
-		</div>
+<!--		<div class="left" style="margin-right:10px;">-->
+<!--                <select name="department">-->
+<!--                    <option value="技术部">技术部</option>-->
+<!--                    <option value="客服部">客服部</option>-->
+<!--                    <option value="人事部">人事部</option>-->
+<!--                    <option value="销售部">销售部</option>-->
+<!--                </select>-->
+<!--		</div>-->
 		<div class="right">
-
-			    <input type="text" placeholder="请输入姓名查询" name="query">
+			    <input type="text" placeholder="请输入姓名或电话查询" name="query">
                 <input type="submit" value="提交" style="width: 100px;height: 30px;background-color: #205b9e">
-
-{#			<a href="/address_book/YuanGonglist">查询</a>#}
 		</div>
 	</div>
  </form>
@@ -57,10 +54,10 @@
 			<tr>
 				<th lay-data="{type:'checkbox',fixed:'left'}">序号</th>
 				<th lay-data="{field:'yx', align:'center',width:160}">姓名</th>
-				<th lay-data="{field:'time',align:'center', minWidth:170}">部门</th>
-				<th lay-data="{field:'www',align:'center',minWidth:260}">部门职位</th>
+<!--				<th lay-data="{field:'user',align:'center',width:130}">性别</th>-->
+<!--				<th lay-data="{field:'time',align:'center', minWidth:170}">部门</th>-->
+<!--				<th lay-data="{field:'www',align:'center',minWidth:260}">部门职位</th>-->
 				<th lay-data="{field:'company',align:'center',minWidth:130}">入职时间</th>
-				<th lay-data="{field:'user',align:'center',width:130}">性别</th>
 				<th lay-data="{field:'tel',align:'center',width:130}">电话</th>
 				<th lay-data="{field:'result',align:'center',minWidth:130}">邮箱</th>
 {#                <th lay-data="{field:'addr',align:'center',minWidth:130}">权限</th>#}
@@ -74,17 +71,17 @@
 <!--				<td>{{ forloop.counter }}</td>-->
 				<td>{{ user.id }}</td>
 				<td>{{ user.username }}</td>
-				<td>{{ user.department }}</td>
-				<td>{{ user.position }}</td>
+<!--				<td>{{ user.sex }}</td>-->
+<!--				<td>{{ user.department }}</td>-->
+<!--				<td>{{ user.position }}</td>-->
 				<td>{{ user.create_time }}</td>
-				<td>{{ user.sex }}</td>
 				<td>{{ user.phone }}</td>
 				<td>{{ user.email }}</td>
 			</tr>
         {% endfor %}
 		</tbody>
 	</table>
-	<div style="text-align: right">
+	<div style="text-align: center">
 	{% if page.has_previous %}
 			<a href="/address_book/YuanGonglist?page={{ page.previous_page_number }}">上一页</a>
 		{% else %}
@@ -177,7 +174,6 @@
         
     }
 </script>
-
 
 </body>
 

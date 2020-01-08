@@ -7,12 +7,12 @@ from report.models import Report_list
 
 
 def first_index(request):
-    return render(request, "report/index_first.html")
+    return render(request, "index/child.html")
 
 
 def list(request):
     uid = request.session.get("uid")
-    lis = Report_list.objects.filter(user_id=uid)
+    lis = Report_list.objects.filter(user_id=uid).order_by("updated_time")
     return render(request, "report/report_list.html",locals())
 
 
@@ -22,10 +22,8 @@ def add(request):
     elif request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
-        if not content:
-            return HttpResponse("----请输入内容----")
-        if not title:
-            return HttpResponse("----请输入标题----")
+        if not title or not content:
+            return HttpResponseRedirect("/report/content")
 
 
         Report_list.objects.create(title=title,content=content,user_id=request.session["uid"])
@@ -33,9 +31,6 @@ def add(request):
         return HttpResponseRedirect("/report/list")
 
 
-
-
-
-
-
+def content(request):
+    return render(request,"report/content.html")
 

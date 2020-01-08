@@ -19,7 +19,7 @@
     <!-- layui css -->
     <link rel="stylesheet" href="/static/css/layui.css">
     <script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -27,42 +27,24 @@
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
-            <a href="/report/list">工作报告</a>
+            <a>首页</a>
+            <a href="/report">工作报告</a>
             <span>添加</span>
         </div>
-        <!-- 内容 -->    
+        <!-- 内容 -->
 		<div class="tianjia_xx ">
-			<form action="" method="post">
-				<table class="if_tianjiatext layui-table"   lay-size="lg">
-					<tbody>
-						<tr>
-							<td class="td_1" style="">标题</td>
-							<td><input type="text" name="title"></td>
-						</tr>
-						<tr>
-							<td class="td_1" style="" rowspan="">内容</td>
-							<td rowspan="">
-								<textarea name="content" cols="100" rows="4"></textarea>
-							</td>
-						</tr>
-						<tr class="tianjie_button">
-							<td colspan="2" style="border-right:1px solid #e6e6e6;">
-								<button><input type="submit" value="保存信息" style="color: #e6e6e6"></button>
-								<div><a href="/report/list" style="">返回列表</a></div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+            <h1>请添加标题和内容</h1>
+            <div>
+                <button>
+                    <h1>
+                        <a href="/report/add">返回</a>
+                    </h1>
+                </button>
+            </div>
 		</div>
-	</div>  
-	
-	<!-- houl --> 
-	<!-- 结束 -->
-    <!-- layui js -->
-    <script src="/static/js/layui.js"></script>
-    
+
+	</div>
+
 </body>
 
 </html>
@@ -70,7 +52,7 @@
 
 <script>
 layui.use('laydate', function(){
-  var laydate = layui.laydate; 
+  var laydate = layui.laydate;
   //常规用法
   laydate.render({
     elem: '#test1'

@@ -37,14 +37,14 @@
         <div class="wenxts_ke">
             {{ forloop.counter }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
             <div style="float: right;padding: 2px">
-                <a href="#">删除</a>
+                <a href="/notice/notice_delete?id={{ notice.id }}"   onclick="return confirm('是否删除?')">删除</a>
             </div>
             <div style="float: right;padding: 2px">
                 <a href="/notice/notice_update?id={{ notice.id }}">修改</a>
             </div>
         </div>
         {% endfor %}
-        <div style="float: right">
+        <div style="text-align: center">
             {% if page.has_previous %}
                 <a href="/notice/list?page={{ page.previous_page_number }}">上一页</a>
             {% else %}

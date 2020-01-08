@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 @logging_check
 def notice_list(request):
     # 全部公告列表显示
-    all_notice = Notice_list.objects.all().order_by("-updated_time")
+    all_notice = Notice_list.objects.all().order_by("-created_time")
     paginator = Paginator(all_notice, 15)
     # 获取当前页码
     c_page = request.GET.get("page", 1)
@@ -72,3 +72,9 @@ def notice_update_view(request):
             print(e)
         notice.save()
         return HttpResponseRedirect("/notice/list")
+
+
+def notice_delete_view(request):
+    id = request.GET.get("id")
+    print(id)
+    return render(request, "notice/notice_list.html")

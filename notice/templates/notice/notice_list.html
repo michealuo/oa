@@ -30,14 +30,26 @@
             <i class="fa fa-home fa-3x"></i>
             <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
             <span>公司公告</span>
-            <a href="/notice/notice_add" style="float:right;font-size: 20px;color: #205b9e">添加</a>
+            <a href="/notice/notice_add"
+               style="float:right;
+               font-size: 20px;
+               color: #205b9e"
+               onclick="return confirm('仅管理员可添加')">添加</a>
+        </div>
+        <div class="shuaix">
+            <form action="/notice/list" method="post">
+                <div class="right">
+                        <input type="text" placeholder="请输关键字查询" name="query">
+                        <input type="submit" value="提交" style="width: 100px;height: 30px;background-color: #205b9e">
+                </div>
+            </form>
         </div>
         <!-- 内容 -->
         {% for notice in page %}
         <div class="wenxts_ke">
             {{ forloop.counter }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
             <div style="float: right;padding: 2px">
-                <a href="/notice/notice_delete?id={{ notice.id }}"   onclick="return confirm('是否删除?')">删除</a>
+                <a href="/notice/notice_delete?id={{ notice.id }}" onclick="return confirm('是否删除?')">删除</a>
             </div>
             <div style="float: right;padding: 2px">
                 <a href="/notice/notice_update?id={{ notice.id }}">修改</a>
@@ -70,7 +82,7 @@
 	<!-- 结束 -->
     <!-- layui js -->
     <script src="/static/js/layui.js"></script>
-    
+
 </body>
 
 </html>

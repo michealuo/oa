@@ -119,6 +119,7 @@ def index_my_mim(request):
             m.update(new_pwd_1.encode())
             user.password = m.hexdigest()
             user.save()
+        return render(request,'index/My_mim.html',locals())
 
 
 

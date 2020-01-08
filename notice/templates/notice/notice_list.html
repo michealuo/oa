@@ -47,7 +47,10 @@
         <!-- 内容 -->
         {% for notice in page %}
         <div class="wenxts_ke">
-            {{ forloop.counter }}. <a href="/notice/notice?id={{ notice.id }}">{{ notice.title }}</a>
+            {{ forloop.counter }}.
+            <a href="/notice/notice?id={{ notice.id }}">
+                {{ notice.title }}
+            </a>
             <div style="float: right;padding: 2px">
                 <a href="/notice/notice_delete?id={{ notice.id }}" onclick="return confirm('是否删除?')">删除</a>
             </div>

@@ -20,7 +20,14 @@ def notice_list(request):
         return render(request, "notice/notice_list.html", locals())
     elif request.method == "POST":
         query = request.POST.get("query")
-        all_notice = Notice_list.objects.all()
+        all_notice = Notice_list.objects.all().order_by("-created_time")
+        if not query:
+            paginator = Paginator(all_notice, 15)
+            # 获取当前页码
+            c_page = request.GET.get("page", 1)
+            # 初始化当前页的page对象
+            page = paginator.page(c_page)
+            return render(request, "notice/notice_list.html", locals())
         query_list = []
         for notice in all_notice:
             if query in notice.title:
@@ -30,7 +37,6 @@ def notice_list(request):
         c_page = request.GET.get("page", 1)
         # 初始化当前页的page对象
         page = paginator.page(c_page)
-        print(page)
         return render(request, "notice/notice_list.html", locals())
 
 

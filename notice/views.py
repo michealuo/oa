@@ -9,14 +9,29 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 @logging_check
 def notice_list(request):
-    # 全部公告列表显示
-    all_notice = Notice_list.objects.all().order_by("-created_time")
-    paginator = Paginator(all_notice, 15)
-    # 获取当前页码
-    c_page = request.GET.get("page", 1)
-    # 初始化当前页的page对象
-    page = paginator.page(c_page)
-    return render(request, "notice/notice_list.html", locals())
+    if request.method == "GET":
+        # 全部公告列表显示
+        all_notice = Notice_list.objects.all().order_by("-created_time")
+        paginator = Paginator(all_notice, 15)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
+        return render(request, "notice/notice_list.html", locals())
+    elif request.method == "POST":
+        query = request.POST.get("query")
+        all_notice = Notice_list.objects.all()
+        query_list = []
+        for notice in all_notice:
+            if query in notice.title:
+                query_list.append(notice)
+        paginator = Paginator(query_list, 15)
+        # 获取当前页码
+        c_page = request.GET.get("page", 1)
+        # 初始化当前页的page对象
+        page = paginator.page(c_page)
+        print(page)
+        return render(request, "notice/notice_list.html", locals())
 
 
 @logging_check

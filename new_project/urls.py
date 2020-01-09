@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^report/',include('report.urls')),
     url(r'^notice/',include('notice.urls')),
     url(r'^department/',include('department.urls')),
+    url(r'^timebook/',include('timebook.urls'))
 ]

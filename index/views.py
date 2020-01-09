@@ -1,3 +1,4 @@
+import os
 import socket
 
 from django.core.paginator import Paginator
@@ -6,6 +7,8 @@ from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
+from department.models import Position
+from new_project import settings
 from user.models import User, IpInfo
 
 
@@ -56,9 +59,12 @@ def daily_mykh_view(request):
 
 @logging_check
 def index_my_info(request):
+    # user_info = Position.objects.all()
     uid = request.session.get("uid")
     username = request.session.get("username")
     user = User.objects.get(id=uid, username=username)
+
+    # print(user_info)
     return render(request,'index/My_info.html',locals())
 
 @logging_check
@@ -85,7 +91,17 @@ def index_my_ip(request):
 
 @logging_check
 def index_my_bj(request):
-    return render(request,'index/My_BJ.html')
+    if request.method == 'GET':
+        return render(request, 'index/My_BJ.html')
+    if request.method == 'POST':
+        # 处理数据
+        file = request.FILES['myfile']
+        filename = os.path.join(settings.MEDIA_ROOT, file.name)
+        with open(filename, 'wb') as f:
+            data = file.file.read()
+            f.write(data)
+
+    return render(request,'index/My_BJ.html',locals())
 
 @logging_check
 def index_my_mim(request):

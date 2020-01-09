@@ -700,6 +700,11 @@ color: #999999;
     color: #fff;
     font-style: normal;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
+}
+
+.bg_box{
+    background: url(/static/imgs/20190415.jpg) no-repeat center center;
+    background-size: cover;
 }

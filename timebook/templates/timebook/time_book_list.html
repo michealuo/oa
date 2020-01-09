@@ -48,10 +48,10 @@
 
 		</div>
 		<div class="right">
+			<form action="/timebook/month" method="get">
 			<input type="month" name="month" />
-
-
-			<a href="/time_book">按月查询</a>
+			<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按月查找">
+			</form>
 		</div>
 	</div>
 	<!-- 下面写内容 -->
@@ -116,11 +116,14 @@
 	{% else %}
 		<div style="text-align: center;line-height: 500px;font-size:30px"><b>暂无数据</b></div>
 	{% endif %}
-	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script> 
+
 </div>
+<script>
+	$(function () {
+
+	})
+
+</script>
 
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-btn-container"> 

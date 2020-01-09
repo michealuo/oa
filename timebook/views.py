@@ -20,3 +20,18 @@ def timebook_view(request):
         except Exception as e:
             timebooks = []
             return render(request, 'timebook/time_book_list.html', locals())
+
+@logging_check
+def timebook_month_view(request):
+    user_id = request.session.get('user_id')
+    if request.method == 'GET':
+        month = request.GET.get('month')
+        list = []
+        timebooks = TimeBook.objects.all()
+        for timebook in timebooks:
+            print(timebook.date)
+            if month in timebook.date:
+                list.append(timebook)
+        timebooks = list
+
+        return render(request, 'timebook/time_book_list.html', locals())

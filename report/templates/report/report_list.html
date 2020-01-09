@@ -52,13 +52,13 @@
 		<tbody>
 			{% for item in lis %}
 			<tr>
-				<td>{{ item.id }}</td>
+				<td>{{ forloop.counter }}</td>
                 <td>{{ item.title }}</td>
 				<td>{{ item.content }}</td>
                 <td>{{ item.created_time }}</td>
 				<td>{{ item.updated_time }}</td>
-				<td>修改</td>
-				<td>删除</td>
+				<td><a href="/report/update/{{ item.id }}">修改</a></td>
+				<td><a href="/report/delete/{{ item.id }}">删除</a></td>
 			</tr>
 			{% endfor %}
 		</tbody>

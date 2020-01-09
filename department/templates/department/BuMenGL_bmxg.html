@@ -36,16 +36,16 @@
         </div>
         <!-- 内容 -->    
         <div class="wenxts_ke">
-            <p><i>温馨提示：</i>按需添加公司部门及职位</p>
+            <p><i>温馨提示：</i>按需修改公司部门及职位</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/department/add" method="post">
+            <form class="layui-form layui-form-pane" action="/department/update" method="post">
             <ul>  
                 <li>
                     <div class="left">部门名称：</div>
                     <div class="right"> 
                         <input type="text" id = "dep_name"name="dep_name" required lay-verify="required"
-                               placeholder="请输入部门名称"
+                               value = {{dep_name}}
                                autocomplete="on" class="layui-input">
                     </div>
                 </li> 
@@ -53,21 +53,22 @@
                     <div class="left">职位名称：</div>
                     <div class="right">
                         <input type="text" id = "position_name"name="position_name" required lay-verify="required"
-                               placeholder="请输入职位名称"
+                               value = {{name}}
                                autocomplete="on" class="layui-input">
                     </div>
                 </li>
                 <li>
                     <div class="left">职位简介：</div>
                     <div class="right"> 
-                        <textarea id = "description"name="description" required lay-verify="required" placeholder="请输入部门简介"
-                                  class="layui-textarea"></textarea>
+                        <input type="text" id = "description"name="description" required lay-verify="required"
+                               value = {{description}}
+                               autocomplete="on" class="layui-input">
                     </div>
                 </li> 
                 <li>
                     <div class="left"> &nbsp;</div>
                     <div class="right"> 
-                        <button class="button_qr"  id="add_department">确定添加</button>
+                        <button class="button_qr"  id="update_department">确定保存</button>
                     </div>
                 </li>
             </ul> 
@@ -85,12 +86,13 @@
 </html>
 <script>
 $(function(){
+
     var msg = '{{msg}}';
     if (msg){
         alert(msg);
     }
 
-    $("#add_department").click(function(){
+    $("#update_department").click(function(){
         var flag = 'true'
 
         if (!$("#dep_name").val() || !$("#description").val()){
@@ -98,9 +100,9 @@ $(function(){
         }
 
         if (flag == 'true'){
-            var loading = layui.layer.msg('正在添加', {icon: 16, shade: 0.3, time:0});
+            var loading = layui.layer.msg('正在修改', {icon: 16, shade: 0.3, time:0});
             $.ajax({
-                url:'/department/add',
+                url:'/department/update',
                 type:'post',
                 dataType:'text',
                 contentType: 'application/json',

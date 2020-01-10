@@ -71,10 +71,16 @@ def department_update(request):
         return render(request, 'department/BuMenGL_bmxg.html', locals())
     elif request.method == 'POST':
         #修改数据
+        id = request.POST.get('id')
         dep_name = request.POST.get('dep_name')
         description = request.POST.get('description')
-        position_name = request.POST.get('position_name')
-        print(dep_name,'======',position_name)
+        position_name = request.POST.get('name')
+        if id and dep_name and description and position_name:
+            position_one = Position.objects.filter(id=id)[0]
+            position_one.dep_name = dep_name
+            position_one.description = description
+            position_one.name = position_name
+            position_one.save()
         #展示页面
         position_list = Position.objects.all()
         #分页

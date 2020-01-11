@@ -3,6 +3,7 @@ from django.shortcuts import render
 from index.views import logging_check
 from notice.models import Notice_list
 from user.models import User
+from management.models import Management
 from django.http import HttpResponseRedirect
 
 
@@ -11,6 +12,8 @@ from django.http import HttpResponseRedirect
 def notice_list(request):
     if request.method == "GET":
         # 全部公告列表显示
+        uid = request.session.get("uid")
+        management = Management.objects.get(user_id=uid)
         all_notice = Notice_list.objects.all().order_by("-created_time")
         paginator = Paginator(all_notice, 10)
         # 获取当前页码
@@ -39,10 +42,7 @@ def notice_list(request):
 def notice_add_view(request):
     # 添加公告
     if request.method == "GET":
-        username = request.session.get("username")
-        if username == "wuhan":
-            return render(request, "notice/notice_add.html", locals())
-        return HttpResponseRedirect("/notice/list")
+        return render(request, "notice/notice_add.html")
     elif request.method == "POST":
         title = request.POST.get("title")
         content = request.POST.get("content")
@@ -74,7 +74,7 @@ def notice_update_view(request):
             notice = Notice_list.objects.get(id=id)
         except Exception as e:
             print(e)
-        return render(request, "notice/notice_update.html", locals())
+        return HttpResponseRedirect("/notice/list")
     elif request.method == "POST":
         id = request.GET.get("id")
         try:

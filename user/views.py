@@ -23,7 +23,6 @@ def reg_view(request):
         password_2 = request.POST.get('password_2')
         phone = request.POST.get('phone')
         email = request.POST.get('email')
-        print(email)
         #判断username是否已经被注册
         users = User.objects.filter(username=username)
         if users:
@@ -78,7 +77,6 @@ def login_view(request):
         return render(request, 'user/login.html')
 
     elif request.method == 'POST':
-
         # 处理数据
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -102,6 +100,10 @@ def login_view(request):
         resp = HttpResponseRedirect('/index/index')
         # 存ip
         save_host_ip(username)
+        # ip_info = IpInfo.objects.filter(ip_adress=)
+        # if save_host_ip(username) == ip_info.ip_adress:
+
+
         return resp
 
 def save_host_ip(uname):
@@ -117,6 +119,7 @@ def save_host_ip(uname):
         s.close()
     user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
     IpInfo.save(user_ip_info)
+
 
 
 

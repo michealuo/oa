@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
     url(r'^index/', include('index.urls')),
     url(r'^game/', include('game.urls')),
     url(r'^user/',include('user.urls')),
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^report/',include('report.urls')),
     url(r'^notice/',include('notice.urls')),
     url(r'^department/',include('department.urls')),
+    url(r'^timebook/',include('timebook.urls'))
 ]

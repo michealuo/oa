@@ -39,8 +39,10 @@ def notice_list(request):
 def notice_add_view(request):
     # 添加公告
     if request.method == "GET":
+        uid = request.session.get("uid")
         username = request.session.get("username")
-        if username == "wuhan":
+        user = User.objects.get(id=uid, username=username)
+        if user.management.power == "1":
             return render(request, "notice/notice_add.html", locals())
         return HttpResponseRedirect("/notice/list")
     elif request.method == "POST":

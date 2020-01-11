@@ -21,6 +21,15 @@
 	<script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 	<!-- layui js -->
 	<script src="/static/js/layui.js"></script>
+	<style>
+		.btn{
+			background-color: #0E7FF9;
+			width: 50px;
+			height: 30px;
+			border-radius: 3px;
+			color: wheat;
+		}
+	</style>
 </head>
 
 <body>
@@ -57,8 +66,20 @@
 				<td>{{ item.content }}</td>
                 <td>{{ item.created_time }}</td>
 				<td>{{ item.updated_time }}</td>
-				<td><a href="/report/update/{{ item.id }}">修改</a></td>
-				<td><a href="/report/delete/{{ item.id }}">删除</a></td>
+				<td>
+					<a href="/report/update/{{ item.id }}">
+						<button class="btn">
+							修改
+						</button>
+					</a>
+				</td>
+				<td>
+					<a href="/report/delete/{{ item.id }}" onclick="return confirm('是否删除?')">
+						<button class="btn">
+							删除
+						</button>
+					</a>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>

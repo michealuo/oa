@@ -51,6 +51,10 @@
 		<thead>
 			<tr>
 				<th lay-data="{type:'checkbox',fixed:'left'}">id</th>
+				{% if user.power %}
+					<th lay-data="{field:'time',align:'center', minWidth:170}">姓名</th>
+					<th lay-data="{field:'time',align:'center', minWidth:170}">部门</th>
+				{% endif %}
 				<th lay-data="{field:'time',align:'center', minWidth:170}">标题</th>
 				<th lay-data="{field:'www',align:'center',minWidth:130}">内容</th>
 				<th lay-data="{field:'result',align:'center',minWidth:260}">创建时间</th>
@@ -62,6 +66,10 @@
 			{% for item in lis %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
+				{% if user.power %}
+                	<td>{{ user.username }}</td>
+                	<td>{{ user.dep_name }}</td>
+				{% endif %}
                 <td>{{ item.title }}</td>
 				<td>{{ item.content }}</td>
                 <td>{{ item.created_time }}</td>

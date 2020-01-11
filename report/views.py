@@ -1,18 +1,26 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+
+from index.views import logging_check
+from management.models import Management
 from report.models import Report_list
 
 
 # Create your views here.
 
 
+@logging_check
 def list(request):
     uid = request.session.get("uid")
-    lis = Report_list.objects.filter(user_id=uid).order_by("-updated_time")
+    user = Management.objects.get(user_id=uid)
+    if not user.power:
+        lis = Report_list.objects.filter(user_id=uid).order_by("-updated_time")
+    else:
+        lis = Report_list.objects.all().order_by("-updated_time")
     # print(lis[0].content[:5])
     return render(request, "report/report_list.html",locals())
 
-
+@logging_check
 def add(request):
     if request.method == "GET":
         return render(request, "report/report_add.html")
@@ -31,7 +39,7 @@ def add(request):
 def content(request):
     return render(request,"report/content.html")
 
-
+@logging_check
 def update(request,id):
     report = Report_list.objects.get(id=id)
     if request.method == "GET":

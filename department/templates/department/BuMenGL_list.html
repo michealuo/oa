@@ -73,7 +73,9 @@
 
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">增加</button>
+		<button class="layui-btn layui-btn-sm" lay-event="add_department">增加部门</button>
+		<button class="layui-btn layui-btn-sm" lay-event="add_position">增加职位</button>
+		<button class="layui-btn layui-btn-sm" lay-event="delete_department">删除部门</button>
 	</div>
 </script> 
 <script type="text/javascript">
@@ -145,9 +147,15 @@
                 var checkStatus = table.checkStatus(obj.config.id)
                 ,data = checkStatus.data; //获取选中的数据 
                 switch(obj.event){  
-                case 'getCheckLength':
-                    window.location.href='/department/add';
-                break;
+                case 'add_department':
+                    window.location.href='/department/add_department';
+                    break;
+                case 'add_position':
+                    window.location.href='/department/add_position';
+                	break;
+                case 'delete_department':
+                    window.location.href='/department/del_department';
+                	break;
                 };
             }); 
 	}); 

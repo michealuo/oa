@@ -40,11 +40,19 @@
         </div>
         <div class="kehubh_tj_k">
             <form class="layui-form layui-form-pane" action="/department/update" method="post">
-            <ul>  
+            <ul>
+                <li aria-hidden="true" hidden = "true">
+                    <div class="left">id：</div>
+                    <div class="right">
+                        <input type="text" id = "id"name="id" required lay-verify="required"
+                               value = {{id}}
+                               autocomplete="on" class="layui-input">
+                    </div>
+                </li>
                 <li>
                     <div class="left">部门名称：</div>
                     <div class="right"> 
-                        <input type="text" id = "dep_name"name="dep_name" required lay-verify="required"
+                        <input type="text" readonly="readonly" id = "dep_name"name="dep_name" required lay-verify="required"
                                value = {{dep_name}}
                                autocomplete="on" class="layui-input">
                     </div>
@@ -52,7 +60,7 @@
                 <li>
                     <div class="left">职位名称：</div>
                     <div class="right">
-                        <input type="text" id = "position_name"name="position_name" required lay-verify="required"
+                        <input type="text" id = "name" name="name" required lay-verify="required"
                                value = {{name}}
                                autocomplete="on" class="layui-input">
                     </div>
@@ -86,7 +94,6 @@
 </html>
 <script>
 $(function(){
-
     var msg = '{{msg}}';
     if (msg){
         alert(msg);

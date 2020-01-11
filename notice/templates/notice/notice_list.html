@@ -30,11 +30,12 @@
             <i class="fa fa-home fa-3x"></i>
             <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
             <span>公司公告</span>
+            {% if management.power %}
             <a href="/notice/notice_add"
                style="float:right;
                font-size: 20px;
-               color: #205b9e"
-               onclick="return confirm('仅管理员可添加')">添加</a>
+               color: #205b9e">添加</a>
+            {% endif %}
         </div>
         <div class="shuaix">
             <form action="/notice/list" method="post">
@@ -51,12 +52,14 @@
             <a href="/notice/notice?id={{ notice.id }}">
                 {{ notice.title }}
             </a>
-            <div style="float: right;padding: 2px">
-                <a href="/notice/notice_delete?id={{ notice.id }}" onclick="return confirm('是否删除?')">删除</a>
-            </div>
-            <div style="float: right;padding: 2px">
-                <a href="/notice/notice_update?id={{ notice.id }}">修改</a>
-            </div>
+            {% if management.power %}
+                <div style="float: right;padding: 2px">
+                    <a href="/notice/notice_delete?id={{ notice.id }}" onclick="return confirm('是否删除?')">删除</a>
+                </div>
+                <div style="float: right;padding: 2px">
+                    <a href="/notice/notice_update?id={{ notice.id }}">修改</a>
+                </div>
+            {% endif %}
         </div>
         {% endfor %}
         <div style="text-align: center">

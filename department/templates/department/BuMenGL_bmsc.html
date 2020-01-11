@@ -32,27 +32,34 @@
             <i class="fa fa-home fa-3x"></i>
             <a>首页</a>
             <a>回访记录</a>
-            <span>公司部门添加</span>
+            <span>部门职位添加</span>
         </div>
         <!-- 内容 -->    
         <div class="wenxts_ke">
-            <p><i>温馨提示：</i>按需添加公司部门</p>
+            <p><i>温馨提示：</i>按需删除部门，注意如果部门中还有员工请先删除员工后删除部门</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/department/add_department" method="post">
-            <ul>  
-                <li>
+            <form class="layui-form layui-form-pane" method="post" action="/department/del_department">
+            <ul> 
+                <li  style="height: 38px; overflow:initial;">
                     <div class="left">部门名称：</div>
-                    <div class="right"> 
-                        <input type="text" id = "dep_name"name="dep_name" required lay-verify="required"
-                               placeholder="请输入部门名称"
-                               autocomplete="on" class="layui-input">
+                    <div class="right">
+
+                        <select name="dep_id"  lay-verify="">
+
+                            {% for item in department_list %}
+
+                            <option value="{{item.id}}">{{item.name}}</option>
+
+                            {% endfor %}
+                        </select> 
                     </div>
                 </li>
+
                 <li>
                     <div class="left"> &nbsp;</div>
                     <div class="right"> 
-                        <button class="button_qr"  id="add_department">确定添加</button>
+                        <button class="button_qr">确定删除</button>
                     </div>
                 </li>
             </ul> 
@@ -62,57 +69,24 @@
     
 	<!-- houl --> 
 	<!-- 结束 -->
-    <!-- layui js -->
 
 
+    
 </body>
 
 </html>
 <script>
-$(function(){
-    var msg = '{{msg}}';
-    if (msg){
-        alert(msg);
-    }
-
-    $("#add_department").click(function(){
-        var flag = 'true'
-
-        if (!$("#dep_name").val()){
-            flag = 'false';
-        }
-
-        if (flag == 'true'){
-            var loading = layui.layer.msg('正在添加', {icon: 16, shade: 0.3, time:0});
-            $.ajax({
-                url:'/department/add_department',
-                type:'post',
-                dataType:'text',
-                contentType: 'application/json',
-                timeout:3000,
-                success:function(){
-                    layui.layer.close(loading);
-                },
-                error:function () {
-                    layui.layer.close(loading);
-                }
-            });
-        }
-
-
-
-    });
-});
 layui.use(['form', 'layedit', 'laydate'], function(){
     var form = layui.form
     ,layer = layui.layer
     ,layedit = layui.layedit
     ,laydate = layui.laydate;
-
+    //渲染select
+    form.render('select')
 });
 layui.use('laydate', function(){
-  var laydate = layui.laydate;
-  //年选择器
+  var laydate = layui.laydate; 
+  //年选择器 
   laydate.render({
     elem: '#test2'
   });

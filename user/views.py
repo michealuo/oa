@@ -1,5 +1,6 @@
 import socket
 
+from django.db import transaction
 from django.shortcuts import render
 
 
@@ -8,6 +9,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
+from pymysql import DatabaseError
+
+from management.models import Management
 from user.models import User, IpInfo
 
 
@@ -39,15 +43,20 @@ def reg_view(request):
         import hashlib
         m = hashlib.md5()
         m.update(password_1.encode())
-
+        #作为一个事务
         try:
-            user = User.objects.create(username=username,password = m.hexdigest(),phone=phone,email=email)
-        except Exception as e:
+            with transaction.atomic():
+                try:
+                    user = User.objects.create(username=username,password = m.hexdigest(),phone=phone,email=email)
+                    management = Management.objects.create(username=username,phone=phone,email=email,user=user)
+                except Exception as e:
+                    print('---注册错误---')
+                    print(e)
+                    msg = '注册错误'
+                    raise DatabaseError
 
-            print('---注册错误---')
-            print(e)
-            msg = '注册错误'
-            return render(request,'user/register.html',locals())
+        except DatabaseError:
+            return render(request, 'user/register.html', locals())
 
         #注册成功
         resp =  HttpResponseRedirect('/user/login')

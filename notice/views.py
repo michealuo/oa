@@ -57,6 +57,7 @@ def notice_add_view(request):
 def notice_view(request):
     # 当前公告内容显示
     id = request.GET.get("id")
+    print(id)
     try:
         notice = Notice_list.objects.get(id=id)
     except Exception as e:

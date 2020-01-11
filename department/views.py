@@ -13,25 +13,52 @@ def department_list(request):
     count = len(position_list)
     return render(request,'department/BuMenGL_list.html',locals())
 
-def department_add(request):
+def add_department(request):
     if request.method == 'GET':
         return render(request,'department/BuMenGL_bmtj.html',locals())
     elif request.method == 'POST':
         dep_name = request.POST.get('dep_name')
-        description = request.POST.get('description')
-        position_name = request.POST.get('position_name')
-        if dep_name and description:
+        if dep_name:
             try:
-                position_old = Position.objects.filter(name= position_name,dep_name = dep_name)
-                if position_old:
-                    msg = "已经存在该部门该职位"
+                dep_old = Department.objects.filter(name=dep_name)
+                if dep_old:
+                    msg = "已经存在该部门"
                     return render(request, 'department/BuMenGL_bmtj.html', locals())
 
                 dep = Department.objects.create(name= dep_name)
-                Department.save(dep)
+
+            except Exception as e:
+                print('---添加失败---')
+                print(e)
+                msg = '添加失败'
+                return render(request, 'department/BuMenGL_list.html', locals())
+        msg = '添加成功'
+        time.sleep(2)
+        position_list = Position.objects.all()
+        #分页
+        count = len(position_list)
+        return render(request, 'department/BuMenGL_list.html', locals())
+
+def add_position(request):
+    if request.method == 'GET':
+        department_list = Department.objects.all()
+        return render(request,'department/BuMenGL_zwtj.html',locals())
+    elif request.method == 'POST':
+        dep_name = request.POST.get('dep_name')
+        description = request.POST.get('description')
+        position_name = request.POST.get('position_name')
+        print(dep_name,'=======',description,position_name)
+        if dep_name and description and position_name:
+            try:
+                department = Department.objects.filter(name = dep_name)[0]
+                position_old = Position.objects.filter(name= position_name,dep_name = dep_name)
+                if position_old:
+                    msg = "已经存在该部门该职位"
+                    return render(request, 'department/BuMenGL_zwtj.html', locals())
+
                 position = Position.objects.create(name= position_name,dep_name = dep_name,description = description,
-                                                   department = dep)
-                Position.save(position)
+                                                   department = department)
+
             except Exception as e:
                 print('---添加失败---')
                 print(e)
@@ -45,7 +72,8 @@ def department_add(request):
         count = len(position_list)
         return render(request, 'department/BuMenGL_list.html', locals())
 
-def department_delete(request):
+
+def delete_position(request):
 
     time.sleep(0.5)
     #获取传入数据
@@ -58,6 +86,35 @@ def department_delete(request):
     #分页
     count = len(position_list)
     return render(request,'department/BuMenGL_list.html',locals())
+
+def delete_department(request):
+
+    if request.method == 'GET':
+        department_list = Department.objects.all()
+        return render(request, 'department/BuMenGL_bmsc.html', locals())
+    elif request.method == 'POST':
+        dep_id = request.POST.get('dep_id')
+        if dep_id:
+            try:
+                dep = Department.objects.get(id=dep_id)
+                if not dep:
+                    msg = "不存在该部门"
+                    return render(request, 'department/BuMenGL_bmtj.html', locals())
+                dep.delete()
+
+            except Exception as e:
+                print('---添加失败---')
+                print(e)
+                msg = '添加失败'
+                return render(request, 'department/BuMenGL_list.html', locals())
+        msg = '添加成功'
+        time.sleep(2)
+        position_list = Position.objects.all()
+        # 分页
+        count = len(position_list)
+        return render(request, 'department/BuMenGL_list.html', locals())
+
+
 def department_update(request):
 
     if request.method == 'GET':

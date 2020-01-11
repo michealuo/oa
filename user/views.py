@@ -48,7 +48,7 @@ def reg_view(request):
             with transaction.atomic():
                 try:
                     user = User.objects.create(username=username,password = m.hexdigest(),phone=phone,email=email)
-                    management = Management.objects.create(name=username,phone=phone,email=email,user=user)
+                    management = Management.objects.create(username=username,phone=phone,email=email,user=user)
                 except Exception as e:
                     print('---注册错误---')
                     print(e)

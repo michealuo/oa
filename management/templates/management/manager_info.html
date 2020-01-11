@@ -38,7 +38,7 @@
 	<!-- 筛选 -->
 	<div class="shuaix">
 		<div class="left" style="margin-right:10px;">
-			<select>
+			<select style="height: 38px; overflow:initial;">
 				<option value="技术部">技术部</option>
 				<option value="客服部">客服部</option>
 				<option value="人事部">人事部</option>
@@ -55,32 +55,35 @@
 		<thead>
 			<tr>
 				<th lay-data="{type:'checkbox',fixed:'left'}"></th>
-				<th lay-data="{field:'yx', align:'center',width:160}">部门目录</th>
-				<th lay-data="{field:'time',align:'center', minWidth:170}">员工列表</th>
-				<th lay-data="{field:'www',align:'center',minWidth:260}">部门职位</th>
-				<th lay-data="{field:'company',align:'center',minWidth:130}">工号</th>
-				<th lay-data="{field:'user',align:'center',width:130}">性别</th>
-				<th lay-data="{field:'tel',align:'center',width:130}">排序</th>
-				<th lay-data="{field:'result',align:'center',minWidth:130}">级别</th>
-                <th lay-data="{field:'addr',align:'center',minWidth:130}">权限</th>
-				<th lay-data="{field:'addr1',align:'center',minWidth:100}">简历图片</th>
+				<th lay-data="{field:'id',hide:'true', align:'center',width:160}">id</th>
+				<th lay-data="{field:'dep_name', align:'center',width:160}">部门名称</th>
+				<th lay-data="{field:'username',align:'center', minWidth:170}">员工账号</th>
+				<th lay-data="{field:'name',align:'center', minWidth:170}">员工姓名</th>
+				<th lay-data="{field:'position_name',align:'center',minWidth:260}">部门职位</th>
+				<th lay-data="{field:'job_no',align:'center',minWidth:130}">工号</th>
+				<th lay-data="{field:'sex',align:'center',width:130}">性别</th>
+                <th lay-data="{field:'power',align:'center',minWidth:130}">权限</th>
+				<th lay-data="{field:'img',align:'center',minWidth:100}">简历图片</th>
 				<th lay-data="{field:'option',align:'center',width:130,toolbar:'#barDemo',fixed: 'right'}">操作</th>
 			</tr>
 		</thead>
 		<tbody>
+		{% for item in management_list %}
 			<tr>
 				<td></td>
-				<td>技术部</td>
-				<td>杨俊</td>
-				<td>技术总监（CTO）</td>
-				<td>81601001</td>
-				<td>男</td>
-				<td>1</td>
-				<td>经理</td>
-                <td>管理员</td>
-				<td><a href="#" class="jianl_list_img" onclick=" YuanG_IMG()"><img src="/static/imgs/jl.jpg"></a></td>
-				<td><a href="#">入职</a></td>
+				<td>{{ item.id }}</td>
+                <td>{{ item.dep_name }}</td>
+				<td>{{ item.username }}</td>
+				<td>{{ item.name }}</td>
+                <td>{{ item.position_name }}</td>
+                <td>{{ item.job_no }}</td>
+                <td>{{ item.sex }}</td>
+                <td>{{ item.power }}</td>
+                <td>{{ item.img }}</td>
+                <td>{{ item.img }}</td>
 			</tr>
+			{% endfor %}
+
 		</tbody>
 	</table>
 	<script type="text/html" id="barDemo">
@@ -89,11 +92,20 @@
 	</script>
 </div>
 <script type="text/html" id="toolbarDemo">
-	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">增加</button>
+	<div class="layui-btn-container" id="add_management" >
+		<button  class="layui-btn layui-btn-sm" lay-event="add_management">入职</button>
 	</div>
 </script>
 <script type="text/javascript">
+
+	$(function(){
+		var power = '{{power}}';
+
+		if (power !== '1') {
+			$("#add_management").hide();
+		}
+	})
+
 	//静态表格
     layui.use('table',function(){
     	var table = layui.table;
@@ -127,11 +139,14 @@
                 var checkStatus = table.checkStatus(obj.config.id)
                 ,data = checkStatus.data; //获取选中的数据
                 switch(obj.event){
-                case 'getCheckLength':
-                    if(data.length === 0){
-                    layer.msg('请选择一行');
+                case 'add_management':
+                    if(data.length !== 1){
+                    	layer.msg('请选择一行');
                     } else {
-                    layer.msg('删除');
+						id = data[0]['id'];
+						path = '/management/add_management';
+						path += '?id=' + id;
+						window.location.href = path;
                     }
                 break;
                 };

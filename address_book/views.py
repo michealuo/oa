@@ -8,7 +8,11 @@ from management.models import Management
 @logging_check
 def address_book_list(request):
     if request.method == "GET":
-        all_user = Management.objects.all()
+        users = Management.objects.all()
+        all_user = []
+        for user in users:
+            if user.create_time:
+                all_user.append(user)
         paginator = Paginator(all_user, 10)
         # 获取当前页码
         c_page = request.GET.get("page", 1)

@@ -5,7 +5,7 @@ from django.db import models
 
 
 # 员工表
-from department.models import Position
+from department.models import Position, Department
 from user.models import User
 
 
@@ -22,6 +22,7 @@ class Management(models.Model):
     img = models.CharField('图片路径',max_length=64,default='')
     create_time = models.DateTimeField('入职时间',null=True,default=None)
     email = models.EmailField('邮箱',max_length=32,default=None)
+    department = models.ForeignKey(Department,null=True,default=None)
     position = models.ForeignKey(Position,null=True,default=None)
     user = models.OneToOneField(User,null=True,default=None)
     def __str__(self):

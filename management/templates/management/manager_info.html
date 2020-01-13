@@ -36,6 +36,7 @@
 		<span>公司员工列表</span>
 	</div>
 	<!-- 筛选 -->
+
 	<div class="shuaix">
 		<div class="left" style="margin-right:10px;">
 			<select style="height: 38px; overflow:initial;">
@@ -83,7 +84,7 @@
                 <td>{{ item.sex }}</td>
                 <td>{{ item.power }}</td>
 				<td><a href="#" class="jianl_list_img"
-					   onclick=" YuanG_IMG()"><img src="{{ item.img }}"></a></td>
+					   onclick=" YuanG_IMG('{{ item.img }}')"><img src="{{ item.img }}"></a></td>
 				<td>{{ item.create_time}} </td>
 			</tr>
 			{% endfor %}
@@ -110,32 +111,22 @@
 		}
 
 
-		//捕获页
-		layer.open({
-			type: 1,
-			shade: false,
-			title: false, //不显示标题
-			//area:['600px','500px'],
-			area: [600+'px', 480+'px'],
-			content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
-			cancel: function () {
-				//layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
-			}
-		});
+
 	})
 
 	//静态表格
     layui.use('table',function(){
     	var table = layui.table;
+    	var count = parseInt('{{count}}');
 		//转换静态表格
 		table.init('mylist', {
 		  height: 'full-130' //高度最大化减去差值,也可以自己设置高度值：如 height:300
-		  ,count: 50 //数据总数 服务端获得
+		  ,count: count //数据总数 服务端获得
 		  ,limit: 10 //每页显示条数 注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
 		  ,page:true //开启分页
 		  ,toolbar: '#toolbarDemo'//工具栏
 		  ,defaultToolbar:['filter', 'exports']
-		  ,limits:[10, 20, 30, 40, 50]//分页显示每页条目下拉选择
+		  ,limits:[5, 10, 15, 20, 50]//分页显示每页条目下拉选择
 		  ,cellMinWidth: 60//定义全局最小单元格宽度，其余自动分配宽度
 		});
 		//监听行工具事件
@@ -147,9 +138,34 @@
 				    obj.del(); //删除对应行（tr）的DOM结构
 				    layer.close(index);
 				    //向服务端发送删除指令
+				    $.ajax({
+						url:'/management/delete',
+						type:'post',
+						dataType:'text',
+						contentType: 'application/json',
+						timeout:3000,
+						data:JSON.stringify(data),
+
+						success:function(){
+
+							layui.layer.close(loading);
+						},
+						error:function () {
+
+							layui.layer.close(loading);
+						}
+            		});
 			    });
 			} else if(layEvent === 'edit'){
-			    layer.msg('修改操作');
+				job_no = data['job_no'];
+				if (!job_no){
+					layer.msg('请先入职再对员工信息进行修改');
+					return false;
+				}
+			    id = data['id'];
+				path = '/management/update_management';
+				path += '?id=' + id;
+				window.location.href = path;
 			}
 		});
 		 //监听头工具栏事件
@@ -161,6 +177,11 @@
                     if(data.length !== 1){
                     	layer.msg('请选择一行');
                     } else {
+                    	job_no = data[0]['job_no'];
+                    	if (job_no){
+                    		layer.msg('该员工已入职');
+                    		return false;
+                    	}
 						id = data[0]['id'];
 						path = '/management/add_management';
 						path += '?id=' + id;
@@ -171,20 +192,21 @@
             });
 	});
 	  //  iframe层  详情信息
-    function YuanG_IMG(){
+    function YuanG_IMG(src){
+    	var imgHtml = "<img src='"+src+"' />";
         //iframe层
         layer.open({
-            type: 2,//层类型
+            type: 1,//
             title: "简历图片",//标题
             closeBtn: 1, //不显示关闭按钮
             shade: [0.3],//遮罩
             skin: 'demo_class_color',//iframe皮肤
             shadeClose:Boolean,//点击遮罩关闭
             area: ['800px', '460px'],
-            // offset: 'rb', //右下角弹出
-            // time: 2000, //2秒后自动关闭
+            //offset: 'cb', //右下角弹出
+            //time: 2000, //2秒后自动关闭
             anim: 5,//动画
-            content: ['img', 'no'], //iframe的url，no代表不显示滚动条
+            content: imgHtml, //iframe的url，no代表不显示滚动条
         });
 
     }

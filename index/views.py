@@ -141,7 +141,9 @@ def index_my_mim(request):
 
 
 def child_view(request,app,info):
+    return render(request,'index/child.html',locals())
 
+def child_notice_view(request,app,info,id):
     return render(request,'index/child.html',locals())
 
 

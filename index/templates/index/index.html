@@ -248,7 +248,7 @@
 	    	   					<ul>
 									{% for notice in notice_list %}
 	    	   						<li title="{{ notice.title }}">
-										<a href="/notice/notice?id={{notice.id}}" target="_self" style="width: 220px;background-color: none">
+										<a href="/index/childapp=notice&info=notice&id={{notice.id}}" target="_self" style="width: 220px;background-color: none">
 		    								<b>{{ notice.title }}</b>
 		    							</a>
 	    	   						</li>

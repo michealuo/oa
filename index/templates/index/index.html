@@ -246,15 +246,19 @@
 	    	   注释去间隔 --><div class="scrollnews">
 	    	   					<span>WangID提醒您：</span>
 	    	   					<ul>
-	    	   						<li title="最新战报，章泽天 关晓彤 签名榜一个！2018-08-10 15:41:58">
-	    	   							最新战报，<b>章泽天 关晓彤</b> 签名榜一个！<i>2018-08-10 15:41:58</i>
+									{% for notice in notice_list %}
+	    	   						<li title="{{ notice.title }}">
+										<a href="/notice/notice?id={{notice.id}}" target="_self" style="width: 220px;background-color: none">
+		    								<b>{{ notice.title }}</b>
+		    							</a>
 	    	   						</li>
-	    	   						<li title="最新战报，章泽天 签名榜一个！2018-08-10 15:41:58">
-	    	   							最新战报，<b>章泽天</b> 签名榜一个！<i>2018-08-10 15:41:58</i>
-	    	   						</li>
-	    	   						<li title="最新战报，秋名山 签名榜一个！2018-08-10 15:41:58">
-	    	   							最新战报，<b>秋名山</b> 签名榜一个！<i>2018-08-10 15:41:58</i>
-	    	   						</li>
+									{% endfor %}
+<!--	    	   						<li title="最新战报，章泽天 签名榜一个！2018-08-10 15:41:58">-->
+<!--	    	   							最新战报，<b>章泽天</b> 签名榜一个！<i>2018-08-10 15:41:58</i>-->
+<!--	    	   						</li>-->
+<!--	    	   						<li title="最新战报，秋名山 签名榜一个！2018-08-10 15:41:58">-->
+<!--	    	   							最新战报，<b>秋名山</b> 签名榜一个！<i>2018-08-10 15:41:58</i>-->
+<!--	    	   						</li>-->
 	    	   					</ul>
 	    	   					<script type="text/javascript">
 	    	   						$(document).ready(function(){

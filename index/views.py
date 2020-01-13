@@ -10,6 +10,7 @@ from django.shortcuts import render
 from department.models import Position
 from new_project import settings
 from user.models import User, IpInfo
+from notice.models import Notice_list
 
 
 def logging_check(fn):
@@ -39,7 +40,8 @@ def logging_check(fn):
 
 @logging_check
 def index_views(request):
-    return render(request,'index/index.html')
+    notice_list = Notice_list.objects.all().order_by("-created_time")[:3]
+    return render(request,'index/index.html', locals())
 
 
 @logging_check
@@ -49,7 +51,6 @@ def index_first_view(request):
 
 @logging_check
 def index_view(request):
-
     return render(request,'index/index.html')
 
 @logging_check

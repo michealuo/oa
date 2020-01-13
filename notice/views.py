@@ -2,7 +2,6 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from index.views import logging_check
 from notice.models import Notice_list
-from user.models import User
 from management.models import Management
 from django.http import HttpResponseRedirect
 
@@ -58,6 +57,7 @@ def notice_add_view(request):
 def notice_view(request):
     # 当前公告内容显示
     id = request.GET.get("id")
+    print(id)
     try:
         notice = Notice_list.objects.get(id=id)
     except Exception as e:

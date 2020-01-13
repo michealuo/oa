@@ -14,7 +14,7 @@ class Management(models.Model):
     job_no = models.CharField('工号',max_length=16,null=True,default='')
     dep_name = models.CharField('部门名称',max_length=16,null=True,default='')
     position_name = models.CharField('部门职位',max_length=16,null=True,default='')
-    sex = models.CharField('男',max_length=2,null=True,default='男')
+    sex = models.CharField('男',max_length=2,null=True,default='')
     power = models.CharField('权限',max_length=2,null=True,default='')
     name = models.CharField('姓名',max_length=30,null=True,default='')
     username = models.CharField('账号',max_length=30)

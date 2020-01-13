@@ -44,8 +44,9 @@ input[readonly]{
             <p><i>温馨提示：</i>请认真核对员工信息正确无误后再确定添加，并上传员工的对应简历图片</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="">
-            <ul> 
+            <form class="layui-form layui-form-pane" action="/management/add_management" method="post" enctype="multipart/form-data">
+            <input type="text" name="id" value="{{management.id}}" style="display:none">
+                <ul>
                 <li>
                     <div class="left">账号：</div>
                     <div class="right"> 
@@ -59,7 +60,8 @@ input[readonly]{
                     <div class="left">姓名：</div>
                     
                     <div class="right"> 
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名"
+                               autocomplete="off" class="layui-input">
                     </div>
                 </li>
                 <li>
@@ -79,26 +81,28 @@ input[readonly]{
                 <li style="height: 38px; overflow:initial;">
                     <div class="left">部门：</div>
                     <div class="right"> 
-                        <select name="dep_name" lay-verify="">
-                            <option value="">请选择部门</option>
-                            <option value="010">技术部</option>
-                            <option value="021">人事部</option>
-                            <option value="0571">客服部</option>
-                            <option value="0571">营销部</option>
+                        <select name="dep_name" lay-verify=""  lay-filter="dep_name">
+                            <option value=""  >请选择部门</option>
+                            {% for item in department_list %}
+					            <option value="{{item.id}}">{{item.name}}</option>
+				            {% endfor %}
                         </select> 
                     </div>
                 </li>
-                <li>
+                <li style="height: 38px; overflow:initial;">
                     <div class="left">部门职位：</div>
                     <div class="right">
-                            <input type="text" name="title" required lay-verify="required" placeholder="请填写部门职位" autocomplete="off" class="layui-input">
+                    <select name="position_name" lay-verify="" lay-filter="position_name">
+                            <option value=""  >请先选择部门</option>
+
+                    </select>
                     </div>
                 </li>
 
                 <li>
                     <div class="left">图片：</div>
                     <div class="right">
-                            <input style="margin-top: 8px;" type="file">
+                            <input style="margin-top: 8px;" name="myfile" type="file" >
                     </div>
                 </li>
 
@@ -131,7 +135,43 @@ input[readonly]{
       ,layer = layui.layer
       ,layedit = layui.layedit
       ,laydate = layui.laydate;
-      //渲染select
-      form.render()
+      form.render();
+
+
+      form.on('select(dep_name)',function(data){
+          var dep_id = data.value;
+          $.ajax({
+            url:'/management/get_position',
+            type:'post',
+            dataType:'text',
+            contentType: 'application/json',
+            timeout:3000,
+            data:JSON.stringify({'dep_id':dep_id}),
+
+            success:function(data){
+
+                res = JSON.parse(data);
+                json = res['list'];
+                var html1 = '';
+                $.each(json,function(i){
+                    position_id = json[i]['pk']
+                    position_name = json[i]['fields']['name']
+                    html1 += "<option value = '"+ position_id +"'>" + position_name  + "</option>";
+                });
+                form.render();
+
+                $("select[name=position_name]").empty();
+                $("select[name=position_name]").append(html1);
+                form.render();
+
+            },
+            error:function () {
+
+                alert('获取职位失败');
+            }
+          });
+
+      })
     });
+
 </script>

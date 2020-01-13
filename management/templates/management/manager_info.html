@@ -39,10 +39,12 @@
 	<div class="shuaix">
 		<div class="left" style="margin-right:10px;">
 			<select style="height: 38px; overflow:initial;">
-				<option value="技术部">技术部</option>
-				<option value="客服部">客服部</option>
-				<option value="人事部">人事部</option>
-				<option value="营销部">营销部</option>
+				<option value=""  >请选择部门</option>
+
+				{% for item in department_list %}
+					<option value="{{item.id}}">{{item.name}}</option>
+				{% endfor %}
+
 			</select>
 		</div>
 		<div class="right">
@@ -64,6 +66,7 @@
 				<th lay-data="{field:'sex',align:'center',width:130}">性别</th>
                 <th lay-data="{field:'power',align:'center',minWidth:130}">权限</th>
 				<th lay-data="{field:'img',align:'center',minWidth:100}">简历图片</th>
+				<th lay-data="{field:'create_time',align:'center',minWidth:100}">入职时间</th>
 				<th lay-data="{field:'option',align:'center',width:130,toolbar:'#barDemo',fixed: 'right'}">操作</th>
 			</tr>
 		</thead>
@@ -79,8 +82,9 @@
                 <td>{{ item.job_no }}</td>
                 <td>{{ item.sex }}</td>
                 <td>{{ item.power }}</td>
-                <td>{{ item.img }}</td>
-                <td>{{ item.img }}</td>
+				<td><a href="#" class="jianl_list_img"
+					   onclick=" YuanG_IMG()"><img src="{{ item.img }}"></a></td>
+				<td>{{ item.create_time}} </td>
 			</tr>
 			{% endfor %}
 
@@ -104,6 +108,20 @@
 		if (power !== '1') {
 			$("#add_management").hide();
 		}
+
+
+		//捕获页
+		layer.open({
+			type: 1,
+			shade: false,
+			title: false, //不显示标题
+			//area:['600px','500px'],
+			area: [600+'px', 480+'px'],
+			content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+			cancel: function () {
+				//layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+			}
+		});
 	})
 
 	//静态表格
@@ -166,7 +184,7 @@
             // offset: 'rb', //右下角弹出
             // time: 2000, //2秒后自动关闭
             anim: 5,//动画
-            content: ['YuanGong_jl.html', 'no'], //iframe的url，no代表不显示滚动条
+            content: ['img', 'no'], //iframe的url，no代表不显示滚动条
         });
 
     }

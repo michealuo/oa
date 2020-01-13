@@ -132,10 +132,9 @@
 				$(function(){
 					var app = '{{app}}';
 					var info = '{{info}}';
-					var id = '{{id}}'
+					var id = '{{id}}';
 					var src = '/' + app + '/' + info;
 					if (id){
-						alert(id);
 						src += '?id=' + id;
 					}
 					$("#child_frame").attr('src',src);

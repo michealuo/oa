@@ -14,12 +14,13 @@ def notice_list(request):
         uid = request.session.get("uid")
         management = Management.objects.get(user_id=uid)
         all_notice = Notice_list.objects.all().order_by("-created_time")
-        paginator = Paginator(all_notice, 10)
-        # 获取当前页码
-        c_page = request.GET.get("page", 1)
-        # 初始化当前页的page对象
-        page = paginator.page(c_page)
-        return render(request, "notice/notice_list.html", locals())
+        # paginator = Paginator(all_notice, 10)
+        # # 获取当前页码
+        # c_page = request.GET.get("page", 1)
+        # # 初始化当前页的page对象
+        # page = paginator.page(c_page)
+        count = len(all_notice)
+        return render(request, "notice/list.html", locals())
     elif request.method == "POST":
         query = request.POST.get("query")
         all_notice = Notice_list.objects.all().order_by("-created_time")

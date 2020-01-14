@@ -54,7 +54,6 @@
 		<thead>
 			<tr>
 				<th lay-data="{type:'checkbox',fixed:'left'}"></th>
-				<th lay-data="{field:'id',hide:'true', align:'center',width:60}">id</th>
 				<th lay-data="{field:'dep_name', align:'center',width:100}">序号</th>
 				<th lay-data="{field:'username',align:'center', minWidth:600}">主题</th>
 				<th lay-data="{field:'job_no',align:'center',minWidth:130}">发布时间</th>
@@ -67,7 +66,6 @@
 		{% for notice in all_notice %}
 			<tr>
 				<td></td>
-				<td>{{ notice.id }}</td>
 				<td>{{ forloop.counter }}</td>
                 <td>
 					<a href="/notice/notice?id={{ notice.id }}">

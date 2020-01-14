@@ -1,13 +1,11 @@
 import os
-import socket
 
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
-from department.models import Position
 from management.models import Management
 from new_project import settings
 from user.models import User, IpInfo

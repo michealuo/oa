@@ -36,23 +36,34 @@
 		<span>公司员工列表</span>
 	</div>
 	<!-- 筛选 -->
-
-	<div class="shuaix">
-		<div class="left" style="margin-right:10px;">
-			<select style="height: 38px; overflow:initial;">
-				<option value=""  >请选择部门</option>
-
-				{% for item in department_list %}
-					<option value="{{item.id}}">{{item.name}}</option>
-				{% endfor %}
-
-			</select>
+	<form class="layui-form" action="">
+		<div class="layui-inline">
+			<label class="layui-form-label">年级</label>
+			<div class="layui-input-inline">
+				<input type="text" id="grade" name="grade" placeholder="请选择年级"
+					autocomplete="off" class="layui-input">
+			</div>
 		</div>
-		<div class="right">
-			<input type="text" placeholder="请输入关键词查询">
-			<a href="#">查询</a>
+		<div class="layui-inline">
+			<label class="layui-form-label">专业</label>
+			<div class="layui-input-inline">
+				<select name="majorid" id="majorid">
+					<option value="">请选择</option>
+				</select>
+			</div>
 		</div>
-	</div>
+		<div class="layui-inline">
+			<div class="layui-input-inline">
+				<button class="layui-btn" id="searchBtn" lay-submit
+					lay-filter="formDemo" data-type="reload" style="margin-left: 15px">
+					<i class="layui-icon layui-icon-search"></i> 查询
+				</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+
+
 	<!-- 下面写内容 -->
 	<table class="layui-table" lay-filter="mylist" lay-size="lg">
 		<thead>
@@ -113,6 +124,14 @@
 
 
 	})
+	layui.use(['form', 'layedit', 'laydate'], function(){
+      var form = layui.form
+      ,layer = layui.layer
+      ,layedit = layui.layedit
+      ,laydate = layui.laydate;
+      form.render()
+
+    });
 
 	//静态表格
     layui.use('table',function(){

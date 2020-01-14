@@ -8,6 +8,7 @@ from django.shortcuts import render
 # Create your views here.
 # 检查登录装饰器
 from department.models import Position
+from management.models import Management
 from new_project import settings
 from user.models import User, IpInfo
 from notice.models import Notice_list
@@ -40,6 +41,8 @@ def logging_check(fn):
 
 @logging_check
 def index_views(request):
+    username = request.session.get("username")
+    management = Management.objects.get(username=username)
     notice_list = Notice_list.objects.all().order_by("-created_time")[:3]
     return render(request,'index/index.html', locals())
 
@@ -51,7 +54,9 @@ def index_first_view(request):
 
 @logging_check
 def index_view(request):
-    return render(request,'index/index.html')
+    username = request.session.get("username")
+    management = Management.objects.get(username=username)
+    return render(request,'index/index.html',locals())
 
 @logging_check
 def daily_mykh_view(request):

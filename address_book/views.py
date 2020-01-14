@@ -13,11 +13,7 @@ def address_book_list(request):
         for user in users:
             if user.create_time:
                 all_user.append(user)
-        paginator = Paginator(all_user, 10)
-        # 获取当前页码
-        c_page = request.GET.get("page", 1)
-        # 初始化当前页的page对象
-        page = paginator.page(c_page)
+        count = len(all_user)
         return render(request, "address_book/YuanGonglist.html", locals())
     elif request.method == "POST":
         department = request.POST.get("department")
@@ -25,19 +21,15 @@ def address_book_list(request):
         if not query and not department:
             return HttpResponseRedirect("/address_book/list")
         elif query and not department:
-            users = Management.objects.filter(name=query)
-            if not users:
-                users = Management.objects.filter(phone=query)
+            all_user = Management.objects.filter(name=query)
+            if not all_user:
+                all_user = Management.objects.filter(phone=query)
         elif not query and department:
-            users = Management.objects.filter(dep_name=department)
+            all_user = Management.objects.filter(dep_name=department)
         else:
-            users = Management.objects.filter(name=query, dep_name=department)
-            if not users:
-                users = Management.objects.filter(phone=query, dep_name=department)
-        paginator = Paginator(users, 10)
-        # 获取当前页码
-        c_page = request.GET.get("page", 1)
-        # 初始化当前页的page对象
-        page = paginator.page(c_page)
+            all_user = Management.objects.filter(name=query, dep_name=department)
+            if not all_user:
+                all_user = Management.objects.filter(phone=query, dep_name=department)
+        count = len(all_user)
         return render(request, "address_book/YuanGonglist.html", locals())
 

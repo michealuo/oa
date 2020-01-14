@@ -1,14 +1,11 @@
 import os
-import socket
 
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 # 检查登录装饰器
-from common.Tools import getTimeStamp
-from department.models import Position
 from management.models import Management
 from new_project import settings
 from user.models import User, IpInfo
@@ -96,19 +93,19 @@ def index_my_ip(request):
         page = paginator.page(c_page)
         return render(request, "index/My_IP.html", locals())
 
-# @logging_check
-# def index_my_bj(request):
-#     if request.method == 'GET':
-#         return render(request, 'index/My_BJ.html')
-#     if request.method == 'POST':
-#         # 处理数据
-#         file = request.FILES['myfile']
-#         filename = os.path.join(settings.MEDIA_ROOT, file.name)
-#         with open(filename, 'wb') as f:
-#             data = file.file.read()
-#             f.write(data)
-#
-#     return render(request,'index/My_BJ.html',locals())
+@logging_check
+def index_my_bj(request):
+    if request.method == 'GET':
+        return render(request, 'index/My_BJ.html')
+    if request.method == 'POST':
+        # 处理数据
+        file = request.FILES['myfile']
+        filename = os.path.join(settings.MEDIA_ROOT, file.name)
+        with open(filename, 'wb') as f:
+            data = file.file.read()
+            f.write(data)
+
+    return render(request,'index/My_BJ.html',locals())
 
 @logging_check
 def index_my_mim(request):

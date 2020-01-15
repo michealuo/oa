@@ -1,5 +1,6 @@
 import socket
 
+from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import render
 
@@ -130,13 +131,6 @@ def save_host_ip(uname):
     IpInfo.save(user_ip_info)
 
 
-
-
-
-
-
-
-
 def logout(request):
     # 登出
     # 删除 session
@@ -153,5 +147,28 @@ def logout(request):
     return resp
 
 
+def findpwd(request):
 
+
+    return render(request,"user/findpwd.html")
+
+
+
+def email(request):
+    number = 1234
+    try:
+        subject = "大内高手办公系统验证邮件"
+        html_message = """
+            <p>尊敬的用户 您好</p>
+            <p>您的验证码为%s</p>
+            """ % (number)
+        print("---send email ok---")
+        send_mail(subject=subject,
+                  html_message=html_message,
+                  from_email="1075516784@qq.com",
+                  recipient_list=['1075516784@qq.com'],
+                  message="")
+    except Exception as e:
+        print("---send email error---")
+        print(e)
 

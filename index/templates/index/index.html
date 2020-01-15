@@ -57,12 +57,12 @@
 	    <div class="content_box">
 	    	<div class="left_box">
 	    		<div class="head">
-	    			<i><img src="/static/imgs/head.jpg" /></i><!-- 注释去间隔
+	    			<i><img src="{{management.img}}" /></i><!-- 注释去间隔
 	    	     --><dl>
-	    				<dd><b>姓名：</b>关晓彤</dd>
-	    				<dd><b>部门：</b>技术部</dd>
-	    				<dd><b>职务：</b>设计师</dd>
-	    				<dd><b>工号：</b>1688900</dd>
+	    				<dd><b>姓名：</b>{{management.name}}</dd>
+	    				<dd><b>部门：</b>{{management.dep_name}}</dd>
+	    				<dd><b>职务：</b>{{management.position_name}}</dd>
+	    				<dd><b>工号：</b>{{management.job_no}}</dd>
 	    			</dl>
 	    		</div>
 	    		<div class="menu" id="style-3">
@@ -106,8 +106,7 @@
 		    				</h2>
 	    					<dl>
 	    						<dd><a href="/index/childapp=department&info=list">部门管理</a></dd>
-	    						<dd><a href="/index/childapp=management&info=list">员工查询</a></dd>
-	    						<dd><a href="child.html">员工入职</a></dd>
+	    						<dd><a href="/index/childapp=management&info=list">员工管理</a></dd>
 	    					</dl>
 	    				</li>
 	    				<li>
@@ -120,7 +119,7 @@
 	    						<dd><a href="/index/childapp=index&info=my_ip" >IP锁定</a></dd>
 	    						<dd><a href="/index/childapp=index&info=my_info" >个人信息</a></dd>
 	    						<dd><a href="/index/childapp=index&info=my_mim">密码修改</a></dd>
-	    						<dd><a href="/index/childapp=index&info=my_bj">背景设置</a></dd>
+<!--	    						<dd><a href="/index/childapp=index&info=my_bj">背景设置</a></dd>-->
 	    					</dl>
 	    				</li>
 						<li>
@@ -248,7 +247,7 @@
 	    	   					<ul>
 									{% for notice in notice_list %}
 	    	   						<li title="{{ notice.title }}">
-										<a href="/notice/notice?id={{notice.id}}" target="_self" style="width: 220px;background-color: none">
+										<a href="/index/childapp=notice&info=notice&id={{notice.id}}" target="_self" style="width: 220px">
 		    								<b>{{ notice.title }}</b>
 		    							</a>
 	    	   						</li>
@@ -370,10 +369,10 @@
 	    						<div>
 		    						<ul>
 		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
+		    								<i><img src="{{management.img}}"></i>
 		    								<dl>
-		    									<dt>章泽天</dt>
-		    									<dd>所属分区：营销1区</dd>
+		    									<dt>{{management.name}}</dt>
+		    									<dd>所属部门：{{management.dep_name}}</dd>
 		    								</dl>
 		    								<b><img src="/static/imgs/honor_1.png"></b>
 		    							</li>

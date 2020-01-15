@@ -100,7 +100,7 @@
 							<dd><a href="/index/my_ip" target="main_self_frame">IP锁定</a></dd>
 							<dd><a href="/index/my_info" target="main_self_frame">个人信息</a></dd>
 							<dd><a href="/index/my_mim" target="main_self_frame">修改密码</a>
-							<dd><a href="/index/my_bj" target="main_self_frame">背景设置</a></dd>
+<!--							<dd><a href="/index/my_bj" target="main_self_frame">背景设置</a></dd>-->
 						</dl>
 					</li>
 							<li class="layui-nav-item">
@@ -132,7 +132,11 @@
 				$(function(){
 					var app = '{{app}}';
 					var info = '{{info}}';
+					var id = '{{id}}';
 					var src = '/' + app + '/' + info;
+					if (id){
+						src += '?id=' + id;
+					}
 					$("#child_frame").attr('src',src);
 
 

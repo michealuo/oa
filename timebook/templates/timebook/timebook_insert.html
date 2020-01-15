@@ -32,104 +32,39 @@
 		<a href="/index/index">首页</a>
 		<a>员工管理</a>
 		<span>考勤记录</span>
-	</div>
-	<!-- 筛选 --> 
-	<div class="shuaix">
-<!--		<div class="left" style="margin-right:10px;"> -->
-<!--			<input type="date" id="text1" placeholder="请选择月份">-->
+    </div>
 
-<!--		</div> -->
-		<div class="right">
-			<form action="#" method="post">
-				<input type="date" id="time1" name="date">
+	<div class="wenxts_ke">
+            <p><i>温馨提示：</i>请认真核对员工信息正确无误后再确定添加，并上传员工的对应简历图片</p>
+        </div>
+        <div>
+            <form  action="/timebook/insert" method="post" enctype="multipart/form-data">
+                <div >姓名:<input type="text" placeholder=""></div>
+                <div >日期:<input type="date"></div>
+                <div > 出勤:<select name="present" id="">
+                <option value="">正常</option>
+                <option value="">缺勤</option>
+                <option value="">迟到</option>
+                <option value="">早退</option>
+                <option value="">病假</option>
+            </select></div>
 
-				<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按天查找">
-			</form>
-
-		</div>
-		<div class="right">
-			<form action="/timebook/month" method="get">
-			<input type="month" name="month" />
-			<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按月查找">
-			</form>
-		</div>
-	</div>
-	<!-- 下面写内容 -->
-	{% if timebooks %}
-	<table class="layui-table" lay-filter="mylist" lay-size="lg">
-
-		<thead>
-			<tr>
-				<th lay-data="{field:'yx', align:'center',width:200}">日期</th>
-				<th lay-data="{field:'time',align:'center', minWidth:100}">正常</th>
-				<th lay-data="{field:'user',align:'center',width:100}">旷工</th>
-				<th lay-data="{field:'tel',align:'center',width:100}">请假</th>
-				<th lay-data="{field:'www',align:'center',minWidth:100}">迟到</th>
-				<th lay-data="{field:'company',align:'center',minWidth:100}">早退</th>
-				<th lay-data="{field:'result',align:'center',minWidth:300}">备注</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			{%	for timebook in timebooks %}
-			<tr>
-				<td>{{timebook.date}}</td>
-				{% if timebook.is_commen %}
-				<td><img src="/static/images/yes.png" alt="yes"></td>
-				{% else %}
-				<td></td>
-				{% endif %}
-
-				{% if timebook.is_absent %}
-				<td><img src="/static/images/yes.png" alt=""></td>
-				{% else %}
-				<td></td>
-				{% endif %}
-
-				{% if timebook.is_leave %}
-				<td><img src="/static/images/yes.png" alt=""></td>
-				{% else %}
-				<td></td>
-				{% endif %}
-
-				{% if timebook.is_late %}
-				<td><img src="/static/images/yes.png" alt=""></td>
-				{% else %}
-				<td></td>
-				{% endif %}
-
-				{% if timebook.is_leave_early %}
-				<td><img src="/static/images/yes.png" alt=""></td>
-				{% else %}
-				<td></td>
-				{% endif %}
-
-
-
-
-				<td>{{timebook.comment}}</td>
-			</tr>
-			{% endfor %}
-
-		</tbody>  
-	</table>
-	{% else %}
-		<div style="text-align: center;line-height: 500px;font-size:30px"><b>暂无数据</b></div>
-	{% endif %}
-
-</div>
-<script>
-	$(function () {
-
-	})
-
-</script>
+                <div>备注:
+                    <textarea name="comment" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="提交">
+                </div>
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
 
 <script type="text/html" id="toolbarDemo">
-	<div class="layui-btn-container"> 
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">删除</button> 
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">删除</button>
 	</div>
-</script> 
+</script>
 <script type="text/javascript">
 	//静态表格
     layui.use('table',function(){
@@ -144,7 +79,7 @@
 		  ,defaultToolbar:['filter', 'exports']
 		  ,limits:[10, 20, 30, 40, 50]//分页显示每页条目下拉选择
 		  ,cellMinWidth: 60//定义全局最小单元格宽度，其余自动分配宽度
-		}); 
+		});
 		//监听行工具事件
 		table.on('tool(mylist)', function(obj){ //注：tool 是工具条事件名，mylist 是 table 原始容器的属性 lay-filter="对应的值"
 			var data = obj.data //获得当前行数据
@@ -158,12 +93,12 @@
 			} else if(layEvent === 'edit'){
 			    layer.msg('修改操作');
 			}
-		}); 
+		});
 		 //监听头工具栏事件
 		 table.on('toolbar(mylist)', function(obj){
                 var checkStatus = table.checkStatus(obj.config.id)
-                ,data = checkStatus.data; //获取选中的数据 
-                switch(obj.event){  
+                ,data = checkStatus.data; //获取选中的数据
+                switch(obj.event){
                 case 'getCheckLength':
                     if(data.length === 0){
                     layer.msg('请选择一行');
@@ -172,11 +107,11 @@
                     }
                 break;
                 }
-            }); 
-	}); 
+            });
+	});
 	  //  iframe层  详情信息
     function YuanG_IMG(){
-        //iframe层 
+        //iframe层
         layer.open({
             type: 2,//层类型
             title: "简历图片",//标题
@@ -189,10 +124,10 @@
             // time: 2000, //2秒后自动关闭
             anim: 5,//动画
             content: ['YuanGong_jl.html', 'no'] //iframe的url，no代表不显示滚动条
-        }); 
-        
+        });
+
     }
-</script> 
+</script>
 
 </body>
 <script>

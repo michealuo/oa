@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import re
 import time
 
 from django.core import serializers
@@ -21,12 +22,18 @@ def management_list(request):
     user = User.objects.filter(username = username)[0]
     management = Management.objects.filter(user = user)[0]
     #管理员权限能帮员工入职(看到所有员工),非管理只能看到入职的员工（有工号）
-    department_list = Department.objects.all()
+    # 查询部门
+    position_list = Position.objects.values('department').distinct()
+    ids = []
+    for i in position_list:
+        ids.append(i['department'])
+    department_list = Department.objects.filter(id__in=ids)
+
     if management.power == '1':
         power = '1'
-        management_list = Management.objects.all()
+        management_list = Management.objects.all().order_by('job_no')
     else:
-        management_list = Management.objects.filter(~Q(job_no = ''))
+        management_list = Management.objects.filter(~Q(job_no = '')).order_by('job_no')
     # 分页
     count = len(management_list)
     return render(request,'management/manager_info.html',locals())
@@ -95,9 +102,9 @@ def add_management(request):
         department_list = Department.objects.all()
         if management.power == '1':
             power = '1'
-            management_list = Management.objects.all()
+            management_list = Management.objects.all().order_by('job_no')
         else:
-            management_list = Management.objects.filter(~Q(job_no=''))
+            management_list = Management.objects.filter(~Q(job_no='')).order_by('job_no')
         # 分页
         count = len(management_list)
         return render(request, 'management/manager_info.html', locals())
@@ -137,7 +144,6 @@ def update_management(request):
         management.job_no = job_no
         #部门
         dep_id = request.POST.get('dep_name')
-        print(dep_id, '=====')
         dep = Department.objects.get(id = dep_id)
         management.department_id = dep_id
         management.dep_name = dep.name
@@ -167,9 +173,9 @@ def update_management(request):
         department_list = Department.objects.all()
         if management.power == '1':
             power = '1'
-            management_list = Management.objects.all()
+            management_list = Management.objects.all().order_by('job_no')
         else:
-            management_list = Management.objects.filter(~Q(job_no=''))
+            management_list = Management.objects.filter(~Q(job_no='')).order_by('job_no')
         # 分页
         count = len(management_list)
         return render(request, 'management/manager_info.html', locals())
@@ -179,9 +185,14 @@ def get_position(request):
     # 获取传入数据
     received_json_data = json.loads(request.body)
     dep_id = received_json_data['dep_id']
-    department = Department.objects.get(id=dep_id)
     data = {}
-    position_list = Position.objects.filter(department=department)
+    if dep_id:
+        department = Department.objects.get(id=dep_id)
+
+        position_list = Position.objects.filter(department=department)
+    else:
+        position_list = Position.objects.all()
+
     data['list'] = json.loads(serializers.serialize("json", position_list))
     return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})
 def delete_management(request):
@@ -199,9 +210,61 @@ def delete_management(request):
     department_list = Department.objects.all()
     if management.power == '1':
         power = '1'
-        management_list = Management.objects.all()
+        management_list = Management.objects.all().order_by('job_no')
     else:
-        management_list = Management.objects.filter(~Q(job_no=''))
+        management_list = Management.objects.filter(~Q(job_no='')).order_by('job_no')
     #分页
     count = len(management_list)
     return render(request, 'management/manager_info.html', locals())
+
+def search_management(request):
+    #获取用户名
+    username = request.session.get("username")
+    user = User.objects.filter(username = username)[0]
+    management = Management.objects.filter(user = user)[0]
+
+    # 管理员权限能帮员工入职(看到所有员工),非管理只能看到入职的员工（有工号）
+    if management.power == '1':
+        power = '1'
+        management_list = Management.objects.all()
+    else:
+        management_list = Management.objects.filter(~Q(job_no=''))
+    # 设置字典传入filter
+    search_dict = {}
+    name = request.POST.get('name')
+    job_no = request.POST.get('job_no')
+    start_time = request.POST.get('start_time')
+    end_time = request.POST.get('end_time')
+    dep_id = request.POST.get('dep_name')
+    position_id = request.POST.get('position_name')
+
+    if name:
+        search_dict['name__startswith'] = name
+    if job_no:
+        search_dict['job_no__startswith'] = job_no
+    if start_time:
+        res = re.findall(r'(\d*)年(\d*)月(\d*)日',start_time)[0]
+        start_date =  datetime.date(int(res[0]), int(res[1]), int(res[2]))
+        search_dict['create_time__gte'] = start_date
+    if end_time:
+        res = re.findall(r'(\d*)年(\d*)月(\d*)日',end_time)[0]
+        end_data =  datetime.date(int(res[0]), int(res[1]), int(res[2]) + 1)
+        search_dict['create_time__lt'] = end_data
+    if dep_id:
+        search_dict['department'] = dep_id
+        dep_name = Department.objects.get(id=dep_id).name
+    if position_id:
+        search_dict['position'] = position_id
+        position_name = Position.objects.get(id=position_id).name
+    management_list = management_list.filter(**search_dict).order_by('job_no')
+
+    #查询部门
+    position_list = Position.objects.values('department').distinct()
+    ids = []
+    for i in position_list:
+        ids.append(i['department'])
+    department_list = Department.objects.filter(id__in=ids)
+
+    # 分页
+    count = len(management_list)
+    return render(request,'management/manager_info.html',locals())

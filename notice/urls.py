@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^notice_update$', views.notice_update_view),
     url(r'^notice_delete$', views.notice_delete_view),
     url(r'^notice$', views.notice_view),
+    url(r'^notice?id=\d+$', views.notice_view),
 ]

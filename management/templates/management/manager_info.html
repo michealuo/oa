@@ -36,23 +36,77 @@
 		<span>公司员工列表</span>
 	</div>
 	<!-- 筛选 -->
+	<form class="layui-form" action="/management/search" method="post">
+		<div class="layui-form-item">
 
-	<div class="shuaix">
-		<div class="left" style="margin-right:10px;">
-			<select style="height: 38px; overflow:initial;">
-				<option value=""  >请选择部门</option>
 
-				{% for item in department_list %}
-					<option value="{{item.id}}">{{item.name}}</option>
-				{% endfor %}
+    <div class="layui-inline">
+      <label class="layui-form-label">员工姓名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="name" value="{{name}}"  lay-verify="" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label">员工工号</label>
+      <div class="layui-input-inline">
+        <input type="text" name="job_no" value="{{job_no}}" lay-verify="" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+  </div>
 
-			</select>
-		</div>
-		<div class="right">
-			<input type="text" placeholder="请输入关键词查询">
-			<a href="#">查询</a>
-		</div>
+  <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">开始日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="start_time" id="start_time" value="{{start_time}}" lay-verify="" placeholder="yyyy-MM-dd"
+			   autocomplete="off"
+			   class="layui-input">
+      </div>
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label">截止日期</label>
+      <div class="layui-input-inline">
+        <input type="text" name="end_time" id="end_time" value="{{end_time}}" lay-verify=""
+			   placeholder="yyyy-MM-dd" autocomplete="off"
+			   class="layui-input">
+      </div>
+    </div>
+	  <div class="layui-inline">
+      <label class="layui-form-label">部门</label>
+      <div class="layui-input-inline">
+        <select name="dep_name" lay-verify=""  lay-filter="dep_name">
+                            <option value="{{dep_id}}" id= "dep_name" >{{dep_name}}</option>
+                            {% for item in department_list %}
+					            <option value="{{item.id}}">{{item.name}}</option>
+				            {% endfor %}
+                        </select>
+      </div>
+    </div>
+			 <div class="layui-inline">
+      <label class="layui-form-label">职位</label>
+      <div class="layui-input-inline">
+        <select name="position_name" lay-verify="" lay-filter="position_name">
+                            <option value="{{position_id}}"  id = "position_name" >{{position_name}}</option>
+
+		</select>
+      </div>
+    </div>
+  <div class="layui-inline">
+		<div class="layui-input-inline">
+			<button class="layui-btn" id="searchBtn" lay-submit
+				lay-filter="formDemo" data-type="reload" style="margin-left: 15px">
+				<i class="layui-icon layui-icon-search"></i> 查询
+			</button>
+			</div>
 	</div>
+
+
+  </div>
+
+
+	</form>
+
+
 	<!-- 下面写内容 -->
 	<table class="layui-table" lay-filter="mylist" lay-size="lg">
 		<thead>
@@ -106,13 +160,115 @@
 	$(function(){
 		var power = '{{power}}';
 
+		var end_time = '{{end_time}}'
+
 		if (power !== '1') {
 			$("#add_management").hide();
+		}
+
+		if(!end_time){
+			var myDate = new Date();
+			year = myDate.getFullYear();
+			month = myDate.getMonth() + 1;
+			day = myDate.getDate();
+			//$("#end_time").val(year+'年'+month+'月'+day+'日');
 		}
 
 
 
 	})
+	layui.use(['form', 'layedit', 'laydate'], function(){
+      var form = layui.form
+      ,layer = layui.layer
+      ,layedit = layui.layedit
+      ,laydate = layui.laydate;
+      laydate.render({
+					elem: '#start_time', //指定元素
+
+					format: 'yyyy年MM月dd日',
+					done: function(start_time, date, endDate){//控件选择完毕后的回调---点击日期、清空、现在、确定均会触发。
+						end_time = $("#end_time").val();
+						if(start_time>end_time && end_time != ''){
+
+							layui.layer.msg('开始时间必须小于结束时间')
+							$("#start_time").val('');
+						}
+					}
+	 });
+	 laydate.render({
+					elem: '#end_time', //指定元素
+
+					format: 'yyyy年MM月dd日',
+					done: function(end_time, date, endDate){//控件选择完毕后的回调---点击日期、清空、现在、确定均会触发。
+						start_time = $("#start_time").val();
+						if(start_time>end_time){
+							layui.layer.msg('结束时间必须大于开始时间')
+							$("#end_time").val('');
+						}
+					}
+
+
+	 });
+	 	var position_name = '{{position_name}}';
+		var dep_name = '{{dep_name}}';
+		if (dep_name) {
+
+			var html1 = "<option value = ''>所有部门</option>";
+
+
+			$("select[name=dep_name]").append(html1);
+		}
+		if (position_name) {
+
+			var html1 = "<option value = ''>所有职位</option>";
+
+
+			$("select[name=position_name]").append(html1);
+		}
+
+
+
+
+      form.render();
+
+      form.on('select(dep_name)',function(data){
+          var dep_id = data.value;
+          $.ajax({
+				url:'/management/get_position',
+				type:'post',
+				dataType:'text',
+				contentType: 'application/json',
+				timeout:3000,
+				data:JSON.stringify({'dep_id':dep_id}),
+
+				success:function(data){
+
+					res = JSON.parse(data);
+					json = res['list'];
+					var html1 = '';
+					$.each(json,function(i){
+						position_id = json[i]['pk']
+						position_name = json[i]['fields']['name']
+						html1 += "<option value = '"+ position_id +"'>" + position_name  + "</option>";
+					});
+					html1 += "<option value = ''>所有职位</option>";
+
+					form.render();
+
+					$("select[name=position_name]").empty();
+					$("select[name=position_name]").append(html1);
+					form.render();
+
+				},
+				error:function () {
+
+					alert('获取职位失败');
+				}
+          });
+
+      });
+
+    });
 
 	//静态表格
     layui.use('table',function(){

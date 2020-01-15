@@ -14,26 +14,16 @@ def notice_list(request):
         uid = request.session.get("uid")
         management = Management.objects.get(user_id=uid)
         all_notice = Notice_list.objects.all().order_by("-created_time")
-        paginator = Paginator(all_notice, 10)
-        # 获取当前页码
-        c_page = request.GET.get("page", 1)
-        # 初始化当前页的page对象
-        page = paginator.page(c_page)
+        count = len(all_notice)
         return render(request, "notice/notice_list.html", locals())
     elif request.method == "POST":
+        uid = request.session.get("uid")
+        management = Management.objects.get(user_id=uid)
         query = request.POST.get("query")
-        all_notice = Notice_list.objects.all().order_by("-created_time")
         if not query:
             return HttpResponseRedirect("/notice/list")
-        query_list = []
-        for notice in all_notice:
-            if query in notice.title:
-                query_list.append(notice)
-        paginator = Paginator(query_list, 10)
-        # 获取当前页码
-        c_page = request.GET.get("page", 1)
-        # 初始化当前页的page对象
-        page = paginator.page(c_page)
+        all_notice = Notice_list.objects.filter(title__contains=query)
+        count = len(all_notice)
         return render(request, "notice/notice_list.html", locals())
 
 
@@ -57,7 +47,6 @@ def notice_add_view(request):
 def notice_view(request):
     # 当前公告内容显示
     id = request.GET.get("id")
-    print(id)
     try:
         notice = Notice_list.objects.get(id=id)
     except Exception as e:
@@ -74,7 +63,7 @@ def notice_update_view(request):
             notice = Notice_list.objects.get(id=id)
         except Exception as e:
             print(e)
-        return HttpResponseRedirect("/notice/list")
+        return render(request, "notice/notice_update.html", locals())
     elif request.method == "POST":
         id = request.GET.get("id")
         try:

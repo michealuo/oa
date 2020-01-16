@@ -1,3 +1,4 @@
+import random
 import socket
 
 from django.core.mail import send_mail
@@ -147,28 +148,69 @@ def logout(request):
     return resp
 
 
+
 def findpwd(request):
+    global number
+    if request.method == 'GET':
+        # 获取页面
+        return render(request, 'user/findpwd.html')
+    elif request.method == 'POST':
+        # 处理注册请求
+        username = request.POST.get('username')
+        password_1 = request.POST.get('password_1')
+        password_2 = request.POST.get('password_2')
+        email = request.POST.get('email')
+        code = request.POST.get('code')
+        # 判断username是否已经被注册
+        users = User.objects.get(username=username)
+        if int(code) != number:
+            msg = '验证码错误'
+            return render(request, 'user/findpwd.html', locals())
 
 
-    return render(request,"user/findpwd.html")
+        if not users:
+            # 用户名已注册
+            msg = '用户名错误'
+            return render(request, 'user/findpwd.html', locals())
+
+        if password_1 != password_2:
+            # 两次密码不一致
+            msg = '两次密码不一致'
+            return render(request, 'user/findpwd.html', locals())
+
+        # hash md5 加密明文密码
+        import hashlib
+        m = hashlib.md5()
+        m.update(password_1.encode())
+        password = m.hexdigest()
+        users.password = password
+        users.save()
+        # 注册成功
+        # resp = HttpResponseRedirect('/user/login')
+        # resp.set_cookie('username', username, 3600 * 24)
+        # resp.set_cookie('uid', user.id, 3600 * 24)
+        return render(request,'user/login.html')
 
 
 
 def email(request):
-    number = 1234
-    try:
-        subject = "大内高手办公系统验证邮件"
-        html_message = """
-            <p>尊敬的用户 您好</p>
-            <p>您的验证码为%s</p>
-            """ % (number)
-        print("---send email ok---")
-        send_mail(subject=subject,
-                  html_message=html_message,
-                  from_email="1075516784@qq.com",
-                  recipient_list=['1075516784@qq.com'],
-                  message="")
-    except Exception as e:
-        print("---send email error---")
-        print(e)
+    global number
+    if request.method == "POST":
+        number = random.randint(1000,9999)
+        try:
+            subject = "大内高手办公系统验证邮件"
+            html_message = """
+                <p>尊敬的用户 您好</p>
+                <p>您的验证码为%s</p>
+                """ % (number)
+            print("---send email ok---")
+            email = request.POST.get("email")
+            send_mail(subject=subject,
+                      html_message=html_message,
+                      from_email="1075516784@qq.com",
+                      recipient_list=[email],
+                      message="")
+        except Exception as e:
+            print("---send email error---")
+            print(e)
 

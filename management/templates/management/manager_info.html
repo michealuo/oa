@@ -75,10 +75,7 @@
       <label class="layui-form-label">部门</label>
       <div class="layui-input-inline">
         <select name="dep_name" lay-verify=""  lay-filter="dep_name">
-                            <option value="{{dep_id}}" id= "dep_name" >{{dep_name}}</option>
-                            {% for item in department_list %}
-					            <option value="{{item.id}}">{{item.name}}</option>
-				            {% endfor %}
+
                         </select>
       </div>
     </div>
@@ -86,7 +83,6 @@
       <label class="layui-form-label">职位</label>
       <div class="layui-input-inline">
         <select name="position_name" lay-verify="" lay-filter="position_name">
-                            <option value="{{position_id}}"  id = "position_name" >{{position_name}}</option>
 
 		</select>
       </div>
@@ -121,8 +117,10 @@
 				<th lay-data="{field:'sex',align:'center',width:130}">性别</th>
                 <th lay-data="{field:'power',align:'center',minWidth:130}">权限</th>
 				<th lay-data="{field:'img',align:'center',minWidth:100}">简历图片</th>
-				<th lay-data="{field:'create_time',align:'center',minWidth:100}">入职时间</th>
+				<th lay-data="{field:'create_time',align:'center',minWidth:260}">入职时间</th>
+				{% if power == '1' %}
 				<th lay-data="{field:'option',align:'center',width:130,toolbar:'#barDemo',fixed: 'right'}">操作</th>
+				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
@@ -146,8 +144,10 @@
 		</tbody>
 	</table>
 	<script type="text/html" id="barDemo">
+		{% if power == '1' %}
 		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		{% endif %}
 	</script>
 </div>
 <script type="text/html" id="toolbarDemo">
@@ -163,6 +163,7 @@
 		var end_time = '{{end_time}}'
 
 		if (power !== '1') {
+			$("#add_management").hide();
 			$("#add_management").hide();
 		}
 
@@ -209,23 +210,72 @@
 
 
 	 });
-	 	var position_name = '{{position_name}}';
-		var dep_name = '{{dep_name}}';
-		if (dep_name) {
+	 	var pos_id = '{{position_id}}';
+		var dep_id = '{{dep_id}}';
 
-			var html1 = "<option value = ''>所有部门</option>";
+		$.ajax({
+			url:'/management/get_position',
+			type:'post',
+			dataType:'text',
+			contentType: 'application/json',
+			timeout:3000,
+			data:JSON.stringify({'dep_id':dep_id}),
+
+			success:function(data){
+
+				res = JSON.parse(data);
+				position = res['position'];
+				department = res['department'];
+				var html0 = '';
+				$.each(department,function(i){
+
+					department_id = department[i]['pk']
+					department_name = department[i]['fields']['name']
+					if (department_id == dep_id){
+						html1 += "<option value = '"+ department_id +"'>" + department_name  + "</option>";
+					}
+				});
+				html1 += "<option value = ''>所有部门</option>";
+				$.each(department,function(i){
+
+					department_id = department[i]['pk']
+					department_name = department[i]['fields']['name']
+					if (department_id != dep_id){
+						html1 += "<option value = '"+ department_id +"'>" + department_name  + "</option>";
+					}
+				});
+
+				$("select[name=dep_name]").empty();
+				$("select[name=dep_name]").append(html1);
 
 
-			$("select[name=dep_name]").append(html1);
-		}
-		if (position_name) {
+				var html1 = '';
+				$.each(position,function(i){
+					position_id = position[i]['pk']
+					position_name = position[i]['fields']['name']
+					if (position_id == pos_id){
+						html1 += "<option value = '"+ position_id +"'>" + position_name  + "</option>";
+					}
+				});
+				html1 += "<option value = ''>所有职位</option>";
+				$.each(position,function(i){
+					position_id = position[i]['pk']
+					position_name = position[i]['fields']['name']
+					if (position_id != pos_id){
+						html1 += "<option value = '"+ position_id +"'>" + position_name  + "</option>";
+					}
+				});
 
-			var html1 = "<option value = ''>所有职位</option>";
+				$("select[name=position_name]").empty();
+				$("select[name=position_name]").append(html1);
+				form.render();
 
+			},
+			error:function () {
 
-			$("select[name=position_name]").append(html1);
-		}
-
+				alert('获取职位失败');
+			}
+		});
 
 
 
@@ -244,14 +294,15 @@
 				success:function(data){
 
 					res = JSON.parse(data);
-					json = res['list'];
+					json = res['position'];
 					var html1 = '';
+					html1 += "<option value = ''>所有职位</option>";
 					$.each(json,function(i){
 						position_id = json[i]['pk']
 						position_name = json[i]['fields']['name']
 						html1 += "<option value = '"+ position_id +"'>" + position_name  + "</option>";
 					});
-					html1 += "<option value = ''>所有职位</option>";
+
 
 					form.render();
 

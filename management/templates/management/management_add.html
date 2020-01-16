@@ -151,7 +151,7 @@ input[readonly]{
             success:function(data){
 
                 res = JSON.parse(data);
-                json = res['list'];
+                json = res['position'];
                 var html1 = '';
                 $.each(json,function(i){
                     position_id = json[i]['pk']

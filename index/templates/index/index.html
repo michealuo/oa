@@ -241,7 +241,7 @@
 	    		<div class="info_box">
 	    			<div class="box battle">
 	    				<div class="tit">
-	    					<a class="on">营销战况</a><a>渠道战况</a><!-- 注释去间隔
+	    					<a class="on">营销战况</a><!-- 注释去间隔
 	    	   注释去间隔 --><div class="scrollnews">
 	    	   					<span>WangID提醒您：</span>
 	    	   					<ul>
@@ -325,7 +325,7 @@
 	    						</div>
 	    					</div>
 	    					<div class="con">
-	    						<h1>渠道部各部门本月新增业绩PK实时展示图</h1>
+	    						<h1></h1>
 	    						<div class="countbox">
 	    							<div class="count">
 	    								<span class="x"><img src="/static/imgs/X.png"> x/渠道部门</span>
@@ -361,37 +361,27 @@
 	    			</div>
 	    			<div class="box honor">
 	    				<div class="tit">
-	    					<a class="on">营销业绩排行榜</a><a>渠道业绩排行榜</a><!-- 注释去间隔
-	    				 --><div></div>
+	    					<a class="on">欢迎新入职员工</a><!-- 注释去间隔
+	    				 -->
 	    				</div>
 	    				<div class="conbox">
 	    					<div class="con">
 	    						<div>
 		    						<ul>
+										{% if count <= 3 %}
+										{% for item in management_list %}
+
 		    							<li>
-		    								<i><img src="{{management.img}}"></i>
+		    								<i><img src="{{item.img}}"></i>
 		    								<dl>
-		    									<dt>{{management.name}}</dt>
-		    									<dd>所属部门：{{management.dep_name}}</dd>
+		    									<dt>{{item.name}}</dt>
+		    									<dd>所属部门：{{item.dep_name}}</dd>
 		    								</dl>
 		    								<b><img src="/static/imgs/honor_1.png"></b>
 		    							</li>
-		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
-		    								<dl>
-		    									<dt>鹿晗</dt>
-		    									<dd>所属分区：营销11区</dd>
-		    								</dl>
-		    								<b><img src="/static/imgs/honor_2.png"></b>
-		    							</li>
-		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
-		    								<dl>
-		    									<dt>关晓彤</dt>
-		    									<dd>所属分区：营销3区</dd>
-		    								</dl>
-		    								<b><img src="/static/imgs/honor_3.png"></b>
-		    							</li>
+										{% endfor %}
+										{% endif %}
+
 		    						</ul>
 		    						<dl>
 		    							<dt>上月前三名</dt>
@@ -402,43 +392,7 @@
 		    					</div>
 		    					<p>干的不错，小伙伴们继续加油哦！</p>
 	    					</div>
-	    					<div class="con">
-	    						<div>
-		    						<ul>
-		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
-		    								<dl>
-		    									<dt>章泽天</dt>
-		    									<dd>所属分区：渠道6部</dd>
-		    								</dl>
-		    								<b><img src="/static/imgs/honor_1.png"></b>
-		    							</li>
-		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
-		    								<dl>
-		    									<dt>鹿晗</dt>
-		    									<dd>所属分区：渠道8部</dd>
-		    								</dl>
-		    								<b><img src="/static/imgs/honor_2.png"></b>
-		    							</li>
-		    							<li>
-		    								<i><img src="/static/imgs/head.jpg"></i>
-		    								<dl>
-		    									<dt>关晓彤</dt>
-		    									<dd>所属分区：渠道8部</dd>
-		    								</dl>
-		    								<b><img src="/static/imgs/honor_3.png"></b>
-		    							</li>
-		    						</ul>
-		    						<dl>
-		    							<dt>上月前三名</dt>
-		    							<dd>鹿晗</dd>
-		    							<dd>关晓彤</dd>
-		    							<dd>张娜拉</dd>
-		    						</dl>
-		    					</div>
-		    					<p>渠道部的同学们很给力，加油！</p>
-	    					</div>
+
 	    				</div>
 	    				<script type="text/javascript">
     						$(function(){

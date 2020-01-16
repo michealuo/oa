@@ -6,6 +6,7 @@ urlpatterns =[
     url(r'^login$',views.login_view),
     url(r'^register$',views.reg_view),
     url(r'^logout$',views.logout),
+    url(r'^update$',views.update_info),
     url(r'^find$',views.findpwd),
     url(r'^email',views.email),
 

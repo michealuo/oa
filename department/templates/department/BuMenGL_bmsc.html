@@ -59,7 +59,7 @@
                 <li>
                     <div class="left"> &nbsp;</div>
                     <div class="right"> 
-                        <button class="button_qr">确定删除</button>
+                        <button class="button_qr" id="delete_btn ">确定删除</button>
                     </div>
                 </li>
             </ul> 
@@ -76,6 +76,16 @@
 
 </html>
 <script>
+$(function(){
+    var msg = '{{msg}}';
+    if (msg) {
+        alert(msg);
+    }
+    $("#delete_btn").attr("disabled","disabled");
+
+
+
+})
 layui.use(['form', 'layedit', 'laydate'], function(){
     var form = layui.form
     ,layer = layui.layer

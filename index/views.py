@@ -1,6 +1,7 @@
 import os
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -40,7 +41,10 @@ def logging_check(fn):
 @logging_check
 def index_views(request):
     username = request.session.get("username")
+    print(username,'===========')
     management = Management.objects.get(username=username)
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    count = len(management_list)
     notice_list = Notice_list.objects.all().order_by("-created_time")[:3]
     return render(request,'index/index.html', locals())
 
@@ -54,6 +58,7 @@ def index_first_view(request):
 def index_view(request):
     username = request.session.get("username")
     management = Management.objects.get(username=username)
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
     return render(request,'index/index.html',locals())
 
 @logging_check
@@ -67,6 +72,7 @@ def index_my_info(request):
     uid = request.session.get("uid")
     username = request.session.get("username")
     user = User.objects.get(id=uid, username=username)
+    management = Management.objects.filter(username=username)[0]
 
     # print(user_info)
     return render(request,'index/My_info.html',locals())

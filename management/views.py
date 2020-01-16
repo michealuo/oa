@@ -23,9 +23,10 @@ def management_list(request):
     management = Management.objects.filter(user = user)[0]
     #管理员权限能帮员工入职(看到所有员工),非管理只能看到入职的员工（有工号）
     # 查询部门
-    position_list = Position.objects.values('department').distinct()
+    department_ids = Position.objects.values('department').distinct()
+    position_list = Position.objects.all()
     ids = []
-    for i in position_list:
+    for i in department_ids:
         ids.append(i['department'])
     department_list = Department.objects.filter(id__in=ids)
 
@@ -69,8 +70,8 @@ def add_management(request):
         management = Management.objects.get(id = id)
         #获取前台数据
         #工号
-        job_no = request.POST.get('job_no')
-        management.job_no = job_no
+        management_job_no = request.POST.get('job_no')
+        management.job_no = management_job_no
         #部门
         dep_id = request.POST.get('dep_name')
 
@@ -82,8 +83,8 @@ def add_management(request):
         management.position_id = position_id
         management.position_name = position.name
         #姓名
-        name = request.POST.get('name')
-        management.name = name
+        management_name = request.POST.get('name')
+        management.name = management_name
         #图片路径
         if myfile:
             management.img = '/static/files/'+myfile.name
@@ -93,6 +94,8 @@ def add_management(request):
         #入职时间
         create_time = datetime.datetime.now()
         management.create_time = create_time
+        #
+        management.department_id = dep_id
         management.save()
         # 获取用户名
         username = request.session.get("username")
@@ -185,6 +188,7 @@ def get_position(request):
     # 获取传入数据
     received_json_data = json.loads(request.body)
     dep_id = received_json_data['dep_id']
+    department_list = Department.objects.all()
     data = {}
     if dep_id:
         department = Department.objects.get(id=dep_id)
@@ -193,7 +197,9 @@ def get_position(request):
     else:
         position_list = Position.objects.all()
 
-    data['list'] = json.loads(serializers.serialize("json", position_list))
+
+    data['position'] = json.loads(serializers.serialize("json", position_list))
+    data['department'] = json.loads(serializers.serialize("json", department_list))
     return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})
 def delete_management(request):
     # 获取传入数据
@@ -229,6 +235,7 @@ def search_management(request):
         management_list = Management.objects.all()
     else:
         management_list = Management.objects.filter(~Q(job_no=''))
+    print(len(management_list),'=======11==')
     # 设置字典传入filter
     search_dict = {}
     name = request.POST.get('name')
@@ -251,17 +258,18 @@ def search_management(request):
         end_data =  datetime.date(int(res[0]), int(res[1]), int(res[2]) + 1)
         search_dict['create_time__lt'] = end_data
     if dep_id:
-        search_dict['department'] = dep_id
+        search_dict['department_id'] = dep_id
         dep_name = Department.objects.get(id=dep_id).name
     if position_id:
-        search_dict['position'] = position_id
+        print('======3===')
+        search_dict['position_id'] = position_id
         position_name = Position.objects.get(id=position_id).name
     management_list = management_list.filter(**search_dict).order_by('job_no')
-
+    print(len(management_list), '=======22==',search_dict.keys())
     #查询部门
-    position_list = Position.objects.values('department').distinct()
+    department_ids = Position.objects.values('department').distinct()
     ids = []
-    for i in position_list:
+    for i in department_ids:
         ids.append(i['department'])
     department_list = Department.objects.filter(id__in=ids)
 

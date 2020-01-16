@@ -39,111 +39,120 @@ input[readonly]{
             <a>员工管理</a>
             <span>公司员工添加</span>
         </div>
-        <!-- 内容 -->    
+        <!-- 内容 -->
         <div class="wenxts_ke">
-            <p><i>温馨提示：</i>请认真核对员工信息正确无误后再进行修改</p>
+            <p><i>温馨提示：</i>请认真核对员工信息正确无误后再确定添加</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/management/update_management" method="post"
-                  enctype="multipart/form-data">
+            <form class="layui-form layui-form-pane" action="/timebook/insert" method="post" enctype="multipart/form-data">
             <input type="text" name="id" value="{{management.id}}" style="display:none">
                 <ul>
+<!--                <li>-->
+<!--                    <div class="left">账号：</div>-->
+<!--                    <div class="right">-->
+<!--                        <input type="text" name="username" required lay-verify="required"-->
+<!--                               value="{{management.username}}"-->
+<!--                               readonly="readonly" autocomplete="on" class="layui-input">-->
+<!--                    </div>-->
+<!--                </li>-->
+
                 <li>
                     <div class="left">姓名：</div>
-                    <div class="right"> 
-                        <input type="text" name="name" required lay-verify="required"
-                               value="{{management.name}}"
-                               readonly="readonly" autocomplete="on" class="layui-input">
+
+                    <div class="right">
+                        <input type="text" name="name" required lay-verify="required" value="{{management.name}}"
+                               autocomplete="off" class="layui-input">
                     </div>
                 </li>
 
 <!--                <li>-->
-<!--                    <div class="left"></div>-->
-<!--                    -->
-<!--                    <div class="right"> -->
-<!--                        <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名"-->
-<!--                               value="{{management.name}}"-->
-<!--                               autocomplete="off" class="layui-input">-->
+<!--                    <div class="left">性别：</div>-->
+<!--                    <div class="right">-->
+<!--                            <input type="radio" name="sex" value="男" title="男">-->
+<!--                            <input type="radio" name="sex" value="女" title="女"checked="checked">-->
 <!--                    </div>-->
 <!--                </li>-->
                 <li>
-                    <div class="left">性别：</div>
+                    <div class="left">日期：</div>
                     <div class="right">
-                            <input type="radio" name="sex" value="男" title="男">
-                            <input type="radio" name="sex" value="女" title="女">
-                    </div>
-                </li>
-                <li>
-                    <div class="left">工号：</div>
-                    <div class="right"> 
-                        <input type="text" name="job_no" required lay-verify="required" value="{{job_no}}"
-                               value="{{management.job_no}}" readonly="readonly" autocomplete="on"
-                               class="layui-input">
+                        <input type="text" name="date" value="{{timebook.date}}" required lay-verify="required"
+                               class="layui-input" >
                     </div>
                 </li>
                 <li style="height: 38px; overflow:initial;">
-                    <div class="left">部门：</div>
-                    <div class="right"> 
-                        <select name="dep_name" lay-verify=""  lay-filter="dep_name">
-                            <option value="{{management.department_id}}"  >{{management.dep_name}}</option>
-                            {% for item in department_list %}
-					            <option value="{{item.id}}">{{item.name}}</option>
+                    <div class="left">出勤状态：</div>
+                    <div class="right">
+                        <select name="present_statu" lay-verify=""  lay-filter="present_statu" class="layui-select">
+                            <option value=""  >{{timebook.present_statu}}</option>
+                            {% for item in statu_list %}
+					            <option value="{{item}}">{{item}}</option>
 				            {% endfor %}
-                        </select> 
+                        </select>
                     </div>
                 </li>
-                <li style="height: 38px; overflow:initial;">
-                    <div class="left">部门职位：</div>
-                    <div class="right">
-                    <select name="position_name" lay-verify="" lay-filter="position_name">
-                            <option value="{{management.position_id}}"  >{{management.position_name}}</option>
-
-                    </select>
-                    </div>
-                </li>
-
                 <li>
-                    <div class="left">图片：</div>
-                    <div class="right">
-                            <input style="margin-top: 8px;" name="myfile" type="file" >
-                    </div>
-                </li>
+                    <div class="left">备注：</div>
 
-                <li>
-                    <div class="left"> &nbsp;</div>
-                    <div class="right"> 
-                        <button class="button_qr">保存</button>
+                    <div class="right">
+                        <textarea name="comment" id="" cols="30" rows="10" class="layui-textarea"></textarea>
                     </div>
                 </li>
-            </ul> 
+                <li>
+                    <div class="left"> :</div>
+
+                    <div class="right">
+                        <input type="submit" required lay-verify="required" value="提交"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </li>
+<!--                <li style="height: 38px; overflow:initial;">-->
+<!--                    <div class="left">部门职位：</div>-->
+<!--                    <div class="right">-->
+<!--                    <select name="position_name" lay-verify="" lay-filter="position_name">-->
+<!--                            <option value=""  >请先选择部门</option>-->
+
+<!--                    </select>-->
+<!--                    </div>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <div class="left">图片：</div>-->
+<!--                    <div class="right">-->
+<!--                            <input style="margin-top: 8px;" name="myfile" type="file" >-->
+<!--                    </div>-->
+<!--                </li>-->
+
+<!--                <li>-->
+<!--                    <div class="left"> &nbsp;</div>-->
+<!--                    <div class="right">-->
+<!--                        <button class="button_qr">入职</button>-->
+<!--                    </div>-->
+<!--                </li>-->
+            </ul>
             </form>
         </div>
-    </div>   
+    </div>
     <style>
-     
+
  .layui-form-pane .layui-form-checkbox {
     margin: 12px 0 4px 10px!important;
 }
     </style>
-	<!-- houl --> 
+	<!-- houl -->
 	<!-- 结束 -->
 
-    
+
 </body>
 
 </html>
 <script>
-
     layui.use(['form', 'layedit', 'laydate'], function(){
       var form = layui.form
       ,layer = layui.layer
       ,layedit = layui.layedit
       ,laydate = layui.laydate;
-
-
-      var sex = '{{management.sex}}';
-      $("input[title="+sex+"]:eq(0)").attr("checked","checked");
       form.render();
+
 
       form.on('select(dep_name)',function(data){
           var dep_id = data.value;
@@ -158,7 +167,7 @@ input[readonly]{
             success:function(data){
 
                 res = JSON.parse(data);
-                json = res['list'];
+                json = res['position'];
                 var html1 = '';
                 $.each(json,function(i){
                     position_id = json[i]['pk']

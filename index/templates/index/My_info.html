@@ -32,6 +32,7 @@
             <span>个人信息</span>
         </div>
         <!-- 下面写内容 -->
+        <form action="/user/update" method="post">
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
             <thead>
                 <tr>
@@ -43,12 +44,17 @@
             <tbody>
                 <tr>
                     <th>姓名</th>
-                    <td>{{ user.username }}</td>
+                    <td>{{ management.name }}</td>
 
                 </tr>
                 <tr>
                     <th>部门</th>
-                    <td>总裁办</td>
+                    <td>{{ management.dep_name }}</td>
+
+                </tr>
+                 <tr>
+                    <th>职位</th>
+                    <td>{{ management.position_name }}</td>
 
                 </tr>
                 <tr>
@@ -64,9 +70,14 @@
                     <th>入职时间</th>
                     <td>{{ user.create_time }}</td>
                 </tr>
+
             </tbody>
         </table>
+
+<!--        <button type="button" class="layui-btn"><a href="/user/update">修改个人信息</a></button>-->
+        </form>
     </div>
+
    <!-- 自定义头部工具栏 -->
 	<!-- houl七月初七己亥年 -->
 	<!-- 结束 -->

@@ -129,6 +129,41 @@ def save_host_ip(uname):
     user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
     IpInfo.save(user_ip_info)
 
+def update_info(request):
+    users = User.objects.filter(id=id, isActive=True)
+    if not users:
+        return HttpResponse('--The user id is wrong !')
+    book = users[0]
+
+    if request.method == 'GET':
+        # 拿更新页面
+        return render(request, 'index/MY_IP.html', locals())
+    elif request.method == 'POST':
+        # 更新数据
+        username = request.POST.get('username')
+        if not username:
+            return HttpResponse('---Please give me price')
+        phonenumber = request.POST.get('phonenumber')
+        # TODO 检查market_price
+
+        # 是否要更新?
+        to_update = False
+        if username != str(users.username):
+            to_update = True
+
+        if phonenumber != str(users.phonenumber):
+            to_update = True
+
+        if to_update:
+            # 执行更新
+            print('--执行更新')
+            users.username = username
+            users.phonenumber = phonenumber
+            users.save()
+
+        # 更新完毕后 执行302跳转 跳转回 book首页 - all_book
+        # 302参数 是 url!!!!!!!!!!
+        return HttpResponseRedirect('/index/my_ip')
 
 
 

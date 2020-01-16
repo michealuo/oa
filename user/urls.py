@@ -10,4 +10,5 @@ urlpatterns =[
     url(r'^find$',views.findpwd),
     url(r'^email',views.email),
 
+
 ]

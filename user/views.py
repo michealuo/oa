@@ -228,7 +228,6 @@ def findpwd(request):
         return render(request,'user/login.html')
 
 
-
 def email(request):
     global number
     if request.method == "POST":

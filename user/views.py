@@ -1,3 +1,4 @@
+import json
 import random
 import socket
 
@@ -240,6 +241,19 @@ def email(request):
                 """ % (number)
             print("---send email ok---")
             email = request.POST.get("email")
+            username = request.POST.get("username")
+            print(email)
+            users = User.objects.get(username=username)
+            if not users:
+                # 用户名已注册
+                msg = '用户名错误'
+                return HttpResponse(msg)
+            print(11111111)
+            if users.email != email:
+                # 用户名已注册
+                msg = '邮箱错误'
+                return HttpResponse(msg)
+            print(2222222)
             send_mail(subject=subject,
                       html_message=html_message,
                       from_email="1075516784@qq.com",
@@ -248,4 +262,4 @@ def email(request):
         except Exception as e:
             print("---send email error---")
             print(e)
-
+        return HttpResponse('发送成功')

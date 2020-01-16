@@ -42,20 +42,20 @@
 			</form>
 		</div >
             <div class='right' style="margin-left: auto">
-                <a href="/timebook/insert">录入</a>
+                <a href="/timebook/insert?id={{manger.id}}">录入</a>
             </div>
 	</div>
 
 	<div class="shuaix">
 	<div class="right">
-			<form action="#" method="post">
-				<input type="date" id="time1" name="date" value-format="yyyy-MM-dd">
+			<form action="/timebook/list?id={{manage.id}}" method="post">
+				<input type="date" id="time1" name="date" >
 
 				<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按天查找">
 			</form>
 		</div>
 		<div class="right">
-			<form action="/timebook/month" method="get">
+			<form action="/timebook/month?id={{manage.id}}" method="get">
 			<input type="month" name="month" />
 			<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按月查找">
 			</form>
@@ -65,7 +65,7 @@
 	<table class="layui-table" lay-filter="mylist" lay-size="lg">
 		<thead>
 			<tr>
-				<th lay-data="{field:'company',align:'center',minWidth:100}">{{manage.name}}</th>
+				<th lay-data="{field:'company',align:'center',minWidth:100}">{{name}}</th>
 				<th lay-data="{field:'yx', align:'center',width:200}">日期</th>
 				<th lay-data="{field:'company',align:'center',minWidth:100}">出勤状态</th>
 				<th lay-data="{field:'result',align:'center',minWidth:300}">备注</th>
@@ -81,7 +81,7 @@
 				<td>{{timebook.date}}</td>
 				<td>{{timebook.present_statu}}</td>
 				<td>{{timebook.comment}}</td>
-				<td><a href="/timebook/update?id={{management.id}}&date={{timebook.date}}">修改</a></td>
+				<td><a href="/timebook/update?id={{manage.id}}&date={{timebook.date}}">修改</a></td>
 			</tr>
 			{% endfor %}
 			{% else %}

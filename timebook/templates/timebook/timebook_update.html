@@ -44,7 +44,7 @@ input[readonly]{
             <p><i>温馨提示：</i>请认真核对员工信息正确无误后再确定添加</p>
         </div>
         <div class="kehubh_tj_k">
-            <form class="layui-form layui-form-pane" action="/timebook/insert" method="post" enctype="multipart/form-data">
+            <form class="layui-form layui-form-pane" action="/timebook/update" method="post" enctype="multipart/form-data">
             <input type="text" name="id" value="{{management.id}}" style="display:none">
                 <ul>
 <!--                <li>-->
@@ -75,7 +75,7 @@ input[readonly]{
                 <li>
                     <div class="left">日期：</div>
                     <div class="right">
-                        <input type="text" name="date" value="{{timebook.date}}" required lay-verify="required"
+                        <input type="text" name="date" value="{{date}}" required lay-verify="required"
                                class="layui-input" >
                     </div>
                 </li>

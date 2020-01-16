@@ -20,13 +20,9 @@ def notice_list(request):
         uid = request.session.get("uid")
         management = Management.objects.get(user_id=uid)
         query = request.POST.get("query")
-        notices = Notice_list.objects.all().order_by("-created_time")
         if not query:
             return HttpResponseRedirect("/notice/list")
-        all_notice = []
-        for notice in notices:
-            if query in notice.title:
-                all_notice.append(notice)
+        all_notice = Notice_list.objects.filter(title__contains=query)
         count = len(all_notice)
         return render(request, "notice/notice_list.html", locals())
 

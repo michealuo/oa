@@ -72,6 +72,7 @@ def index_my_info(request):
     uid = request.session.get("uid")
     username = request.session.get("username")
     user = User.objects.get(id=uid, username=username)
+    management = Management.objects.filter(username=username)[0]
 
     # print(user_info)
     return render(request,'index/My_info.html',locals())

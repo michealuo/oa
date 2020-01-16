@@ -10,4 +10,4 @@ def getTimeStamp():
     #生成当前年月日时间
     time_date = time.strftime("%Y%m%d", time.localtime())
     #返回当前年月日和时间戳后4位
-    return time_date + time_stamp[-4:]
+    return time_date[2:] + time_stamp[-4:]

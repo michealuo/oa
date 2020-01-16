@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from department.models import Department, Position
+from management.models import Management
 
 
 def department_list(request):
@@ -19,6 +20,7 @@ def add_department(request):
     elif request.method == 'POST':
         dep_name = request.POST.get('dep_name')
         if dep_name:
+            time.sleep(2)
             try:
                 dep_old = Department.objects.filter(name=dep_name)
                 if dep_old:
@@ -33,7 +35,7 @@ def add_department(request):
                 msg = '添加失败'
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
-        time.sleep(2)
+
         position_list = Position.objects.all()
         #分页
         count = len(position_list)
@@ -94,12 +96,20 @@ def delete_department(request):
         return render(request, 'department/BuMenGL_bmsc.html', locals())
     elif request.method == 'POST':
         dep_id = request.POST.get('dep_id')
+        department_list = Department.objects.all()
+        position_list = Position.objects.all()
+        # 分页
+        count = len(position_list)
         if dep_id:
             try:
                 dep = Department.objects.get(id=dep_id)
                 if not dep:
                     msg = "不存在该部门"
-                    return render(request, 'department/BuMenGL_bmtj.html', locals())
+                    return render(request, 'department/BuMenGL_bmsc.html', locals())
+                management_list = Management.objects.filter(department_id = dep_id)
+                if len(management_list) > 0:
+                    msg = "该部门还有员工存在，先删除员工，再删除部门"
+                    return render(request, 'department/BuMenGL_bmsc.html', locals())
                 dep.delete()
 
             except Exception as e:
@@ -109,9 +119,7 @@ def delete_department(request):
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
         time.sleep(2)
-        position_list = Position.objects.all()
-        # 分页
-        count = len(position_list)
+
         return render(request, 'department/BuMenGL_list.html', locals())
 
 

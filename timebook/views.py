@@ -14,9 +14,9 @@ def timebook_view(request):
         user_id = request.session.get('id1')
         if not user_id:
             user_id = request.session.get('uid')
-        print(user_id)
         try:
             manage = Management.objects.get(id=user_id)
+            print(manage.power)
             name = manage.name
         except Exception as e:
             print(e)

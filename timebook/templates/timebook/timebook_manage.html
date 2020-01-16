@@ -33,7 +33,7 @@
 		<a>员工管理</a>
 		<span>考勤记录</span>
     </div>
-
+	{% if manage.power == '1' %}
 	<div class="shuaix">
 		<div class="right">
 			<form action="/timebook/check" method="get">
@@ -45,7 +45,7 @@
                 <a href="/timebook/insert?id={{manger.id}}">录入</a>
             </div>
 	</div>
-
+	{% endif %}
 	<div class="shuaix">
 	<div class="right">
 			<form action="/timebook/list?id={{manage.id}}" method="post">
@@ -69,7 +69,9 @@
 				<th lay-data="{field:'yx', align:'center',width:200}">日期</th>
 				<th lay-data="{field:'company',align:'center',minWidth:100}">出勤状态</th>
 				<th lay-data="{field:'result',align:'center',minWidth:300}">备注</th>
+				{% if manage.power == '1' %}
                 <th lay-data="{field:'company',align:'center',minWidth:100}">操作</th>
+				{% endif %}
             </tr>
 		</thead>
 
@@ -81,7 +83,9 @@
 				<td>{{timebook.date}}</td>
 				<td>{{timebook.present_statu}}</td>
 				<td>{{timebook.comment}}</td>
+				{% if manage.power == '1' %}
 				<td><a href="/timebook/update?id={{manage.id}}&date={{timebook.date}}">修改</a></td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 			{% else %}

@@ -34,6 +34,7 @@
         </div>
         <!-- 下面写内容 -->
         <form action="/user/update" method="post">
+            {% csrf_token %}
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
             <tbody >
                 <tr >
@@ -69,8 +70,9 @@
             </tbody>
         </table>
 
-        <input type="submit" class="layui-btn"></input>
+        <input type="submit" class="layui-btn" value="确定">
         </form>
+
 
     </div>
 

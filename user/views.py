@@ -175,6 +175,8 @@ def logout(request):
         del request.session['uid']
     if 'username' in request.session:
         del request.session['username']
+    if 'id1' in request.session:
+        del request.session['id1']
     # 删除 Cookies
     resp = HttpResponseRedirect('login')
     if 'uid' in request.COOKIES:

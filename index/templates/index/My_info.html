@@ -27,15 +27,14 @@
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a href="/index/">首页</a>
-            <a href="/index/index_my">我的信息</a>
+            <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
             <span>个人信息</span>
         </div>
         <!-- 下面写内容 -->
         <form action="/user/update" method="post">
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
                 <tr>
-                    <th>序号</th>
+                    <th style="width: 100px"><strong>序号</strong></th>
                     <td>{{ user.id }}</td>
 
                 </tr>
@@ -46,31 +45,31 @@
 
                 </tr>
                 <tr>
-                    <th>姓名</th>
+                    <th><strong>姓名</strong></th>
                     <td>{{ management.name }}</td>
 
                 </tr>
                 <tr>
-                    <th>部门</th>
+                    <th><strong>部门</strong></th>
                     <td>{{ management.dep_name }}</td>
 
                 </tr>
                  <tr>
-                    <th>职位</th>
+                    <th><strong>职位</strong></th>
                     <td>{{ management.position_name }}</td>
 
                 </tr>
                 <tr>
-                    <th>手机号</th>
+                    <th><strong>手机号</strong></th>
                     <td>{{ user.phone }}</td>
 
                 </tr>
                <tr>
-                    <th>邮箱</th>
+                    <th><strong>邮箱</strong></th>
                     <td>{{ user.email }}</td>
                 </tr>
                 <tr>
-                    <th>入职时间</th>
+                    <th><strong>入职时间</strong></th>
                     <td>{{ user.create_time }}</td>
                 </tr>
 

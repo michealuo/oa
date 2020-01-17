@@ -1,4 +1,3 @@
-import datetime
 import json
 import random
 import socket
@@ -131,15 +130,8 @@ def save_host_ip(uname):
         ip = s.getsockname()[0]
     finally:
         s.close()
-    user_ipinfo_old_list = IpInfo.objects.filter(uname = uname)
-    if len(user_ipinfo_old_list) > 0:
-        user_ip_info = user_ipinfo_old_list[0]
-        user_ip_info.login_time = datetime.datetime.now()
-        user_ip_info.ip_adress = ip
-        IpInfo.save(user_ip_info)
-    else:
-        user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
-        IpInfo.save(user_ip_info)
+    user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
+    IpInfo.save(user_ip_info)
 
 @logging_check
 def update_info(request):

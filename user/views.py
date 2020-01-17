@@ -1,22 +1,15 @@
-import json
 import random
 import socket
-
 from django.core.mail import send_mail
 from django.db import transaction
-from django.shortcuts import render
-
-
-# Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
-# Create your views here.
 from pymysql import DatabaseError
-
 from index.views import logging_check
 from management.models import Management
 from user.models import User, IpInfo
+
+# Create your views here.
 
 
 def reg_view(request):

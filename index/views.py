@@ -43,7 +43,7 @@ def index_views(request):
     username = request.session.get("username")
     print(username,'===========')
     management = Management.objects.get(username=username)
-    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('-create_time')
 
     dep_manage_count_list = dep_management_count()
 

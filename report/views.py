@@ -17,6 +17,7 @@ def list(request):
         lis = Report_list.objects.filter(user_id=uid).order_by("-updated_time")
     else:
         lis = Report_list.objects.all().order_by("-updated_time")
+
     # print(lis[0].content[:5])
     return render(request, "report/report_list.html",locals())
 

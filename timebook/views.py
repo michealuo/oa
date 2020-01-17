@@ -19,7 +19,7 @@ def timebook_view(request):
         if user_id1:
             user_id = user_id1
         manage = Management.objects.get(id=user_id)
-        name = manage.name
+        
         timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
         count = len(timebooks)
         return render(request, 'timebook/timebook_manage.html', locals())
@@ -79,12 +79,15 @@ def check_view(request):
     if job_no.isdigit():
         try:
             manage = Management.objects.get(job_no=job_no)
+            print(manage.name)
         except Exception as e:
             messages.error(request, '此人未入职,请先完成入职')
             return HttpResponseRedirect('/timebook/list', locals())
     else:
+        print('*'*50,job_no)
         try:
             manage = Management.objects.get(name=job_no)
+            print(manage.name)
         except Exception as e:
             messages.error(request, '此人未入职,请先完成入职')
             return HttpResponseRedirect('/timebook/list', locals())

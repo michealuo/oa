@@ -46,8 +46,10 @@
 	{% if power == '1' %}
 	<div class="shuaix">
 		<div class="right">
+
 			<form action="/timebook/check">
-			<input required lay-verify="required"  type="text" placeholder="请输入工号或者姓名查询" name="job_no" value="{{manage.job_no}}">
+				{% csrf_token %}
+			<input required lay-verify="required"  type="text" placeholder="请输入工号或者姓名查询" name="job_no" value="{{manage.name}}">
 			<input type="submit" value="查询" style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white">
 			</form>
 		</div >
@@ -59,6 +61,7 @@
 	<div class="shuaix">
 	<div class="right">
 			<form action="/timebook/list?id={{manage.id}}" method="post">
+				{% csrf_token %}
 				<input type="date" id="time1" name="date" >
 
 				<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按天查找">
@@ -66,7 +69,7 @@
 		</div>
 
 		<div class="right">
-			<form action="/timebook/month?id={{manage.id}}" method="get">
+			<form action="/timebook/month?id={{manage.id}}">
 			<input type="month" name="month" />
 			<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按月查找">
 			</form>
@@ -77,6 +80,7 @@
 		<thead>
 			<tr>
 				<th lay-data="{field:'name',align:'center',minWidth:100}">姓名</th>
+				<th lay-data="{field:'job_no',align:'center',minWidth:100}">工号</th>
 				<th lay-data="{field:'date', align:'center',width:200}">日期</th>
 				<th lay-data="{field:'status',align:'center',minWidth:100}">出勤状态</th>
 				<th lay-data="{field:'result',align:'center',minWidth:300}">备注</th>
@@ -90,7 +94,8 @@
 			{% if timebooks %}
 			{%	for timebook in timebooks %}
 			<tr>
-				<td>{{name}}</td>
+				<td>{{manage.name}}</td>
+				<td>{{manage.job_no}}</td>
 				<td>{{timebook.date}}</td>
 				<td>{{timebook.present_statu}}</td>
 				<td>{{timebook.comment}}</td>

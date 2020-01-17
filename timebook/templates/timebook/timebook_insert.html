@@ -45,16 +45,10 @@ input[readonly]{
         </div>
         <div class="kehubh_tj_k">
             <form class="layui-form layui-form-pane" action="/timebook/insert" method="post" enctype="multipart/form-data">
-            <input type="text" name="id" value="{{management.id}}" style="display:none">
+            {% csrf_token %}
+                <input type="text" name="id" value="{{management.id}}" style="display:none">
                 <ul>
-<!--                <li>-->
-<!--                    <div class="left">账号：</div>-->
-<!--                    <div class="right">-->
-<!--                        <input type="text" name="username" required lay-verify="required"-->
-<!--                               value="{{management.username}}"-->
-<!--                               readonly="readonly" autocomplete="on" class="layui-input">-->
-<!--                    </div>-->
-<!--                </li>-->
+
 
                 <li>
                     <div class="left">姓名：</div>
@@ -65,13 +59,7 @@ input[readonly]{
                     </div>
                 </li>
 
-<!--                <li>-->
-<!--                    <div class="left">性别：</div>-->
-<!--                    <div class="right">-->
-<!--                            <input type="radio" name="sex" value="男" title="男">-->
-<!--                            <input type="radio" name="sex" value="女" title="女"checked="checked">-->
-<!--                    </div>-->
-<!--                </li>-->
+
                 <li>
                     <div class="left">日期：</div>
                     <div class="right">

@@ -52,15 +52,10 @@ input[readonly]{
         <div class="kehubh_tj_k">
             <form class="layui-form layui-form-pane" action="/timebook/update" method="post" enctype="multipart/form-data">
             <input type="text" name="id" value="{{management.id}}" style="display:none">
+
+             {% csrf_token %}
                 <ul>
-<!--                <li>-->
-<!--                    <div class="left">账号：</div>-->
-<!--                    <div class="right">-->
-<!--                        <input type="text" name="username" required lay-verify="required"-->
-<!--                               value="{{management.username}}"-->
-<!--                               readonly="readonly" autocomplete="on" class="layui-input">-->
-<!--                    </div>-->
-<!--                </li>-->
+
 
                 <li>
                     <div class="left">姓名：</div>
@@ -71,13 +66,6 @@ input[readonly]{
                     </div>
                 </li>
 
-<!--                <li>-->
-<!--                    <div class="left">性别：</div>-->
-<!--                    <div class="right">-->
-<!--                            <input type="radio" name="sex" value="男" title="男">-->
-<!--                            <input type="radio" name="sex" value="女" title="女"checked="checked">-->
-<!--                    </div>-->
-<!--                </li>-->
                 <li>
                     <div class="left">日期：</div>
                     <div class="right">
@@ -111,29 +99,7 @@ input[readonly]{
                                autocomplete="off" class="layui-input">
                     </div>
                 </li>
-<!--                <li style="height: 38px; overflow:initial;">-->
-<!--                    <div class="left">部门职位：</div>-->
-<!--                    <div class="right">-->
-<!--                    <select name="position_name" lay-verify="" lay-filter="position_name">-->
-<!--                            <option value=""  >请先选择部门</option>-->
 
-<!--                    </select>-->
-<!--                    </div>-->
-<!--                </li>-->
-
-<!--                <li>-->
-<!--                    <div class="left">图片：</div>-->
-<!--                    <div class="right">-->
-<!--                            <input style="margin-top: 8px;" name="myfile" type="file" >-->
-<!--                    </div>-->
-<!--                </li>-->
-
-<!--                <li>-->
-<!--                    <div class="left"> &nbsp;</div>-->
-<!--                    <div class="right">-->
-<!--                        <button class="button_qr">入职</button>-->
-<!--                    </div>-->
-<!--                </li>-->
             </ul>
             </form>
         </div>

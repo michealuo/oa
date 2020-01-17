@@ -95,13 +95,14 @@
 					</a>
 				</td>
 			</tr>
+			<script type="text/html" id="barDemo">
+				<a class="layui-btn layui-btn-xs" lay-event="edit" href="/report/update/{{ item.id }}">修改</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" href="/report/delete/{{ item.id }}" onclick="return confirm('是否删除?')">删除</a>
+			</script>
 			{% endfor %}
 		</tbody>
 	</table>
-	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
+
 </div>
 <script type="text/javascript">
 	//静态表格
@@ -113,7 +114,7 @@
 		  ,count: 50 //数据总数 服务端获得
 		  ,limit: 10 //每页显示条数 注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
 		  ,page:true //开启分页
-		  ,toolbar: 'default'//工具栏
+		  ,toolbar: 'False'//工具栏
 		  ,defaultToolbar:['filter', 'exports']
 		  ,limits:[10, 20, 30, 40, 50]//分页显示每页条目下拉选择
 		  ,cellMinWidth: 60//定义全局最小单元格宽度，其余自动分配宽度

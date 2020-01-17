@@ -64,9 +64,12 @@
 				<td>{{ item.ip_adress }}</td>
                 <td>{{ item.login_time }}</td>
                 <td>{{ management.create_time }}</td>
-
+                {% if item.isAticv == 0 %}
+                <td><button class = "bind_cancel" ip = "{{ item.ip_adress }}" username = "{{ item.uname }}" type="button"
+                            class="layui-btn">解除绑定</button></td>
+                {% else %}
                 <td><button class = "bind_ip" ip = "{{ item.ip_adress }}" username = "{{ item.uname }}" type="button" class="layui-btn">绑定ip</button></td>
-
+                {% endif %}
 			</tr>
         {% endfor %}
 
@@ -110,12 +113,12 @@
         $(".bind_ip").click(function(){
             ip = this.getAttribute('ip');
             username = this.getAttribute('username');
-            alert(username);
+            
             var input_ip=prompt("请填写你要绑定的ip",ip)
             
             if (input_ip!=null && input_ip!="") {
-                    data = {'ip':input_ip,
-                            'uname':uname}
+                    
+                    var data = {'ip':input_ip,'uname':username}
                     //向服务端发送删除指令
 				    $.ajax({
 						url:'/user/bindIp',
@@ -125,13 +128,42 @@
 						timeout:3000,
 						data:JSON.stringify(data),
 
-						success:function(){
+						success:function(data){
                             
 							alert('绑定成功');
+                            window.location.reload()
 						},
-						error:function () {
+						error:function (data) {
 
 							alert('绑定失败');
+						}
+            		});
+            }    
+      
+        });
+        $(".bind_cancel").click(function(){
+            username = this.getAttribute('username');
+            
+            if(confirm("确定要解除绑定？")){
+                    
+                    var data = {'uname':username}
+                    //向服务端发送删除指令
+				    $.ajax({
+						url:'/user/bind_cancel',
+						type:'post',
+						dataType:'text',
+						contentType: 'application/json',
+						timeout:3000,
+						data:JSON.stringify(data),
+
+						success:function(data){
+                            
+							alert('解除绑定成功');
+                            window.location.reload()
+						},
+						error:function (data) {
+
+							alert('解除绑定失败');
 						}
             		});
             }    

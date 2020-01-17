@@ -17,6 +17,7 @@ def list(request):
         lis = Report_list.objects.filter(user_id=uid).order_by("-updated_time")
     else:
         lis = Report_list.objects.all().order_by("-updated_time")
+        # print(lis[0].management.name)
 
     # print(lis[0].content[:5])
     return render(request, "report/report_list.html",locals())
@@ -26,13 +27,16 @@ def add(request):
     if request.method == "GET":
         return render(request, "report/report_add.html")
     elif request.method == "POST":
+        uid = request.session["uid"]
+        management_id = Management.objects.get(user_id=uid).id
+        print(management_id)
         title = request.POST.get("title")
         content = request.POST.get("content")
         if not title or not content:
             return HttpResponseRedirect("/report/content")
 
 
-        Report_list.objects.create(title=title,content=content,user_id=request.session["uid"])
+        Report_list.objects.create(title=title,content=content,user_id=uid,management_id=management_id)
 
         return HttpResponseRedirect("/report/list")
 

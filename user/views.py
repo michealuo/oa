@@ -73,19 +73,23 @@ def reg_view(request):
 def login_view(request):
     # 登录处理
     if request.method == 'GET':
+        uid = request.COOKIES.get('uid')
+        username = request.COOKIES.get('username')
+        if uid and username:
+            if is_Active(username) == 0:
+                return render(request, 'user/login.html')
         # 1,优先检查session
         if request.session.get('uid') and request.session.get('username'):
             # 登陆过
             return HttpResponseRedirect('/index/index')
         # 2,检查cookies
-        uid = request.COOKIES.get('uid')
-        username = request.COOKIES.get('username')
+
         if uid and username:
             # 回写session
             request.session['uid'] = uid
             request.session['username'] = username
             # 存ip
-            save_host_ip(username)
+            save_host_ip(username,request)
             return HttpResponseRedirect('/index/index')
 
         return render(request, 'user/login.html')
@@ -98,6 +102,9 @@ def login_view(request):
         if not old_users:
             msg = '用户名或者密码错误'
             return render(request,'user/login.html',locals())
+        if is_Active(username) == 0:
+            msg = '您的账号已绑定固定ip'
+            return render(request, 'user/login.html',locals())
         # 校验密码
         import hashlib
         m = hashlib.md5()
@@ -113,24 +120,22 @@ def login_view(request):
         request.session['username'] = username
         resp = HttpResponseRedirect('/index/index')
         # 存ip
-        save_host_ip(username)
+        save_host_ip(username,request)
         # ip_info = IpInfo.objects.filter(ip_adress=)
         # if save_host_ip(username) == ip_info.ip_adress:
 
 
         return resp
 
-def save_host_ip(uname):
+def save_host_ip(uname,request):
     """
     查询本机ip地址
     :return: ip
     """
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        s.connect(('8.8.8.8', 80))
-        ip = s.getsockname()[0]
-    finally:
-        s.close()
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        ip = request.META['HTTP_X_FORWARDED_FOR']
+    else:
+        ip = request.META['REMOTE_ADDR']
     user_ipinfo_old_list = IpInfo.objects.filter(uname=uname)
     if len(user_ipinfo_old_list) > 0:
         user_ip_info = user_ipinfo_old_list[0]
@@ -296,5 +301,28 @@ def email(request):
         return HttpResponse('发送成功')
 
 def bindIp(request):
+    # 获取传入数据
+    received_json_data = json.loads(request.body)
+    uname = received_json_data['uname']
+    ip = received_json_data['ip']
+    ipInfo = IpInfo.objects.filter(uname=uname)[0]
+    ipInfo.isAticv = 0
+    ipInfo.ip_adress = ip
+    ipInfo.save()
     data = {}
     return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})
+
+def bind_cancel(request):
+    # 获取传入数据
+    received_json_data = json.loads(request.body)
+    uname = received_json_data['uname']
+    ipInfo = IpInfo.objects.filter(uname=uname)[0]
+    ipInfo.isAticv = 1
+    ipInfo.save()
+    data = {}
+    return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})
+
+
+def is_Active(username):
+    ipInfo = IpInfo.objects.filter(uname=username)[0]
+    return ipInfo.isAticv

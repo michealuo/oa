@@ -41,9 +41,8 @@ def logging_check(fn):
 @logging_check
 def index_views(request):
     username = request.session.get("username")
-    print(username,'===========')
     management = Management.objects.get(username=username)
-    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('-create_time')
 
     dep_manage_count_list = dep_management_count()
 
@@ -63,7 +62,7 @@ def index_first_view(request):
 def index_view(request):
     username = request.session.get("username")
     management = Management.objects.get(username=username)
-    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('-create_time')
     count = len(management_list)
     dep_manage_count_list = dep_management_count()
     if count >= 3:

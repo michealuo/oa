@@ -45,7 +45,7 @@
                     <th lay-data="{field:'www',align:'center',Width:170}">ID</th>
                     <th lay-data="{field:'company',align:'center',minWidth:130}">用户</th>
                     <th lay-data="{field:'company',align:'center',minWidth:130}">用户IP</th>
-                    <th lay-data="{field:'user',align:'center',minWidth:130}">登录时间</th>
+                    <th lay-data="{field:'user',align:'center',minWidth:130}">最新登录时间</th>
                     <th lay-data="{field:'user',align:'center',minWidth:130}">入职时间</th>
                     <th lay-data="{field:'tel',align:'center',minWidth:130}">操作</th>
                 </tr>
@@ -66,7 +66,7 @@
                 <td>{{ item.login_time }}</td>
                 <td>{{ management.create_time }}</td>
 
-                <td><button type="button" class="layui-btn">解锁</button></td>
+                <td><button id = "bind_ip" type="button" class="layui-btn">绑定ip</button></td>
 
 			</tr>
         {% endfor %}
@@ -107,6 +107,12 @@
 
 </html> 
 <script type="text/javascript">
+    $(function(){
+        $("#bind_ip").click(function(){
+
+            alert('123');
+        });
+    })
 
     //静态表格
     layui.use('table',function(){

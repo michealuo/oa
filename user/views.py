@@ -135,10 +135,14 @@ def save_host_ip(uname):
 
 @logging_check
 def update_info(request):
-    # users = User.objects.filter(id=id, isActive=True)
-    # if not users:
-    #     return HttpResponse('--The users id is wrong !')
-    # user = users[0]
+    username = request.session.get("username")
+    print(username)
+    users = User.objects.filter(username=username)
+    management = Management.objects.filter(username=username)[0]
+    print(management)
+    if not users:
+        return HttpResponse('--The users id is wrong !')
+    user = users[0]
     if request.method == 'GET':
         uid = request.session.get("uid")
         username = request.session.get("username")
@@ -147,15 +151,38 @@ def update_info(request):
         return render(request,'user/update_info.html',locals())
     elif request.method == "POST":
         x_name = request.POST.get('x_name')
-        x_phone = request.POST.get('x_phone')
-        x_email = request.POST.get('x_email')
         if not x_name:
-            return HttpResponse('没有用户名')
-        if not x_phone:
-            return HttpResponse('没有手机号')
-        if not x_email:
-            return HttpResponse('没有邮箱')
+            msg = '没有输入用户名'
+            return render(request,'user/update_info.html',locals())
+        x_phone = request.POST.get('x_phone')
 
+        if not x_phone:
+            msg = '没有输入手机号'
+            return render(request,'user/update_info.html',locals())
+        x_email = request.POST.get('x_email')
+        if not x_email:
+            msg = '没有输入邮箱'
+            return render(request,'user/update_info.html',locals())
+        to_update = False
+        if x_name != str(management.name):
+            to_update = True
+        if x_phone != str(user.phone):
+            to_update = True
+        if x_email != str(user.email):
+            to_update = True
+
+        if to_update:
+            # 执行更新
+            print('--执行更新')
+            management.name = x_name
+            management.phone = x_phone
+            management.email = x_email
+            user.phone = x_phone
+            user.email = x_email
+            user.save()
+            management.save()
+            msg = '修改成功'
+    return render(request,'user/update_info.html',locals())
 
 
 

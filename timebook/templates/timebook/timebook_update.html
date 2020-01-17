@@ -23,6 +23,11 @@
 	<!-- layui js -->
 	<script src="/static/js/layui.js"></script>
 	<script src="/static/js/layui.all.js"></script>
+    <script>
+        var d1 = document.getElementById('d11').value;
+        if(d1)
+        alert(d1)
+    </script>
 </head>
 <style>
 
@@ -31,11 +36,12 @@ input[readonly]{
 }
 </style>
 <body>
+    <div id='d11' style="display: none">{{alert}}</div>
     <div class="wangid_conbox">
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a>首页</a>
+            <a href="/index/index">首页</a>
             <a>员工管理</a>
             <span>公司员工添加</span>
         </div>
@@ -60,7 +66,7 @@ input[readonly]{
                     <div class="left">姓名：</div>
 
                     <div class="right">
-                        <input type="text" name="name" required lay-verify="required" value="{{management.name}}"
+                        <input type="text" name="name" required lay-verify="required" value="{{manage.name}}"
                                autocomplete="off" class="layui-input">
                     </div>
                 </li>

@@ -1,6 +1,6 @@
 import datetime
 import re
-
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render
 from management.models import Management
@@ -76,13 +76,22 @@ def month_view(request):
 def check_view(request):
     job_no = request.GET.get('job_no')
     print(job_no)
-    try:
-        manage = Management.objects.get(job_no=job_no)
-        request.session['id1'] = manage.id
-        print(manage.id)
-        return HttpResponseRedirect('/timebook/list')
-    except Exception as e:
-        return HttpResponse('亲还未入职,请联系管理员')
+    if job_no.isdigit():
+        try:
+            manage = Management.objects.get(job_no=job_no)
+        except Exception as e:
+            messages.error(request, '此人未入职,请先完成入职')
+            return HttpResponseRedirect('/timebook/list', locals())
+    else:
+        try:
+            manage = Management.objects.get(name=job_no)
+        except Exception as e:
+            messages.error(request, '此人未入职,请先完成入职')
+            return HttpResponseRedirect('/timebook/list', locals())
+    request.session['id1'] = manage.id
+    print(manage.id)
+    return HttpResponseRedirect('/timebook/list')
+
     # timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
     # return render(request, 'timebook/timebook_manage.html', locals())
 @logging_check
@@ -101,7 +110,8 @@ def update_view(request):
             name = request.POST.get('name')
             manage = Management.objects.get(name=name)
         except Exception as e:
-            return HttpResponse('该用户不存在')
+            messages.error(request, '用户不存在')
+            return HttpResponseRedirect('/timebook/list', locals())
         date1 = request.POST.get('date')
         res = re.findall(r'(\d*)年(\d*)月(\d*)日', date1)[0]
         date = datetime.date(int(res[0]), int(res[1]), int(res[2]))
@@ -120,35 +130,40 @@ def update_view(request):
 def insert_view(request):
     statu_list = ['正常', '旷工', '请假', '迟到', '早退']
     if request.method == 'GET':
-        id = request.session['id1']
+        id = request.session.get('id1')
+        if not id:
+            id = request.session.get('uid')
         manage = Management.objects.get(id=id)
         name = manage.name
         return render(request, 'timebook/timebook_insert.html', locals())
     elif request.method == 'POST':
-        user_id = request.session.get('id1')
+
         name = request.POST.get('name')
         try:
             manage = Management.objects.get(name=name)
             print(name,manage)
         except Exception as e:
-            return HttpResponse('该用户不存在')
+            messages.error(request, '用户不存在')
+            return HttpResponseRedirect('/timebook/list', locals())
 
         date = request.POST.get('date')
         print(date)
         timebook = TimeBook.objects.filter(management_id=manage.id,date=date)
         if timebook:
-            return HttpResponse('该天已登记')
+            messages.error(request, '这天已经登记过了')
+            return HttpResponseRedirect('/timebook/list', locals())
         present_statu = request.POST.get('present_statu')
         if present_statu not in statu_list:
-            return HttpResponse('请选择出勤状态')
-        try:
+            messages.error(request,'请选择出勤状态')
+            return HttpResponseRedirect('/timebook/list',locals())
+        else:
+
             comment = request.POST.get('comment')
-        except Exception as e:
-            comment = ''
-        timebook = TimeBook.objects.create(date=date,
-                                           present_statu=present_statu,
-                                           comment=comment,
-                                           management_id=manage.id
-                                           )
-        return HttpResponseRedirect('/timebook/list')
+
+            timebook = TimeBook.objects.create(date=date,
+                                               present_statu=present_statu,
+                                               comment=comment,
+                                               management_id=manage.id
+                                               )
+            return HttpResponseRedirect('/timebook/list')
 

@@ -27,6 +27,14 @@
 </head>
 
 <body>
+{% if messages %}
+    <script>
+		{% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{% endif %}
+
 <div class="wangid_conbox">
 	<!-- 当前位置 -->
 	<div class="zy_weizhi bord_b">
@@ -38,8 +46,8 @@
 	{% if power == '1' %}
 	<div class="shuaix">
 		<div class="right">
-			<form action="/timebook/check" method="get">
-			<input required lay-verify="required"  type="text" placeholder="请输入工号查询" name="job_no" value="{{manage.job_no}}">
+			<form action="/timebook/check">
+			<input required lay-verify="required"  type="text" placeholder="请输入工号或者姓名查询" name="job_no" value="{{manage.job_no}}">
 			<input type="submit" value="查询" style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white">
 			</form>
 		</div >

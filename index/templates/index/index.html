@@ -105,8 +105,12 @@
 		    					<em><img src="/static/imgs/jt_left.png"></em>
 		    				</h2>
 	    					<dl>
-	    						<dd><a href="/index/childapp=department&info=list">部门管理</a></dd>
+								{% if management.power == '1' %}
+								<dd><a href="/index/childapp=department&info=list">部门管理</a></dd>
 	    						<dd><a href="/index/childapp=management&info=list">员工管理</a></dd>
+								{% else %}
+								<dd><a href="/index/childapp=management&info=list">员工查询</a></dd>
+								{% endif %}
 	    					</dl>
 	    				</li>
 	    				<li>
@@ -208,16 +212,20 @@
 	    						<img src="/static/imgs/icon_05.png">
 	    						<b></b>
 	    					</i>
-	    					<a href="/index/childapp=management&info=list" target="_self">
-		    					<span>员工管理</span>
-		    				</a>
+							<a href="/index/childapp=management&info=list" target="_self">
+								{% if management.power == '1' %}
+								<span>员工管理</span>
+								{% else %}
+								<span>员工查询</span>
+								{% endif %}
+							</a>
 		    			</li>
 		    			<li class="list">
 	    					<i>
 	    						<img src="/static/imgs/icon_06.png">
 	    						<b></b>
 	    					</i>
-	    					<a href="/index/childapp=index&info=my_ip" target="_self">
+	    					<a href="/index/childapp=index&info=my_info" target="_self">
 		    					<span>个人设置</span>
 		    				</a>
 		    			</li>
@@ -241,7 +249,7 @@
 	    		<div class="info_box">
 	    			<div class="box battle">
 	    				<div class="tit">
-	    					<a class="on">营销战况</a><!-- 注释去间隔
+	    					<a class="on">人员分布</a><!-- 注释去间隔
 	    	   注释去间隔 --><div class="scrollnews">
 	    	   					<span>WangID提醒您：</span>
 	    	   					<ul>
@@ -252,12 +260,7 @@
 		    							</a>
 	    	   						</li>
 									{% endfor %}
-<!--	    	   						<li title="最新战报，章泽天 签名榜一个！2018-08-10 15:41:58">-->
-<!--	    	   							最新战报，<b>章泽天</b> 签名榜一个！<i>2018-08-10 15:41:58</i>-->
-<!--	    	   						</li>-->
-<!--	    	   						<li title="最新战报，秋名山 签名榜一个！2018-08-10 15:41:58">-->
-<!--	    	   							最新战报，<b>秋名山</b> 签名榜一个！<i>2018-08-10 15:41:58</i>-->
-<!--	    	   						</li>-->
+
 	    	   					</ul>
 	    	   					<script type="text/javascript">
 	    	   						$(document).ready(function(){
@@ -277,76 +280,43 @@
 					                    )
 					                    $(".scrollnews ul li a").mouseleave(
 					                        function(){
-					                            timer=setInterval(runtxt,4000)
+					                            timer=setInterval(runtxt,3000)
 					                        }
 					                    )
-					                    timer=setInterval(runtxt,4000)
+					                    timer=setInterval(runtxt,3000)
 					                })
 	    	   					</script>
 	    	   				</div>
 	    				</div>
 	    				<div class="conbox">
 	    					<div class="con">
-	    						<h1>营销部各大区本月新增业绩PK实时展示图</h1>
+	    						<h1>公司人员分布展示图</h1>
 	    						<div class="countbox">
 	    							<div class="count">
-	    								<span class="x"><img src="/static/imgs/X.png"> x/营销分区</span>
-	    								<span class="y"><img src="/static/imgs/Y.png"> y/营销业绩</span>
+	    								<span class="x"><img src="/static/imgs/X.png"> x/部门名称</span>
+	    								<span class="y"><img src="/static/imgs/Y.png"> y/人数</span>
 	    								<ul>
-	    									<li class="y1" style="height: calc(2% * 2); background: #ff4e00;"></li>
-	    									<li class="y2" style="height: calc(3% * 2); background: #ffa200;"></li>
-	    									<li class="y3" style="height: calc(7% * 2); background: #fffc00;"></li>
-	    									<li class="y6" style="height: calc(5% * 2); background: #00ff55;"></li>
-	    									<li class="y8" style="height: calc(3% * 2); background: #00ffd5;"></li>
-	    									<li class="y10" style="height: calc(8% * 2); background: #00c0ff;"></li>
-	    									<li class="y11" style="height: calc(4% * 2); background: #0078ff;"></li>
-	    									<li class="y12" style="height: calc(6% * 2); background: #4200ff;"></li>
-	    									<li class="y13" style="height: calc(14% * 2); background: #fc00ff;"></li>
-	    									<li class="y16" style="height: calc(8% * 2); background: #ff007e;"></li>
-	    									<li class="y18 on" style="height: calc(40% * 2); background: #ff0000;">
-	    								 		<img src="/static/imgs/flag.png" />
-	    								 	</li>
+	    									{% for item in dep_manage_count_list %}
+											<li class="{{item.department_id}}"
+												style="height: calc({{item.department_id__count}}% * 2); background: {{item.dep_name__count}};"></li>
+	    									{% endfor %}
 	    								 <!-- 计算出每个大区所占百分比 以两倍高度展示，所占比超过百分之五十的，超出百分百以外的隐藏 -->
 	    								</ul>
 	    							</div>
 	    							<div class="num">
-	    								<a>1区</a>
-	    								<a>2区</a>
-	    								<a>3区</a>
-	    								<a>6区</a>
-	    								<a>8区</a>
-	    								<a>10区</a>
-	    								<a>11区</a>
-	    								<a>12区</a>
-	    								<a>13区</a>
-	    								<a>16区</a>
-	    								<a>18区</a>
+										{% for item in dep_manage_count_list %}
+											<a>{{item.dep_name}}</a>
+										{% endfor %}
+
+
 	    							</div>
 	    						</div>
 	    					</div>
-	    					<div class="con">
-	    						<h1></h1>
-	    						<div class="countbox">
-	    							<div class="count">
-	    								<span class="x"><img src="/static/imgs/X.png"> x/渠道部门</span>
-	    								<span class="y"><img src="/static/imgs/Y.png"> y/渠道业绩</span>
-	    								<ul>
-	    									<li class="y1" style="height: calc(40% * 2); background: #ff4e00;"></li>
-	    									<li class="y2 on" style="height: calc(60% * 2); background: #ffa200;">
-	    								 		<img src="/static/imgs/flag.png" />
-	    								 	</li>
-	    								 <!-- 计算出每个大区所占百分比 以两倍高度展示，所占比超过百分之五十的，超出百分百以外的隐藏 -->
-	    								</ul>
-	    							</div>
-	    							<div class="num">
-	    								<a>6部</a>
-	    								<a>8部</a>
-	    							</div>
-	    						</div>
-	    					</div>
+	    					
 	    				</div>
     					<script type="text/javascript">
     						$(function(){
+
     							var n=0;
     							$(".right_box .info_box .battle .tit a").mouseover(
     								function(){
@@ -368,7 +338,7 @@
 	    					<div class="con">
 	    						<div>
 		    						<ul>
-										{% if count <= 3 %}
+
 										{% for item in management_list %}
 
 		    							<li>
@@ -380,15 +350,9 @@
 		    								<b><img src="/static/imgs/honor_1.png"></b>
 		    							</li>
 										{% endfor %}
-										{% endif %}
+
 
 		    						</ul>
-		    						<dl>
-		    							<dt>上月前三名</dt>
-		    							<dd>鹿晗</dd>
-		    							<dd>关晓彤</dd>
-		    							<dd>张娜拉</dd>
-		    						</dl>
 		    					</div>
 		    					<p>干的不错，小伙伴们继续加油哦！</p>
 	    					</div>

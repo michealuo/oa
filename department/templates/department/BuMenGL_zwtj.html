@@ -30,9 +30,8 @@
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a>首页</a>
-            <a>回访记录</a>
-            <span>部门职位添加</span>
+            <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
+            <span>职位添加</span>
         </div>
         <!-- 内容 -->    
         <div class="wenxts_ke">
@@ -89,6 +88,12 @@
 
 </html>
 <script>
+$(function(){
+    var msg = '{{msg}}';
+    if (msg){
+        alert(msg);
+    }
+});
 layui.use(['form', 'layedit', 'laydate'], function(){
     var form = layui.form
     ,layer = layui.layer

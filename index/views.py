@@ -1,7 +1,7 @@
 import os
 
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -41,10 +41,14 @@ def logging_check(fn):
 @logging_check
 def index_views(request):
     username = request.session.get("username")
-    print(username,'===========')
     management = Management.objects.get(username=username)
-    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('-create_time')
+
+    dep_manage_count_list = dep_management_count()
+
     count = len(management_list)
+    if count >= 3:
+        management_list = management_list[:3]
     notice_list = Notice_list.objects.all().order_by("-created_time")[:3]
     return render(request,'index/index.html', locals())
 
@@ -58,7 +62,12 @@ def index_first_view(request):
 def index_view(request):
     username = request.session.get("username")
     management = Management.objects.get(username=username)
-    management_list = Management.objects.filter(~Q(job_no='')).order_by('create_time')
+    management_list = Management.objects.filter(~Q(job_no='')).order_by('-create_time')
+    count = len(management_list)
+    dep_manage_count_list = dep_management_count()
+    if count >= 3:
+        management_list = management_list[:3]
+
     return render(request,'index/index.html',locals())
 
 @logging_check
@@ -81,11 +90,17 @@ def index_my_info(request):
 def index_my_ip(request):
     if request.method == "GET":
         all_user = IpInfo.objects.all()
-        paginator = Paginator(all_user, 5)
+        paginator = Paginator(all_user, 20)
         # 获取当前页码
         c_page = request.GET.get("page", 1)
         # 初始化当前页的page对象
         page = paginator.page(c_page)
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        user = User.objects.get(id=uid, username=username)
+        management = Management.objects.filter(username=username)[0]
+
+        # print(user_info)
         return render(request, "index/My_IP.html", locals())
     elif request.method == "POST":
         # service = request.POST.get("department")
@@ -150,9 +165,37 @@ def index_my_mim(request):
 
 
 def child_view(request,app,info):
+    username = request.session.get("username")
+    management = Management.objects.filter(username=username)[0]
+    ip_info = IpInfo.objects.filter(uname=username).order_by('login_time')[0]
     return render(request,'index/child.html',locals())
 
 def child_notice_view(request,app,info,id):
+    username = request.session.get("username")
+    management = Management.objects.filter(username=username)[0]
+    ip_info = IpInfo.objects.filter(uname=username).order_by('login_time')[0]
     return render(request,'index/child.html',locals())
 
 
+def dep_management_count():
+    dep_count_list = Management.objects.values('department_id', 'dep_name').filter(~Q(job_no='')).annotate(
+        Count('department_id'), Count('dep_name'))
+    color_tuple = (
+    '#ff4e00', '#ffa200', '#fffc00', '#00ff55', '#00ffd5', '#00c0ff', '#0078ff', '#4200ff', '#fc00ff', '#ff007e',
+    '#ff0000')
+    class_name = ('y1', 'y2', 'y3', 'y6', 'y8', 'y10', 'y11', 'y12', 'y13', 'y16', 'y18', '')
+    sum_count = 0
+    sum_percent = 0
+    for i in range(len(dep_count_list)):
+        dep_count_list[i]['dep_name__count'] = color_tuple[i]
+        dep_count_list[i]['department_id'] = class_name[i]
+        sum_count += dep_count_list[i]['department_id__count']
+    for i in range(len(dep_count_list)):
+
+        dep_count_list[i]['department_id__count'] = dep_count_list[i]['department_id__count'] * 100 // sum_count
+        sum_percent += dep_count_list[i]['department_id__count']
+
+    for i in dep_count_list:
+        print(i)
+
+    return dep_count_list

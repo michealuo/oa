@@ -39,10 +39,10 @@
 	        	<img src="/static/images/logo_touming.gif">
 	        </div>
 				<div class="top_user">
-					<span><img src="/static/images/head_new.jpg" /></span>
+					<span><img src="{{management.img}}" ></span>
 					<dl>
-						<dt>韩少云(大内厂长)</dt>
-						<dd>级别：普通账户 上次登录时间：2019-05-27 15:30:57</dd>
+						<dt>{{management.name}}</dt>
+						<dd>部门：{{management.dep_name}} 上次登录时间：{{ip_info.login_time}}</dd>
 					</dl>
 				</div>
 
@@ -90,8 +90,12 @@
 					<li class="layui-nav-item">
 						<a href="javascript:;"><i class="fa fa-users fa-fw"></i>部门员工管理</a>
 						<dl class="layui-nav-child">
+							{% if management.power == '1' %}
+							<dd><a href="/index/childapp=management&info=list" >公司员工管理</a></dd>
+							<dd><a href="/index/childapp=department&info=list" >公司部门管理</a></dd>
+							{% else %}
 							<dd><a href="/index/childapp=management&info=list" >公司员工列表</a></dd>
-							<dd><a href="/index/childapp=department&info=list" >公司部门列表</a></dd>
+							{% endif %}
 						</dl>
 					</li>
 					<li class="layui-nav-item">

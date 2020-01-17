@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 import socket
@@ -8,12 +9,13 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
 from pymysql import DatabaseError
 
+from index.views import logging_check
 from management.models import Management
 from user.models import User, IpInfo
 
@@ -63,8 +65,8 @@ def reg_view(request):
 
         #注册成功
         resp =  HttpResponseRedirect('/user/login')
-        resp.set_cookie('username', username, 3600*24)
-        resp.set_cookie('uid', user.id, 3600*24)
+        #resp.set_cookie('username', username, 3600*24)
+        #resp.set_cookie('uid', user.id, 3600*24)
         return resp
 
 
@@ -129,44 +131,71 @@ def save_host_ip(uname):
         ip = s.getsockname()[0]
     finally:
         s.close()
-    user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
+    user_ipinfo_old_list = IpInfo.objects.filter(uname=uname)
+    if len(user_ipinfo_old_list) > 0:
+        user_ip_info = user_ipinfo_old_list[0]
+        user_ip_info.login_time = datetime.datetime.now()
+        user_ip_info.ip_adress = ip
+        IpInfo.save(user_ip_info)
+    else:
+        user_ip_info = IpInfo.objects.create(uname=uname, ip_adress=ip)
+        IpInfo.save(user_ip_info)
+
     IpInfo.save(user_ip_info)
 
+@logging_check
 def update_info(request):
-    users = User.objects.filter(id=id, isActive=True)
+    username = request.session.get("username")
+    print(username)
+    users = User.objects.filter(username=username)
+    management = Management.objects.filter(username=username)[0]
+    print(management)
     if not users:
-        return HttpResponse('--The user id is wrong !')
-    book = users[0]
-
+        return HttpResponse('--The users id is wrong !')
+    user = users[0]
     if request.method == 'GET':
-        # 拿更新页面
-        return render(request, 'index/MY_IP.html', locals())
-    elif request.method == 'POST':
-        # 更新数据
-        username = request.POST.get('username')
-        if not username:
-            return HttpResponse('---Please give me price')
-        phonenumber = request.POST.get('phonenumber')
-        # TODO 检查market_price
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        user = User.objects.get(id=uid, username=username)
+        management = Management.objects.filter(username=username)[0]
+        return render(request,'user/update_info.html',locals())
+    elif request.method == "POST":
+        x_name = request.POST.get('x_name')
+        if not x_name:
+            msg = '没有输入用户名'
+            return render(request,'user/update_info.html',locals())
+        x_phone = request.POST.get('x_phone')
 
-        # 是否要更新?
+        if not x_phone:
+            msg = '没有输入手机号'
+            return render(request,'user/update_info.html',locals())
+        x_email = request.POST.get('x_email')
+        if not x_email:
+            msg = '没有输入邮箱'
+            return render(request,'user/update_info.html',locals())
         to_update = False
-        if username != str(users.username):
+        if x_name != str(management.name):
             to_update = True
-
-        if phonenumber != str(users.phonenumber):
+        if x_phone != str(user.phone):
+            to_update = True
+        if x_email != str(user.email):
             to_update = True
 
         if to_update:
             # 执行更新
             print('--执行更新')
-            users.username = username
-            users.phonenumber = phonenumber
-            users.save()
+            management.name = x_name
+            management.phone = x_phone
+            management.email = x_email
+            user.phone = x_phone
+            user.email = x_email
+            user.save()
+            management.save()
+            msg = '修改成功'
+    return render(request,'user/update_info.html',locals())
 
-        # 更新完毕后 执行302跳转 跳转回 book首页 - all_book
-        # 302参数 是 url!!!!!!!!!!
-        return HttpResponseRedirect('/index/my_ip')
+
+
 
 def logout(request):
     # 登出
@@ -230,6 +259,7 @@ def findpwd(request):
         return render(request,'user/login.html')
 
 
+
 def email(request):
     global number
     if request.method == "POST":
@@ -264,3 +294,7 @@ def email(request):
             print("---send email error---")
             print(e)
         return HttpResponse('发送成功')
+
+def bindIp(request):
+    data = {}
+    return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})

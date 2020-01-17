@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/static/css/layui.css">
     <script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 
+
 </head>
 
 <body>
@@ -27,58 +28,51 @@
         <!-- 当前位置 -->
         <div class="zy_weizhi bord_b">
             <i class="fa fa-home fa-3x"></i>
-            <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
-            <span>个人信息</span>
+           <a href="#" onclick="javascript:top.location.href='/index/index'">首页</a>
+            <span>修改个人信息</span>
         </div>
         <!-- 下面写内容 -->
         <form action="/user/update" method="post">
+            {% csrf_token %}
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
-                <tr>
-                    <th style="width: 100px"><strong>序号</strong></th>
+            <tbody >
+                <tr >
+                    <th><strong>序号<strong></th>
+                    <th>{{ user.id }}</th>
                     <td>{{ user.id }}</td>
-
                 </tr>
-            <tbody>
+
                 <tr>
                     <th><strong>账号</strong></th>
+                    <th>{{ user.username }}</th>
                     <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th><strong>姓名<strong></th>
+                    <th>{{ management.name }}</th>
+                    <td><input type="text" style="border: #C2CCD1 solid 1px" name="x_name"></td>
 
                 </tr>
                 <tr>
-                    <th><strong>姓名</strong></th>
-                    <td>{{ management.name }}</td>
-
-                </tr>
-                <tr>
-                    <th><strong>部门</strong></th>
-                    <td>{{ management.dep_name }}</td>
-
-                </tr>
-                 <tr>
-                    <th><strong>职位</strong></th>
-                    <td>{{ management.position_name }}</td>
-
-                </tr>
-                <tr>
-                    <th><strong>手机号</strong></th>
-                    <td>{{ user.phone }}</td>
+                    <th><strong>手机号<strong></th>
+                    <th>{{ user.phone }}</th>
+                    <td>
+                        <input type="text" style="border: #C2CCD1 solid 1px" name="x_phone">
+                    </td>
 
                 </tr>
                <tr>
-                    <th><strong>邮箱</strong></th>
-                    <td>{{ user.email }}</td>
+                    <th style="width: 50px"><strong>邮箱<strong></th>
+                    <th style="width: 50px">{{ user.email }}</th>
+                    <td ><input type="text"  style="border: #C2CCD1 solid 1px" name="x_email"></td>
                 </tr>
-                <tr>
-                    <th><strong>入职时间</strong></th>
-                    <td>{{ user.create_time }}</td>
-                </tr>
-
             </tbody>
         </table>
 
-<!--        <button type="button" class="layui-btn"><a href="/user/update">修改个人信息</a></button>-->
+        <input type="submit" class="layui-btn" value="确定">
         </form>
-        <button type="button" class="layui-btn"><a href="/user/update" style="color: #00FFFF">修改个人信息</a></button>
+
+
     </div>
 
    <!-- 自定义头部工具栏 -->
@@ -90,6 +84,14 @@
 </body>
 
 </html>
+<script>
+        $(function() {
+            var msg = '{{ msg }}';
+            if(msg){
+                alert(msg);
+                    }
+        })
+    </script>
 <script type="text/javascript">
     //静态表格
     layui.use('table',function(){

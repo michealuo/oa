@@ -65,7 +65,7 @@
                 <td>{{ item.login_time }}</td>
                 <td>{{ management.create_time }}</td>
 
-                <td><button id = "bind_ip" type="button" class="layui-btn">绑定ip</button></td>
+                <td><button class = "bind_ip" ip = "{{ item.ip_adress }}" username = "{{ item.uname }}" type="button" class="layui-btn">绑定ip</button></td>
 
 			</tr>
         {% endfor %}
@@ -107,9 +107,35 @@
 </html> 
 <script type="text/javascript">
     $(function(){
-        $("#bind_ip").click(function(){
+        $(".bind_ip").click(function(){
+            ip = this.getAttribute('ip');
+            username = this.getAttribute('username');
+            alert(username);
+            var input_ip=prompt("请填写你要绑定的ip",ip)
+            
+            if (input_ip!=null && input_ip!="") {
+                    data = {'ip':input_ip,
+                            'uname':uname}
+                    //向服务端发送删除指令
+				    $.ajax({
+						url:'/user/bindIp',
+						type:'post',
+						dataType:'text',
+						contentType: 'application/json',
+						timeout:3000,
+						data:JSON.stringify(data),
 
-            alert('123');
+						success:function(){
+                            
+							alert('绑定成功');
+						},
+						error:function () {
+
+							alert('绑定失败');
+						}
+            		});
+            }    
+      
         });
     })
 

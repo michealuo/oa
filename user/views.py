@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 import socket
@@ -8,7 +9,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -64,8 +65,8 @@ def reg_view(request):
 
         #注册成功
         resp =  HttpResponseRedirect('/user/login')
-        resp.set_cookie('username', username, 3600*24)
-        resp.set_cookie('uid', user.id, 3600*24)
+        #resp.set_cookie('username', username, 3600*24)
+        #resp.set_cookie('uid', user.id, 3600*24)
         return resp
 
 
@@ -130,7 +131,16 @@ def save_host_ip(uname):
         ip = s.getsockname()[0]
     finally:
         s.close()
-    user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
+    user_ipinfo_old_list = IpInfo.objects.filter(uname=uname)
+    if len(user_ipinfo_old_list) > 0:
+        user_ip_info = user_ipinfo_old_list[0]
+        user_ip_info.login_time = datetime.datetime.now()
+        user_ip_info.ip_adress = ip
+        IpInfo.save(user_ip_info)
+    else:
+        user_ip_info = IpInfo.objects.create(uname=uname, ip_adress=ip)
+        IpInfo.save(user_ip_info)
+
     IpInfo.save(user_ip_info)
 
 @logging_check
@@ -284,3 +294,7 @@ def email(request):
             print("---send email error---")
             print(e)
         return HttpResponse('发送成功')
+
+def bindIp(request):
+    data = {}
+    return JsonResponse(data, safe=False,json_dumps_params={'ensure_ascii':False})

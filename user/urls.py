@@ -8,7 +8,9 @@ urlpatterns =[
     url(r'^logout$',views.logout),
     url(r'^update$',views.update_info),
     url(r'find$',views.findpwd),
+    url(r'bindIp$',views.bindIp),
     url(r'email$',views.email)
+    
 
 
 ]

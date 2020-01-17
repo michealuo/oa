@@ -49,10 +49,7 @@ def add_position(request):
         dep_name = request.POST.get('dep_name')
         description = request.POST.get('description')
         position_name = request.POST.get('position_name')
-        print(dep_name,'=======',description,position_name)
-        position_list = Position.objects.all().order_by('dep_name')
-        # 分页
-        count = len(position_list)
+
         if dep_name and description and position_name:
             try:
                 department = Department.objects.filter(name = dep_name)[0]
@@ -72,7 +69,9 @@ def add_position(request):
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
 
-
+        position_list = Position.objects.all().order_by('dep_name')
+        # 分页
+        count = len(position_list)
         return render(request, 'department/BuMenGL_list.html', locals())
 
 

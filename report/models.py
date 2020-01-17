@@ -11,7 +11,7 @@ class Report_list(models.Model):
     created_time = models.DateTimeField(auto_now_add=True,verbose_name="创建时间")
     updated_time = models.DateTimeField(auto_now=True,verbose_name="更新时间")
     user = models.ForeignKey(User,null=True,default=None)
-    management = models.ForeignKey(User,null=True,default=None)
+    management = models.ForeignKey(Management,null=True,default=None)
 
     class Meta:
         db_table = "report_list"

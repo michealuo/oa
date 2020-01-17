@@ -5,11 +5,14 @@ import re
 import time
 
 from django.core import serializers
+from django.db import transaction
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
+from pymysql import DatabaseError
+
 from common.Tools import getTimeStamp
 from department.models import Department, Position
 from management.models import Management
@@ -116,7 +119,7 @@ def update_management(request):
     if request.method == 'GET':
         id = request.GET.get('id')
         management = Management.objects.get(id=id)
-        job_no = getTimeStamp()
+        job_no = management.job_no
         #只查询有职位的部门
         position_list = Position.objects.values('department').distinct()
         ids = []
@@ -205,9 +208,23 @@ def delete_management(request):
     # 获取传入数据
     received_json_data = json.loads(request.body)
     del_management = Management.objects.filter(id=received_json_data['id'])
-    del_management.delete()
+    del_user = User.objects.filter(username=del_management[0].username)
 
-    time.sleep(0.5)
+    # 作为一个事务
+    try:
+        with transaction.atomic():
+            try:
+                del_user.delete()
+                del_management.delete()
+            except Exception as e:
+                print('---错误---')
+                print(e)
+                msg = ''
+                raise DatabaseError
+
+    except DatabaseError:
+        return render(request, 'user/register.html', locals())
+
     # 获取用户名
     username = request.session.get("username")
     user = User.objects.filter(username=username)[0]

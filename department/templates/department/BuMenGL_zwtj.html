@@ -89,6 +89,12 @@
 
 </html>
 <script>
+$(function(){
+    var msg = '{{msg}}';
+    if (msg){
+        alert(msg);
+    }
+});
 layui.use(['form', 'layedit', 'laydate'], function(){
     var form = layui.form
     ,layer = layui.layer

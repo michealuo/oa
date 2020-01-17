@@ -9,7 +9,7 @@ from management.models import Management
 
 
 def department_list(request):
-    position_list = Position.objects.all()
+    position_list = Position.objects.all().order_by('dep_name')
     #分页
     count = len(position_list)
     return render(request,'department/BuMenGL_list.html',locals())
@@ -18,6 +18,9 @@ def add_department(request):
     if request.method == 'GET':
         return render(request,'department/BuMenGL_bmtj.html',locals())
     elif request.method == 'POST':
+        position_list = Position.objects.all().order_by('dep_name')
+        # 分页
+        count = len(position_list)
         dep_name = request.POST.get('dep_name')
         if dep_name:
             time.sleep(2)
@@ -36,9 +39,6 @@ def add_department(request):
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
 
-        position_list = Position.objects.all()
-        #分页
-        count = len(position_list)
         return render(request, 'department/BuMenGL_list.html', locals())
 
 def add_position(request):
@@ -50,12 +50,16 @@ def add_position(request):
         description = request.POST.get('description')
         position_name = request.POST.get('position_name')
         print(dep_name,'=======',description,position_name)
+        position_list = Position.objects.all().order_by('dep_name')
+        # 分页
+        count = len(position_list)
         if dep_name and description and position_name:
             try:
                 department = Department.objects.filter(name = dep_name)[0]
                 position_old = Position.objects.filter(name= position_name,dep_name = dep_name)
                 if position_old:
                     msg = "已经存在该部门该职位"
+                    department_list = Department.objects.all()
                     return render(request, 'department/BuMenGL_zwtj.html', locals())
 
                 position = Position.objects.create(name= position_name,dep_name = dep_name,description = description,
@@ -68,10 +72,7 @@ def add_position(request):
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
 
-        time.sleep(2)
-        position_list = Position.objects.all()
-        #分页
-        count = len(position_list)
+
         return render(request, 'department/BuMenGL_list.html', locals())
 
 
@@ -84,7 +85,7 @@ def delete_position(request):
     del_position.delete()
 
     #展示页面
-    position_list = Position.objects.all()
+    position_list = Position.objects.all().order_by('dep_name')
     #分页
     count = len(position_list)
     return render(request,'department/BuMenGL_list.html',locals())
@@ -97,7 +98,7 @@ def delete_department(request):
     elif request.method == 'POST':
         dep_id = request.POST.get('dep_id')
         department_list = Department.objects.all()
-        position_list = Position.objects.all()
+        position_list = Position.objects.all().order_by('dep_name')
         # 分页
         count = len(position_list)
         if dep_id:
@@ -118,7 +119,6 @@ def delete_department(request):
                 msg = '添加失败'
                 return render(request, 'department/BuMenGL_list.html', locals())
         msg = '添加成功'
-        time.sleep(2)
 
         return render(request, 'department/BuMenGL_list.html', locals())
 
@@ -147,7 +147,7 @@ def department_update(request):
             position_one.name = position_name
             position_one.save()
         #展示页面
-        position_list = Position.objects.all()
+        position_list = Position.objects.all().order_by('dep_name')
         #分页
         count = len(position_list)
         return render(request,'department/BuMenGL_list.html',locals())

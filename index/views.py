@@ -49,7 +49,7 @@ def index_views(request):
 
     count = len(management_list)
     if count >= 3:
-        management_list = management_list[3:]
+        management_list = management_list[:3]
     notice_list = Notice_list.objects.all().order_by("-created_time")[:3]
     return render(request,'index/index.html', locals())
 
@@ -67,7 +67,7 @@ def index_view(request):
     count = len(management_list)
     dep_manage_count_list = dep_management_count()
     if count >= 3:
-        management_list = management_list[3:]
+        management_list = management_list[:3]
 
     return render(request,'index/index.html',locals())
 

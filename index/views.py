@@ -86,6 +86,12 @@ def index_my_ip(request):
         c_page = request.GET.get("page", 1)
         # 初始化当前页的page对象
         page = paginator.page(c_page)
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        user = User.objects.get(id=uid, username=username)
+        management = Management.objects.filter(username=username)[0]
+
+        # print(user_info)
         return render(request, "index/My_IP.html", locals())
     elif request.method == "POST":
         # service = request.POST.get("department")

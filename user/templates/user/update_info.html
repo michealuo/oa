@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/static/css/layui.css">
     <script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 
+
 </head>
 
 <body>
@@ -34,11 +35,10 @@
         <!-- 下面写内容 -->
         <form action="/user/update" method="post">
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
-            <tbody>
-                <tr>
+            <tbody >
+                <tr >
                     <th><strong>序号<strong></th>
                     <th>{{ user.id }}</th>
-
                     <td>{{ user.id }}</td>
                 </tr>
 
@@ -62,9 +62,9 @@
 
                 </tr>
                <tr>
-                    <th><strong>邮箱<strong></th>
-                    <th>{{ user.email }}</th>
-                    <td><input type="text"  style="border: #C2CCD1 solid 1px" name="x_email"></td>
+                    <th style="width: 50px"><strong>邮箱<strong></th>
+                    <th style="width: 50px">{{ user.email }}</th>
+                    <td ><input type="text"  style="border: #C2CCD1 solid 1px" name="x_email"></td>
                 </tr>
             </tbody>
         </table>

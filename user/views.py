@@ -14,6 +14,7 @@ from django.shortcuts import render
 # Create your views here.
 from pymysql import DatabaseError
 
+from index.views import logging_check
 from management.models import Management
 from user.models import User, IpInfo
 
@@ -132,41 +133,32 @@ def save_host_ip(uname):
     user_ip_info = IpInfo.objects.create(uname = uname,ip_adress=ip)
     IpInfo.save(user_ip_info)
 
+@logging_check
 def update_info(request):
-    users = User.objects.filter(id=id, isActive=True)
-    if not users:
-        return HttpResponse('--The user id is wrong !')
-    book = users[0]
-
+    # users = User.objects.filter(id=id, isActive=True)
+    # if not users:
+    #     return HttpResponse('--The users id is wrong !')
+    # user = users[0]
     if request.method == 'GET':
-        # 拿更新页面
-        return render(request, 'index/MY_IP.html', locals())
-    elif request.method == 'POST':
-        # 更新数据
-        username = request.POST.get('username')
-        if not username:
-            return HttpResponse('---Please give me price')
-        phonenumber = request.POST.get('phonenumber')
-        # TODO 检查market_price
+        uid = request.session.get("uid")
+        username = request.session.get("username")
+        user = User.objects.get(id=uid, username=username)
+        management = Management.objects.filter(username=username)[0]
+        return render(request,'user/update_info.html',locals())
+    elif request.method == "POST":
+        x_name = request.POST.get('x_name')
+        x_phone = request.POST.get('x_phone')
+        x_email = request.POST.get('x_email')
+        if not x_name:
+            return HttpResponse('没有用户名')
+        if not x_phone:
+            return HttpResponse('没有手机号')
+        if not x_email:
+            return HttpResponse('没有邮箱')
 
-        # 是否要更新?
-        to_update = False
-        if username != str(users.username):
-            to_update = True
 
-        if phonenumber != str(users.phonenumber):
-            to_update = True
 
-        if to_update:
-            # 执行更新
-            print('--执行更新')
-            users.username = username
-            users.phonenumber = phonenumber
-            users.save()
 
-        # 更新完毕后 执行302跳转 跳转回 book首页 - all_book
-        # 302参数 是 url!!!!!!!!!!
-        return HttpResponseRedirect('/index/my_ip')
 
 def logout(request):
     # 登出
@@ -175,6 +167,8 @@ def logout(request):
         del request.session['uid']
     if 'username' in request.session:
         del request.session['username']
+    if 'id1' in request.session:
+        del request.session['id1']
     # 删除 Cookies
     resp = HttpResponseRedirect('login')
     if 'uid' in request.COOKIES:
@@ -226,6 +220,7 @@ def findpwd(request):
         # resp.set_cookie('username', username, 3600 * 24)
         # resp.set_cookie('uid', user.id, 3600 * 24)
         return render(request,'user/login.html')
+
 
 
 def email(request):

@@ -34,52 +34,44 @@
         <!-- 下面写内容 -->
         <form action="/user/update" method="post">
         <table class="layui-table" lay-filter="mylist" lay-size="lg">
-                <tr>
-                    <th>序号</th>
-                    <td>{{ user.id }}</td>
-
-                </tr>
             <tbody>
                 <tr>
+                    <th><strong>序号<strong></th>
+                    <th>{{ user.id }}</th>
+
+                    <td>{{ user.id }}</td>
+                </tr>
+
+                <tr>
                     <th><strong>账号</strong></th>
+                    <th>{{ user.username }}</th>
                     <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th><strong>姓名<strong></th>
+                    <th>{{ management.name }}</th>
+                    <td><input type="text" style="border: #C2CCD1 solid 1px" name="x_name"></td>
 
                 </tr>
                 <tr>
-                    <th>姓名</th>
-                    <td>{{ management.name }}</td>
-
-                </tr>
-                <tr>
-                    <th>部门</th>
-                    <td>{{ management.dep_name }}</td>
-
-                </tr>
-                 <tr>
-                    <th>职位</th>
-                    <td>{{ management.position_name }}</td>
-
-                </tr>
-                <tr>
-                    <th>手机号</th>
-                    <td>{{ user.phone }}</td>
+                    <th><strong>手机号<strong></th>
+                    <th>{{ user.phone }}</th>
+                    <td>
+                        <input type="text" style="border: #C2CCD1 solid 1px" name="x_phone">
+                    </td>
 
                 </tr>
                <tr>
-                    <th>邮箱</th>
-                    <td>{{ user.email }}</td>
+                    <th><strong>邮箱<strong></th>
+                    <th>{{ user.email }}</th>
+                    <td><input type="text"  style="border: #C2CCD1 solid 1px" name="x_email"></td>
                 </tr>
-                <tr>
-                    <th>入职时间</th>
-                    <td>{{ user.create_time }}</td>
-                </tr>
-
             </tbody>
         </table>
 
 <!--        <button type="button" class="layui-btn"><a href="/user/update">修改个人信息</a></button>-->
         </form>
-        <button type="button" class="layui-btn"><a href="/user/update">修改个人信息</a></button>
+        <button type="button" class="layui-btn"><a href="/user/update">保存</a></button>
     </div>
 
    <!-- 自定义头部工具栏 -->

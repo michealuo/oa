@@ -11,36 +11,32 @@ from index.views import *
 def timebook_view(request):
 
     if request.method == 'GET':
-        user_id = request.session.get('id1')
-        if not user_id:
-            user_id = request.session.get('uid')
-        try:
-            manage = Management.objects.get(id=user_id)
-            print(manage.power)
-            name = manage.name
-        except Exception as e:
-            print(e)
-            return HttpResponse('用户名不存在')
+        user_id1 = request.session.get('id1')
+        user_id = request.session.get('uid')
+        manage = Management.objects.get(id=user_id)
+        power = manage.power
+        print(power)
+        if user_id1:
+            user_id = user_id1
+        manage = Management.objects.get(id=user_id)
+        name = manage.name
         timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
         return render(request, 'timebook/timebook_manage.html', locals())
 
     elif request.method == 'POST':
-        user_id = request.session.get('id1')
-        print(user_id)
-        if not user_id:
-            user_id = request.session.get('uid')
         date = request.POST.get('date')
-        print(user_id,date)
+        user_id1 = request.session.get('id1')
+        user_id = request.session.get('uid')
+        manage = Management.objects.get(id=user_id)
+        power = manage.power
+        print(power)
+        if user_id1:
+            user_id = user_id1
+        manage = Management.objects.get(id=user_id)
+        name = manage.name
+        timebooks = TimeBook.objects.filter(management_id=user_id, date=date)
 
-        try:
-            manage = Management.objects.get(id=user_id)
-            name=manage.name
-            timebooks = TimeBook.objects.filter(management_id=user_id, date=date)
-            print(timebooks)
-            return render(request, 'timebook/timebook_manage.html', locals())
-        except Exception as e:
-            timebooks = []
-            return render(request, 'timebook/timebook_manage.html', locals())
+        return render(request, 'timebook/timebook_manage.html', locals())
 
 
 
@@ -48,20 +44,24 @@ def timebook_view(request):
 def month_view(request):
 
     if request.method == 'GET':
-        user_id = request.session.get('id1')
-        if not user_id:
-            user_id = request.session.get('uid')
-        print(user_id)
+        date = request.POST.get('date')
+        user_id1 = request.session.get('id1')
+        user_id = request.session.get('uid')
+        manage = Management.objects.get(id=user_id)
+        power = manage.power
+        print(power)
+        if user_id1:
+            user_id = user_id1
+        manage = Management.objects.get(id=user_id)
+        name = manage.name
         month = request.GET.get('month')
         if not month:
             return HttpResponse('请选择月份')
         print(month)
         timebooks = []
-        timebooks1 = TimeBook.objects.filter(management_id=user_id)
-        manage = Management.objects.get(id=user_id)
-        name = manage.name
-        if timebooks1:
-            for timebook in timebooks1:
+        timebooks_all= TimeBook.objects.filter(management_id=user_id).order_by('-date')
+        if timebooks_all:
+            for timebook in timebooks_all:
                 print(timebook.date)
                 if str(month) in str(timebook.date):
                     timebooks.append(timebook)
@@ -73,17 +73,15 @@ def month_view(request):
 
 @logging_check
 def check_view(request):
-    user_id = request.session.get('id1')
+    job_no = request.GET.get('job_no')
     try:
-        manager = Management.objects.get(id=user_id)
-        name = manager.name
-        request.session['id1'] = user_id
-        request.session['uname'] = name
-        print(manager)
+        manage = Management.objects.get(job_no=job_no)
+        request.session['id1'] = manage.id
+        return HttpResponseRedirect('/timebook/list')
     except Exception as e:
-        return HttpResponse('用户不存在')
-    timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
-    return render(request, 'timebook/timebook_manage.html', locals())
+        return HttpResponse('亲还未入职,请联系管理员')
+    # timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
+    # return render(request, 'timebook/timebook_manage.html', locals())
 @logging_check
 def update_view(request):
     if request.method == 'GET':

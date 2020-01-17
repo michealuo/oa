@@ -21,6 +21,7 @@ def timebook_view(request):
         manage = Management.objects.get(id=user_id)
         name = manage.name
         timebooks = TimeBook.objects.filter(management_id=user_id, ).order_by('-date')
+        count = len(timebooks)
         return render(request, 'timebook/timebook_manage.html', locals())
 
     elif request.method == 'POST':
@@ -35,7 +36,7 @@ def timebook_view(request):
         manage = Management.objects.get(id=user_id)
         name = manage.name
         timebooks = TimeBook.objects.filter(management_id=user_id, date=date)
-
+        count = len(timebooks)
         return render(request, 'timebook/timebook_manage.html', locals())
 
 
@@ -68,15 +69,17 @@ def month_view(request):
 
         else:
             timebooks=[]
-
+        count = len(timebooks)
         return render(request, 'timebook/timebook_manage.html', locals())
 
 @logging_check
 def check_view(request):
     job_no = request.GET.get('job_no')
+    print(job_no)
     try:
         manage = Management.objects.get(job_no=job_no)
         request.session['id1'] = manage.id
+        print(manage.id)
         return HttpResponseRedirect('/timebook/list')
     except Exception as e:
         return HttpResponse('亲还未入职,请联系管理员')
@@ -91,7 +94,7 @@ def update_view(request):
         res = re.findall(r'(\d*)年(\d*)月(\d*)日', date1)[0]
         date = datetime.date(int(res[0]), int(res[1]), int(res[2]))
         timebook = TimeBook.objects.get(date=date,management_id=management_id)
-        management = Management.objects.get(id=management_id)
+        manage = Management.objects.get(id=management_id)
         return render(request,'timebook/timebook_update.html',locals())
     elif request.method == 'POST':
         try:
@@ -117,6 +120,9 @@ def update_view(request):
 def insert_view(request):
     statu_list = ['正常', '旷工', '请假', '迟到', '早退']
     if request.method == 'GET':
+        id = request.session['id1']
+        manage = Management.objects.get(id=id)
+        name = manage.name
         return render(request, 'timebook/timebook_insert.html', locals())
     elif request.method == 'POST':
         user_id = request.session.get('id1')

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="renderer" content="webkit"/>
@@ -8,8 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="名榜,wangid">
 	<title>考勤记录</title>
-
-	<!-- CSS -->
+<!-- CSS -->
 	<link rel="stylesheet" href="/static/css/style.css">
 	 <link rel="stylesheet" href="/static/css/children.css">
 
@@ -17,10 +16,13 @@
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 	<!-- layui css -->
+
 	<link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/static/css/laydate.css" media="all">
 	<script type="text/javascript" src="/static/js/jquery-1.11.0.min.js"></script>
 	<!-- layui js -->
 	<script src="/static/js/layui.js"></script>
+	<script src="/static/js/layui.all.js"></script>
 
 </head>
 
@@ -37,7 +39,7 @@
 	<div class="shuaix">
 		<div class="right">
 			<form action="/timebook/check" method="get">
-			<input type="text" placeholder="请输入工号查询" name="job_no">
+			<input required lay-verify="required"  type="text" placeholder="请输入工号查询" name="job_no" value="{{manage.job_no}}">
 			<input type="submit" value="查询" style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white">
 			</form>
 		</div >
@@ -54,6 +56,7 @@
 				<input style="line-height:24px;height:32px;width: 100px;background: #205b9e ;color:white" type="submit" value="按天查找">
 			</form>
 		</div>
+
 		<div class="right">
 			<form action="/timebook/month?id={{manage.id}}" method="get">
 			<input type="month" name="month" />
@@ -65,9 +68,9 @@
 	<table class="layui-table" lay-filter="mylist" lay-size="lg">
 		<thead>
 			<tr>
-				<th lay-data="{field:'company',align:'center',minWidth:100}">{{name}}</th>
-				<th lay-data="{field:'yx', align:'center',width:200}">日期</th>
-				<th lay-data="{field:'company',align:'center',minWidth:100}">出勤状态</th>
+				<th lay-data="{field:'name',align:'center',minWidth:100}">姓名</th>
+				<th lay-data="{field:'date', align:'center',width:200}">日期</th>
+				<th lay-data="{field:'status',align:'center',minWidth:100}">出勤状态</th>
 				<th lay-data="{field:'result',align:'center',minWidth:300}">备注</th>
 				{% if power == '1' %}
                 <th lay-data="{field:'company',align:'center',minWidth:100}">操作</th>
@@ -79,7 +82,7 @@
 			{% if timebooks %}
 			{%	for timebook in timebooks %}
 			<tr>
-				<td> </td>
+				<td>{{name}}</td>
 				<td>{{timebook.date}}</td>
 				<td>{{timebook.present_statu}}</td>
 				<td>{{timebook.comment}}</td>
@@ -93,18 +96,8 @@
 			{% endif %}
 		</tbody>
 
-
 	</table>
-	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	</script>
-
-<script type="text/html" id="toolbarDemo">
-	<div class="layui-btn-container"> 
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">删除</button> 
-	</div>
-</script> 
+</div>>
 <script type="text/javascript">
 	//静态表格
     layui.use('table',function(){
@@ -116,59 +109,12 @@
 		  ,limit: 10 //每页显示条数 注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
 		  ,page:true //开启分页
 		  ,toolbar: '#toolbarDemo'//工具栏
-		  ,defaultToolbar:['filter', 'exports']
+		  ,defaultToolbar:['filter','exports']
 		  ,limits:[10, 20, 30, 40, 50]//分页显示每页条目下拉选择
 		  ,cellMinWidth: 60//定义全局最小单元格宽度，其余自动分配宽度
-		}); 
-		//监听行工具事件
-		table.on('tool(mylist)', function(obj){ //注：tool 是工具条事件名，mylist 是 table 原始容器的属性 lay-filter="对应的值"
-			var data = obj.data //获得当前行数据
-			,layEvent = obj.event; //获得 lay-event 对应的值
-			if(layEvent === 'del'){
-			    layer.confirm('真的删除行么', function(index){
-				    obj.del(); //删除对应行（tr）的DOM结构
-				    layer.close(index);
-				    //向服务端发送删除指令
-			    });
-			} else if(layEvent === 'edit'){
-			    layer.msg('修改操作');
-			}
-		}); 
-		 //监听头工具栏事件
-		 table.on('toolbar(mylist)', function(obj){
-                var checkStatus = table.checkStatus(obj.config.id)
-                ,data = checkStatus.data; //获取选中的数据 
-                switch(obj.event){  
-                case 'getCheckLength':
-                    if(data.length === 0){
-                    layer.msg('请选择一行');
-                    } else {
-                    layer.msg('删除');
-                    }
-                break;
-                }
-            }); 
-	}); 
-	  //  iframe层  详情信息
-    function YuanG_IMG(){
-        //iframe层 
-        layer.open({
-            type: 2,//层类型
-            title: "简历图片",//标题
-            closeBtn: 1, //不显示关闭按钮
-            shade: [0.3],//遮罩
-            skin: 'demo_class_color',//iframe皮肤
-            shadeClose:Boolean,//点击遮罩关闭
-            area: ['800px', '460px'],
-            // offset: 'rb', //右下角弹出
-            // time: 2000, //2秒后自动关闭
-            anim: 5,//动画
-            content: ['YuanGong_jl.html', 'no'] //iframe的url，no代表不显示滚动条
-        }); 
-        
-    }
-</script> 
-</body>
+		})
+	})
+</script>
 <script>
 		/*获取当前时间*/
      var time = new Date();
@@ -181,6 +127,6 @@
      /*完成赋值操作*/
      document.getElementById("time1").value=today
      </script>
-
+</body>
 
 </html>

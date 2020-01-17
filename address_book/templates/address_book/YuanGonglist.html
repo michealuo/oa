@@ -36,14 +36,19 @@
 	</div>
 	<!-- 筛选 -->
 <form action="/address_book/list" method="post">
+	{% csrf_token %}
 	<div class="shuaix">
 		<div class="left" style="margin-right:10px;">
                 <select name="department">
 					<option value="">--选择部门--</option>
+                    <option value="董事长">董事长</option>
                     <option value="技术部">技术部</option>
                     <option value="客服部">客服部</option>
                     <option value="人事部">人事部</option>
                     <option value="销售部">销售部</option>
+                    <option value="保安部">保安部</option>
+                    <option value="后勤部">后勤部</option>
+                    <option value="行政部">行政部</option>
                 </select>
 		</div>
 		<div class="right">

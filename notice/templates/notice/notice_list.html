@@ -43,6 +43,7 @@
 	<!-- 筛选 -->
 	<div class="shuaix">
             <form action="/notice/list" method="post">
+				{% csrf_token %}
                 <div class="right">
                         <input type="text" placeholder="请输关键字查询" name="query">
                         <input type="submit" value="查询" style="width: 100px;height: 30px;background-color: #205b9e;cursor: pointer">
